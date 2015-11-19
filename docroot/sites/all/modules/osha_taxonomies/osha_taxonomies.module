@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Code for the osha_taxonomies feature.
+ */
+
+include_once 'osha_taxonomies.features.inc';
+
+define('OSHA_TAXONOMIES_ACTIVITY', 'activity');
+define('OSHA_TAXONOMIES_TAGS', 'tags');
+define('OSHA_TAXONOMIES_THESAURUS', 'thesaurus');
+define('OSHA_TAXONOMIES_ARTICLE_TYPES', 'article_types');
+

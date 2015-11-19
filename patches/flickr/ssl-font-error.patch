@@ -1,0 +1,13 @@
+diff --git a/docroot/sites/all/modules/contrib/flickr/flickr.css b/docroot/sites/all/modules/contrib/flickr/flickr.css
+index 8942a24..92b46c3 100644
+--- a/docroot/sites/all/modules/contrib/flickr/flickr.css
++++ b/docroot/sites/all/modules/contrib/flickr/flickr.css
+@@ -39,7 +39,7 @@ span.flickr-credit {
+     font-family: 'CC-ICONS';
+     font-style: normal;
+     font-weight: normal;
+-    src: url('http://mirrors.creativecommons.org/presskit/cc-icons.ttf') format('truetype');
++    src: url('/sites/all/themes/osha_frontend/css/cc-icons.ttf') format('truetype');
+   }
+   span.flickr-cc, span.flickr-copyright {
+     /*The normal size is not well recognizable*/
