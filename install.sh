@@ -9,3 +9,4 @@ drush cc all
 drush -v php-eval "module_load_include('inc', 'drupal_tmgmt'); drupal_tmgmt_post_install();"
 drush -v php-eval "module_load_include('inc', 'drupal_tmgmt'); drupal_tmgmt_post_install2();"
 drush -v php-eval "module_load_include('inc', 'drupal_tmgmt'); drupal_tmgmt_create_sample_content();"
+drush cc all
