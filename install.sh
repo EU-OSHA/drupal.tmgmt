@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Go to docroot/
-cd /vagrant/drupal/docroot/
+cd /var/www/html/docroot/
 
 drush sql-drop -y
 drush -v site-install drupal_tmgmt -y
