@@ -278,7 +278,7 @@ $drupal_hash_salt = '690NapJVHeo5mRTtoG5nt-GZoZ7IhQdydvoVmw4PKVA';
  * It is not allowed to have a trailing slash; Drupal will add it
  * for you.
  */
-$base_url = 'http://localhost:8080';  // NO trailing slash!
+# $base_url = 'http://localhost:8080';  // NO trailing slash!
 
 /**
  * PHP settings:
