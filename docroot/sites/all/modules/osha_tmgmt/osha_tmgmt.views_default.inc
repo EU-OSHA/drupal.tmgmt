@@ -15,14 +15,14 @@ function osha_tmgmt_views_default_views() {
   $view->description = '';
   $view->tag = 'Workbench';
   $view->base_table = 'node';
-  $view->human_name = 'OSHA TMGMT node selection';
+  $view->human_name = 'Content selection';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'OSHA content selection';
+  $handler->display->display_options['title'] = 'Content selection';
   $handler->display->display_options['css_class'] = 'tmgmt_node_selection_view';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
@@ -378,16 +378,16 @@ function osha_tmgmt_views_default_views() {
   );
 
   /* Display: OSHA content selection */
-  $handler = $view->new_display('page', 'OSHA content selection', 'tmgmt_node_selection_view_page');
+  $handler = $view->new_display('page', 'Content selection', 'tmgmt_node_selection_view_page');
   $handler->display->display_options['path'] = 'admin/tmgmt/sources/osha';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'OSHA content';
+  $handler->display->display_options['menu']['title'] = 'Content (nodes)';
   $handler->display->display_options['menu']['weight'] = '-30';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
   $translatables['tmgmt_node_selection_view'] = array(
     t('Master'),
-    t('OSHA content selection'),
+    t('Content selection'),
     t('more'),
     t('Filter'),
     t('Reset'),
