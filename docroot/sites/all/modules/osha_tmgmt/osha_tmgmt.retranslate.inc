@@ -135,10 +135,13 @@ class OshaTMGMTRetranslate {
    */
   public static function get_latest_clean_revision($entity_id) {
     // Get the latest published revision.
-    $rev = db_query("SELECT MAX(vid) FROM {workbench_moderation_node_history} WHERE
+    $rev = FALSE;
+    if (db_table_exists('workbench_moderation_node_history')) {
+      $rev = db_query("SELECT MAX(vid) FROM {workbench_moderation_node_history} WHERE
       nid = :entity_id AND published=1" ,array(':entity_id' => $entity_id)
-    )->fetchField();
-    if (!$rev ) {
+      )->fetchField();
+    }
+    if (!$rev) {
       $rev = db_query("SELECT MAX(nr.vid) FROM {node_revision} nr WHERE
       nr.nid = :entity_id AND status=1",array(':entity_id' => $entity_id)
       )->fetchField();
@@ -286,12 +289,13 @@ class OshaTMGMTRetranslate {
    * $invalid_languages[language_code] contains detailed explanatory messages
    * @todo Check all full_html fields, not only in body!
    */
-  public static function validate_can_retranslate(&$node, &$messages,
-                                                  &$valid_languages,
-                                                  &$invalid_languages)
-  {
+  public static function validate_can_retranslate(&$node, &$messages, &$valid_languages, &$invalid_languages) {
     if (!isset($node->nid)) {
       throw new TMGMTException('node->nid not provided');
+    }
+    if (!module_exists('workbench_moderation')) {
+      $messages['status'][] = t('Re-translation requires workbench_moderation');
+      return NULL;
     }
     $nid = $node->nid;
     $published_rev = self::get_latest_clean_revision($nid);

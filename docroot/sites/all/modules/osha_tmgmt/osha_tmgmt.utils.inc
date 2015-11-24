@@ -158,3 +158,85 @@ function _osha_tmgmt_mark_job_item_retranslation($entity, &$job_item) {
     }
   }
 }
+
+function _osha_tmgmt_form_alter_add_source_target_info(&$form, $form_state) {
+  if (isset($form_state['item'])) {
+    $job = $form_state['item'];
+    $form['info']['source'] = array(
+      '#type' => 'item',
+      '#prefix' => '<div class="tmgmt-ui-source-type tmgmt-ui-info-item">',
+      '#suffix' => '</div>',
+      '#title' => t('Source language'),
+      '#markup' => locale_language_name($job->source_language),
+      '#weight' => 9,
+    );
+    $form['info']['target'] = array(
+      '#type' => 'item',
+      '#prefix' => '<div class="tmgmt-ui-source-type tmgmt-ui-info-item">',
+      '#suffix' => '</div>',
+      '#title' => t('Target language'),
+      '#markup' => locale_language_name($job->target_language),
+      '#weight' => 10,
+    );
+  }
+}
+
+function _osha_tmgmt_disabled_language_list() {
+  return variable_get('osha_tmgmt_disabled_languages', array());
+}
+
+/**
+ * Show job priority as translatable string.
+ *
+ * @param object $job
+ *   Job
+ *
+ * @return string
+ *   Job priority in current language
+ */
+function _osha_tmgmt_job_priority_name($job) {
+  if (isset($job->priority)) {
+    switch ($job->priority) {
+      case OSHA_TMGMT_JOB_PRIORITY_HIGH:
+        return t('High');
+
+      case OSHA_TMGMT_JOB_PRIORITY_LOW:
+        return t('Low');
+
+      default:
+        return t('Normal');
+    }
+  }
+  return '';
+}
+
+/**
+ * Check if there's an active job for this node in the same target language.
+ *
+ * @param int $nid
+ *   Node NID
+ * @param string $target_language
+ *   Target language
+ * @param string $bundle
+ *   Item bundle
+ *
+ * @return bool
+ *   Returns TRUE if there's another job in progress
+ */
+function _osha_tmgmt_is_duplicate_job_item($nid, $target_language, $bundle) {
+  $r = db_query(
+    "SELECT count(*) FROM tmgmt_job_item a
+      INNER JOIN tmgmt_job b ON a.tjid = b.tjid
+      WHERE (b.state = :s1 OR b.state = :s1)
+        AND a.target_language = :target_language
+        AND a.item_type = :bundle
+        AND a.item_id = :nid",
+    array(
+      ':s1' => TMGMT_JOB_STATE_ACTIVE,
+      ':s2' => TMGMT_JOB_STATE_UNPROCESSED,
+      ':bundle' => $bundle,
+      ':target_language' => $target_language,
+      ':nid' => $nid,
+    ))->fetchCol(0);
+  return $r[0] > 0;
+}

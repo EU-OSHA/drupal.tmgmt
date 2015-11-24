@@ -87,8 +87,11 @@ class OshaTMGMTJob extends TMGMTJob {
     if ($item_type == 'node') {
       $item->is_full_translation = $is_full_translation;
       $node = node_load($item_id);
-      $current_rev = workbench_moderation_node_current_load($node);
-      $item->vid = $current_rev->vid;
+      $item->vid = $node->vid;
+      if (module_exists('workbench_moderation')) {
+        $current_rev = workbench_moderation_node_current_load($node);
+        $item->vid = $current_rev->vid;
+      }
     }
     $item->source_language = $source_language;
     $item->target_language = $target_language;
