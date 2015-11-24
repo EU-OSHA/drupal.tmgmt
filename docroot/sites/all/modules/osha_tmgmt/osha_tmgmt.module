@@ -34,6 +34,22 @@ function osha_tmgmt_menu() {
 }
 
 /**
+ * Implements hook_entity_insert().
+ */
+function osha_tmgmt_entity_insert($entity, $type) {
+  // Configure the TMGMT translator to enable XML export plugin
+  if ($type == 'tmgmt_translator' && $entity->name == 'file') {
+    $clone = clone $entity;
+    $clone->settings['export_format'] = 'xml';
+    $clone->settings['auto_accept'] = FALSE;
+    $clone->settings['xliff_processing'] = FALSE;
+    $clone->settings['allow_override'] = FALSE;
+    unset($clone->is_new);
+    entity_save('tmgmt_translator', $clone);
+  }
+}
+
+/**
  * Implements hook_schema_alter().
  */
 function osha_tmgmt_schema_alter(&$schema) {

@@ -246,22 +246,6 @@ function osha_tmgmt_install() {
 }
 
 /**
- * Implements hook_enable().
- */
-function osha_tmgmt_enable() {
-  // Set the translator.
-  $translator = entity_load('tmgmt_translator', FALSE, array('name' => 'file'));
-  if (!empty($translator)) {
-    $translator = current($translator);
-    $translator->settings['export_format'] = 'xml';
-    $translator->settings['auto_accept'] = FALSE;
-    $translator->settings['xliff_processing'] = FALSE;
-    $translator->settings['allow_override'] = FALSE;
-  }
-  entity_save('tmgmt_translator', $translator);
-}
-
-/**
  * Implements hook_schema().
  */
 function osha_tmgmt_schema() {
