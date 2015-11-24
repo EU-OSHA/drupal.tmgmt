@@ -1,40 +1,5 @@
 <?php
 
-/**
- * Implements hook_views_data_alter().
- *
- * We override the filter handler for table workbench_moderation_node_history
- * to allow proper filtering for non-moderated content in content selection
- * screen.
- *
- * {@inheritdoc}
- */
-function osha_tmgmt_views_data_alter(&$data) {
-  // Used by tmgmt_node_selection_view.
-  if (isset($data['workbench_moderation_node_history']['state']['filter']['handler'])) {
-    $data['workbench_moderation_node_history']['state']['filter']['handler'] = 'osha_workbench_moderation_handler_filter_state';
-  }
-}
-
-/**
- * Implements hook_views_pre_render().
- */
-function osha_tmgmt_views_pre_render(&$view) {
-  if ($view->name == 'tmgmt_node_selection_view') {
-    // For publication, the link has to be with /view.
-    // Couldn't use field_title with formatter because it doesn't take the
-    // current revision title.
-    foreach ($view->result as &$result) {
-      $entity = $result->_field_data['nid']['entity'];
-      if ($entity->type == 'publication') {
-        $result->field_title_field[0]['rendered']['#markup'] = l($result->node_revision_title, 'node/' . $entity->nid . '/view');
-      }
-      else {
-        $result->field_title_field[0]['rendered']['#markup'] = l($result->node_revision_title, 'node/' . $entity->nid);
-      }
-    }
-  }
-}
 
 /**
  * Alter the view tmgmt_node_selection_view to show latest node state.
@@ -46,26 +11,26 @@ function osha_tmgmt_views_query_alter(&$view, &$query) {
   // Alter the query for Content tab form Workflow Dashboard.
   // Get the latest state of nodes.
   if ($view->name == 'tmgmt_node_selection_view' && $view->current_display == 'tmgmt_node_selection_view_page') {
-    if (!empty($query->table_queue['node_revision'])) {
-      $query->table_queue['node_revision']['join']->field = 'nid';
-      $query->table_queue['node_revision']['join']->left_field = 'nid';
-
-      // Filter out items in cart.
-      $existing = array();
-      $cart = tmgmt_ui_cart_get();
-      foreach ($cart->getJobItemsFromCart() as $item) {
-        if ($item->plugin == 'entity' && $item->item_type == 'node') {
-          $existing[] = $item->item_id;
-        }
-      }
-      if (!empty($existing)) {
-        $query->where[1]['conditions'][] = array(
-          'field' => 'node.nid',
-          'operator' => 'not in',
-          'value' => $existing,
-        );
-      }
-    }
+//    if (!empty($query->table_queue['node_revision'])) {
+//      $query->table_queue['node_revision']['join']->field = 'nid';
+//      $query->table_queue['node_revision']['join']->left_field = 'nid';
+//
+//      // Filter out items in cart.
+//      $existing = array();
+//      $cart = tmgmt_ui_cart_get();
+//      foreach ($cart->getJobItemsFromCart() as $item) {
+//        if ($item->plugin == 'entity' && $item->item_type == 'node') {
+//          $existing[] = $item->item_id;
+//        }
+//      }
+//      if (!empty($existing)) {
+//        $query->where[1]['conditions'][] = array(
+//          'field' => 'node.nid',
+//          'operator' => 'not in',
+//          'value' => $existing,
+//        );
+//      }
+//    }
   }
   if ($view->name == 'content_validators_group' && $view->current_display == 'content_validators_group_page') {
     $query->where[0]['type'] = 'AND';
@@ -74,22 +39,6 @@ function osha_tmgmt_views_query_alter(&$view, &$query) {
       'operator' => '=',
       'value' => 'translators_group',
     );
-  }
-
-  // Switch from JOIN to LEFT JOIN with workbench_moderation_node_history
-  // to allow adding content types which are not moderated (i.e. page).
-  if ($view->name == 'tmgmt_node_selection_view') {
-    if (isset($query->table_queue['workbench_moderation_node_history']['join']->type)) {
-      $query->table_queue['workbench_moderation_node_history']['join']->type = 'LEFT';
-    }
-  }
-
-  // Switch from JOIN to LEFT JOIN with workbench_moderation_node_history
-  // to allow showing job items that doesn't have items moderated.
-  if ($view->name == 'osha_job_overview_job_items') {
-    if (isset($query->table_queue['node_tmgmt_job_item__workbench_moderation_node_history']['join']->type)) {
-      $query->table_queue['node_tmgmt_job_item__workbench_moderation_node_history']['join']->type = 'LEFT';
-    }
   }
 }
 
