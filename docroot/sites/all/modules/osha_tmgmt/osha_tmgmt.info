@@ -1,9 +1,10 @@
-name = OSHA Translation Management
+name = EU-OSHA Translation Management
 description = Alters tmgmt modules to enable multilingual jobs and translation workflow
 core = 7.x
 package = OSHA
 version = 7.x-1.3
 project = osha_tmgmt
+configure = admin/config/content/osha_tmgmt
 dependencies[] = diff
 dependencies[] = entity
 dependencies[] = entity_collection

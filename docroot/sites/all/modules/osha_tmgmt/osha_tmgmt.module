@@ -22,8 +22,8 @@ define('OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish', 7);
 function osha_tmgmt_menu() {
   $items = array();
   $items['admin/config/content/osha_tmgmt'] = array(
-    'title' => 'OSHA TMGMT',
-    'description' => 'Configure OSHA TMGMT.',
+    'title' => 'EU-OSHA TMGMT',
+    'description' => 'Configure the EU-OSHA translation workflow module',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('osha_tmgmt_config_form'),
     'access arguments' => array('administer osha tmgmt'),
