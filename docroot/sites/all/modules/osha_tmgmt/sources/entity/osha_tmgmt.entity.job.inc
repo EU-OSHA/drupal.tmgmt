@@ -53,7 +53,7 @@ class OshaTMGMTJob extends TMGMTJob {
    * Get the number of job items in a state.
    */
   public function getCountofState($state) {
-    return osha_tmgmt_job_statistic_items($this, $state);
+    return _osha_tmgmt_job_statistic_items($this, $state);
   }
 
 

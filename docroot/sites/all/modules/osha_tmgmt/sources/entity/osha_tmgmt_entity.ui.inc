@@ -72,7 +72,7 @@ class OSHATMGMTEntitySourceUIController extends TMGMTEntitySourceUIController {
       // to determine translation statuses
       $translations = $handler->getTranslations();
       $source_lang = entity_language($type, $entity);
-      $current_job_items = osha_tmgmt_job_item_load_latest('entity', $type, $entity_id, $source_lang);
+      $current_job_items = _osha_tmgmt_job_item_load_latest('entity', $type, $entity_id, $source_lang);
 
       // Load basic entity data.
       $return_value[$entity_id] = array(

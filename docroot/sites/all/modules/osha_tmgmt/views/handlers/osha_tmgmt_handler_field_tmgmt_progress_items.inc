@@ -24,7 +24,7 @@ class osha_tmgmt_handler_field_tmgmt_progress_items extends views_handler_field_
         }
         $tjids[] = $value->tjid;
       }
-      osha_tmgmt_job_statistics_items_load($tjids);
+      _osha_tmgmt_job_statistics_items_load($tjids);
     }
   }
 
@@ -37,7 +37,7 @@ class osha_tmgmt_handler_field_tmgmt_progress_items extends views_handler_field_
     if ($object->isAborted()) {
       return t('N/A');
     }
-    $states = osha_tmgmt_get_job_item_states();
+    $states = _osha_tmgmt_get_job_item_states();
 
     $counts = array();
     $title = array();
