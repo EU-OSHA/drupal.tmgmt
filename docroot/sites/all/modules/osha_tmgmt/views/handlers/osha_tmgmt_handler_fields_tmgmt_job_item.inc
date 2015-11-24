@@ -166,27 +166,7 @@ class osha_tmgmt_handler_field_tmgmt_job_item_state extends views_handler_field 
 }
 
 /**
- * Class osha_tmgmt_handler_field_tmgmt_job_item_activity handles node activity
- */
-class osha_tmgmt_handler_field_tmgmt_job_item_activity extends views_handler_field {
-
-  /**
-   * {@inheritdoc}
-   */
-  public function render($row) {
-    if ($row->tmgmt_job_item_plugin == 'entity' && $row->tmgmt_job_item_item_type == 'node') {
-      $nid = $row->tmgmt_job_item_item_id;
-      $node = node_load($nid);
-      $node = workbench_moderation_node_current_load($node);
-      module_load_include('module', 'osha');
-      return osha_node_activity_name($node);
-    }
-    return '';
-  }
-}
-
-/**
- * Class osha_tmgmt_handler_field_tmgmt_job_item_activity handles node activity
+ * Class osha_tmgmt_handler_field_tmgmt_job_item_section handles node section
  */
 class osha_tmgmt_handler_field_tmgmt_job_item_section extends views_handler_field {
 
@@ -208,7 +188,7 @@ class osha_tmgmt_handler_field_tmgmt_job_item_section extends views_handler_fiel
 }
 
 /**
- * Class osha_tmgmt_handler_field_tmgmt_job_item_activity handles node activity
+ * Class osha_tmgmt_handler_field_tmgmt_job_item_type handles job item type
  */
 class osha_tmgmt_handler_field_tmgmt_job_item_type extends tmgmt_handler_field_tmgmt_job_item_type {
 
@@ -229,7 +209,7 @@ class osha_tmgmt_handler_field_tmgmt_job_item_type extends tmgmt_handler_field_t
 }
 
 /**
- * Class osha_tmgmt_handler_field_tmgmt_job_item_activity handles node activity
+ * Class osha_tmgmt_handler_field_tmgmt_job_item_creator handles node author
  */
 class osha_tmgmt_handler_field_tmgmt_job_item_creator extends views_handler_field {
 

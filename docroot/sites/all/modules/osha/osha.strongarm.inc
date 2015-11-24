@@ -729,9 +729,9 @@ function osha_strongarm() {
     'slots' => array(
       1 => array(
         'slot' => 1,
-        'name' => 'Activity',
-        'value' => '[node:field-activity]',
-        'scope' => 'page',
+        'name' => '',
+        'value' => '',
+        'scope' => 'visit',
       ),
       2 => array(
         'slot' => 2,
@@ -747,12 +747,6 @@ function osha_strongarm() {
       ),
       4 => array(
         'slot' => 4,
-        'name' => '',
-        'value' => '',
-        'scope' => 'visit',
-      ),
-      5 => array(
-        'slot' => 5,
         'name' => '',
         'value' => '',
         'scope' => 'visit',

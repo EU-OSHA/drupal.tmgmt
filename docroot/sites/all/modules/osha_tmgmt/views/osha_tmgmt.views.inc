@@ -188,16 +188,6 @@ class OshaTMGMTJobItemViewsController extends TMGMTJobItemViewsController {
     $data['tmgmt_job_item']['operations']['field']['handler'] = 'osha_tmgmt_handler_field_tmgmt_job_item_operations';
     $data['tmgmt_job_item']['state']['field']['handler'] = 'osha_tmgmt_handler_field_tmgmt_job_item_state';
 
-    $data['tmgmt_job_item']['activity'] = array(
-      'title' => t('Node activity'),
-      'help' => t('Value of activity field'),
-      'real field' => 'item_id',
-      'field' => array(
-        'handler' => 'osha_tmgmt_handler_field_tmgmt_job_item_activity',
-        'click sortable' => TRUE,
-      ),
-    );
-
     $data['tmgmt_job_item']['section'] = array(
       'title' => t('Node section'),
       'real field' => 'item_id',

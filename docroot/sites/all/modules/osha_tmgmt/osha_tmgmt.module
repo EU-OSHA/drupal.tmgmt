@@ -1529,9 +1529,6 @@ function osha_tmgmt_form_tmgmt_job_form_alter(&$form, &$form_state) {
   // because of submitting problems with exposed form in job form (form in form)
 
   // Parse field values
-  $filter_activity = !empty($form_state['values']['filter_activity'])
-    ? $form_state['values']['filter_activity'] : 'any';
-
   $filter_state = !empty($form_state['values']['filter_state'])
     ? $form_state['values']['filter_state'] : 'any';
 
@@ -1543,7 +1540,7 @@ function osha_tmgmt_form_tmgmt_job_form_alter(&$form, &$form_state) {
   //    @todo: so there are 2 views loaded for the same task.
   $form['job_items_wrapper']['items']['#markup']
     = views_embed_view('osha_job_overview_job_items', 'job_job_items', NULL,
-        $filter_state, $filter_activity, $filter_target_lang);
+        $filter_state, $filter_target_lang);
 
   $form['job_items_wrapper']['#attributes'] = array('class' => array('container-inline'));
 
@@ -1554,16 +1551,6 @@ function osha_tmgmt_form_tmgmt_job_form_alter(&$form, &$form_state) {
     '#weight' => -4,
     '#options' => array('any' => '- Any -') + osha_tmgmt_get_translation_languages_options(),
     '#default_value' => $filter_target_lang,
-  );
-
-  $activity_terms = taxonomy_allowed_values(field_info_field('field_activity'));
-  $form['job_items_wrapper']['filter_activity'] = array(
-    '#type' => 'select',
-    '#title' => t('Activity'),
-    '#title_display' => 'before',
-    '#weight' => -3,
-    '#options' => array('any' => '- Any -') + $activity_terms,
-    '#default_value' => $filter_activity,
   );
 
   $form_state['filter_state'] = '';
@@ -2318,14 +2305,6 @@ function osha_tmgmt_views_default_views_alter(&$views) {
     unset($handler->display->display_options['fields']['word_count_1']);
     unset($handler->display->display_options['fields']['progress']);
 
-    $handler->display->display_options['fields']['activity'] = array(
-      'id' => 'activity',
-      'table' => 'tmgmt_job_item',
-      'field' => 'activity',
-      'label' => t('Activity'),
-      'element_label_colon' => FALSE,
-    );
-
     /* Field: Translation Management Job Item: Source language */
     $handler->display->display_options['fields']['source_language']['id'] = 'source_language';
     $handler->display->display_options['fields']['source_language']['table'] = 'tmgmt_job_item';
@@ -2360,12 +2339,6 @@ function osha_tmgmt_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['item_type']['field'] = 'item_type';
     $handler->display->display_options['fields']['item_type']['exclude'] = 1;
 
-    /* Field: Translation Management Job Item: Activity */
-    $handler->display->display_options['fields']['activity']['id'] = 'activity';
-    $handler->display->display_options['fields']['activity']['table'] = 'tmgmt_job_item';
-    $handler->display->display_options['fields']['activity']['field'] = 'activity';
-    $handler->display->display_options['fields']['activity']['label'] = t('Activity');
-
     /* Field: Translation Management Job Item: Section */
     $handler->display->display_options['fields']['section']['id'] = 'section';
     $handler->display->display_options['fields']['section']['table'] = 'tmgmt_job_item';
@@ -2385,7 +2358,7 @@ function osha_tmgmt_views_default_views_alter(&$views) {
 
     // Reorder view fields.
     $columns = array(
-      'type', 'section', 'activity', 'progress', 'state',
+      'type', 'section', 'progress', 'state',
       'changed', 'creator', 'operations',
     );
     foreach ($columns as $column) {

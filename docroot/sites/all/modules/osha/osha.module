@@ -578,26 +578,6 @@ function osha_form_alter(&$form, &$form_state, $form_id){
   } else if ($form_id == 'search_block_form') {
     $form['search_block_form']['#attributes']['accesskey'] = '4';
   }
-
-  // Change cardinality (one value) for activity field
-  if(in_array($form['#form_id'],
-    array(
-      'blog_node_form',
-      'article_node_form',
-      'page_node_form',
-      'calls_node_form',
-      'directive_node_form',
-      'guideline_node_form',
-      'job_vacancies_node_form',
-      'news_node_form',
-      'press_release_node_form',
-      'publication_node_form',
-      'seminar_node_form'))) {
-    $form['field_activity']['und']['#cardinality'] = 1;
-    $form['field_activity']['und']['#multiple'] = FALSE;
-    $form['field_activity']['und']['#empty_option'] = 'Select activity';
-    $form['field_activity']['und']['#empty_value'] = '';
-  }
 }
 
 /**
@@ -872,27 +852,6 @@ function osha_tokens_alter(array &$replacements, array $context) {
     }
     $replacements['[site:name]'] = t($replacements['[site:name]'], array(), array('langcode' => $language_code));
   }
-}
-
-/**
- * Retrieve the decoded name for Activity field attached to a node.
- *
- * @param object $node
- *   Node to get data
- *
- * @return string
- *   The name of the activity or empty string
- */
-function osha_node_activity_name($node) {
-  if (isset($node->field_activity[LANGUAGE_NONE][0])) {
-    $tid = $node->field_activity[LANGUAGE_NONE][0]['tid'];
-    $term = taxonomy_term_load($tid);
-    $value = field_get_items('taxonomy_term', $term, 'name_field');
-    if (!empty($value)) {
-      return $value[0]['safe_value'];
-    }
-  }
-  return '';
 }
 
 /**

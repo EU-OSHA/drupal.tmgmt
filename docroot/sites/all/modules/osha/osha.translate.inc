@@ -5,7 +5,6 @@ function osha_get_translatable_strings() {
     'Related',
     'Section',
     'Article',
-    'Activity',
     'Additional resources',
     'Archived',
     'Article type',

@@ -34,7 +34,6 @@ $handler->display->display_options['style_options']['columns'] = array(
   'character_count' => 'character_count',
   'type' => 'type',
   'section' => 'section',
-  'field_activity-revision_id' => 'field_activity-revision_id',
   'state' => 'state',
   'changed' => 'changed',
   'name' => 'name',
@@ -86,13 +85,6 @@ $handler->display->display_options['style_options']['info'] = array(
     'empty_column' => 0,
   ),
   'section' => array(
-    'align' => '',
-    'separator' => '',
-    'empty_column' => 0,
-  ),
-  'field_activity-revision_id' => array(
-    'sortable' => 1,
-    'default_sort_order' => 'asc',
     'align' => '',
     'separator' => '',
     'empty_column' => 0,
@@ -192,12 +184,6 @@ $handler->display->display_options['fields']['section']['id'] = 'section';
 $handler->display->display_options['fields']['section']['table'] = 'workbench_access';
 $handler->display->display_options['fields']['section']['field'] = 'section';
 $handler->display->display_options['fields']['section']['relationship'] = 'job_item_to_node';
-/* Field: Content (historical data): Activity */
-$handler->display->display_options['fields']['field_activity-revision_id']['id'] = 'field_activity-revision_id';
-$handler->display->display_options['fields']['field_activity-revision_id']['table'] = 'field_revision_field_activity';
-$handler->display->display_options['fields']['field_activity-revision_id']['field'] = 'field_activity-revision_id';
-$handler->display->display_options['fields']['field_activity-revision_id']['relationship'] = 'job_item_to_node_revision';
-$handler->display->display_options['fields']['field_activity-revision_id']['type'] = 'taxonomy_term_reference_plain';
 /* Field: Translation Management Job Item: State */
 $handler->display->display_options['fields']['state']['id'] = 'state';
 $handler->display->display_options['fields']['state']['table'] = 'tmgmt_job_item';
@@ -238,16 +224,6 @@ $handler->display->display_options['arguments']['state']['summary']['number_of_r
 $handler->display->display_options['arguments']['state']['summary']['format'] = 'default_summary';
 $handler->display->display_options['arguments']['state']['summary_options']['items_per_page'] = '25';
 $handler->display->display_options['arguments']['state']['specify_validation'] = TRUE;
-/* Contextual filter: Content: Activity (field_activity) */
-$handler->display->display_options['arguments']['field_activity_tid']['id'] = 'field_activity_tid';
-$handler->display->display_options['arguments']['field_activity_tid']['table'] = 'field_data_field_activity';
-$handler->display->display_options['arguments']['field_activity_tid']['field'] = 'field_activity_tid';
-$handler->display->display_options['arguments']['field_activity_tid']['relationship'] = 'job_item_to_node';
-$handler->display->display_options['arguments']['field_activity_tid']['exception']['value'] = 'any';
-$handler->display->display_options['arguments']['field_activity_tid']['default_argument_type'] = 'fixed';
-$handler->display->display_options['arguments']['field_activity_tid']['summary']['number_of_records'] = '0';
-$handler->display->display_options['arguments']['field_activity_tid']['summary']['format'] = 'default_summary';
-$handler->display->display_options['arguments']['field_activity_tid']['summary_options']['items_per_page'] = '25';
 /* Contextual filter: Translation Management Job Item: Target language */
 $handler->display->display_options['arguments']['target_language']['id'] = 'target_language';
 $handler->display->display_options['arguments']['target_language']['table'] = 'tmgmt_job_item';
@@ -294,7 +270,6 @@ $translatables['osha_job_overview_job_items'] = array(
   t('Character count'),
   t('Type'),
   t('Section'),
-  t('Activity'),
   t('State'),
   t('Changed date'),
   t('Name'),

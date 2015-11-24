@@ -118,7 +118,6 @@ function osha_views_default_views() {
   $handler->display->display_options['relationships']['term_node_tid']['table'] = 'node';
   $handler->display->display_options['relationships']['term_node_tid']['field'] = 'term_node_tid';
   $handler->display->display_options['relationships']['term_node_tid']['vocabularies'] = array(
-    'activity' => 0,
     'article_types' => 0,
     'section' => 0,
     'attachment_file_type' => 0,
