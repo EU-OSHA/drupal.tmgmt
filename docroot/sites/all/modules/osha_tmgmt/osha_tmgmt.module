@@ -55,6 +55,19 @@ function osha_tmgmt_permission() {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function osha_tmgmt_permission() {
+  return array(
+    'administer osha tmgmt' => array(
+      'title' => 'Administer EU-OSHA TMGMT',
+      'description' => 'Configure the EU-OSHA translation workflow',
+      'restrict access' => TRUE,
+    )
+  );
+}
+
+/**
  * Implements hook_entity_insert().
  */
 function osha_tmgmt_entity_insert($entity, $type) {
