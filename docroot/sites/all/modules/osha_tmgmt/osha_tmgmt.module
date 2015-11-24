@@ -267,7 +267,6 @@ function osha_tmgmt_menu_local_tasks_alter(&$items) {
 
   if (isset($items['tabs']['1']['output']) && is_array($items['tabs']['1']['output'])) {
     foreach ($items['tabs']['1']['output'] as $index => &$tab) {
-      dpm($tab['#link']['path']);
       if (isset($tab['#link']['path']) && array_key_exists($tab['#link']['path'], $weights)) {
         $tab['#weight'] = $weights[$tab['#link']['path']];
       }
