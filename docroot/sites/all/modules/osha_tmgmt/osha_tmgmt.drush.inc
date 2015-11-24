@@ -65,11 +65,7 @@ function drush_osha_tmgmt_statistics()
 {
   $rows = db_select('node', 'n')
     ->fields('n', array('nid'))
-    ->condition('type', array(
-        'article', 'banner', 'page', 'blog', 'calls', 'highlight',
-        'job_vacancies', 'news', 'press_release', 'publication', 'seminar',
-      )
-    )
+    ->condition('type', array('article', 'page'))
     ->execute()
     ->fetchAllAssoc('nid');
   drush_log(

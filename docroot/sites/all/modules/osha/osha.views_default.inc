@@ -118,14 +118,8 @@ function osha_views_default_views() {
   $handler->display->display_options['relationships']['term_node_tid']['table'] = 'node';
   $handler->display->display_options['relationships']['term_node_tid']['field'] = 'term_node_tid';
   $handler->display->display_options['relationships']['term_node_tid']['vocabularies'] = array(
-    'article_types' => 0,
     'section' => 0,
-    'attachment_file_type' => 0,
-    'flickr_tags' => 0,
-    'newsletter_sections' => 0,
     'tags' => 0,
-    'thesaurus' => 0,
-    'workflow_status' => 0,
   );
   /* Relationship: Content: Entity translation: translations */
   $handler->display->display_options['relationships']['entity_translations']['id'] = 'entity_translations';

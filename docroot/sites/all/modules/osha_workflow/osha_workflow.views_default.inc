@@ -396,13 +396,6 @@ function osha_workflow_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'article' => 'article',
     'page' => 'page',
-    'blog' => 'blog',
-    'calls' => 'calls',
-    'highlight' => 'highlight',
-    'news' => 'news',
-    'press_release' => 'press_release',
-    'publication' => 'publication',
-    'seminar' => 'seminar',
   );
   $handler->display->display_options['filters']['type']['exposed'] = TRUE;
   $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
@@ -531,15 +524,6 @@ function osha_workflow_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'article' => 'article',
-    'blog' => 'blog',
-    'calls' => 'calls',
-    'directive' => 'directive',
-    'guideline' => 'guideline',
-    'highlight' => 'highlight',
-    'news' => 'news',
-    'press_release' => 'press_release',
-    'publication' => 'publication',
-    'seminar' => 'seminar',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
   $handler->display->display_options['filters']['type']['exposed'] = TRUE;
@@ -646,15 +630,6 @@ function osha_workflow_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'article' => 'article',
-    'blog' => 'blog',
-    'calls' => 'calls',
-    'directive' => 'directive',
-    'guideline' => 'guideline',
-    'highlight' => 'highlight',
-    'news' => 'news',
-    'press_release' => 'press_release',
-    'publication' => 'publication',
-    'seminar' => 'seminar',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
   $handler->display->display_options['filters']['type']['exposed'] = TRUE;

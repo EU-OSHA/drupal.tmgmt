@@ -155,13 +155,6 @@ $handler->display->display_options['fields']['views_bulk_operations']['vbo_opera
     'override_label' => 1,
     'label' => 'Add to cart (full translation)',
   ),
-  'action::osha_newsletter_add_to_newsletter_action' => array(
-    'selected' => 0,
-    'postpone_processing' => 0,
-    'skip_confirmation' => 0,
-    'override_label' => 0,
-    'label' => '',
-  ),
   'action::nodequeue_add_action' => array(
     'selected' => 0,
     'postpone_processing' => 0,
@@ -410,15 +403,6 @@ $handler->display->display_options['filters']['type']['field'] = 'type';
 $handler->display->display_options['filters']['type']['value'] = array(
   'article' => 'article',
   'page' => 'page',
-  'blog' => 'blog',
-  'calls' => 'calls',
-  'directive' => 'directive',
-  'guideline' => 'guideline',
-  'highlight' => 'highlight',
-  'news' => 'news',
-  'press_release' => 'press_release',
-  'publication' => 'publication',
-  'seminar' => 'seminar',
 );
 $handler->display->display_options['filters']['type']['group'] = 1;
 $handler->display->display_options['filters']['type']['exposed'] = TRUE;

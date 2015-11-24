@@ -119,11 +119,6 @@ function osha_taxonomies_field_default_field_bases() {
       'allowed_values' => array(
         'article' => 'Article',
         'page' => 'Basic page',
-        'blog' => 'Blog',
-        'job_vacancies' => 'Job vacancies',
-        'news' => 'News',
-        'press_release' => 'Press release',
-        'publication' => 'Publication',
       ),
       'allowed_values_function' => '',
       'entity_translation_sync' => FALSE,
