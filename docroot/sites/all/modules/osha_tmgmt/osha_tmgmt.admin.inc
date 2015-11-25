@@ -34,6 +34,12 @@ function osha_tmgmt_config_form($form, &$form_state) {
     drupal_set_message('<strong>Warning:</strong> Entity translation of taxonomy terms is disabled or not properly configured. ' . l('Visit configuration screen', 'admin/config/regional/entity_translation'), 'warning');
   }
 
+  $form['osha_tmgmt_send_mail'] = array(
+    '#title' => 'Send mail',
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('osha_tmgmt_send_mail', FALSE),
+  );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Save',
@@ -54,6 +60,8 @@ function osha_tmgmt_config_form_submit($form, &$form_state) {
       _osha_tmgmt_create_field_page_count($name);
     }
   }
+
+  variable_set('osha_tmgmt_send_mail', $form_state['values']['osha_tmgmt_send_mail']);
 }
 
 function _osha_tmgmt_create_field_character_count($bundle) {

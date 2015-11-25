@@ -116,6 +116,22 @@ function osha_tmgmt_entity_insert($entity, $type) {
 }
 
 /**
+ * Implements hook_mail_alter().
+ */
+function osha_tmgmt_mail_alter(&$message) {
+  if (strpos($message['key'], 'osha_tmgmt')) {
+    // Block mails that are send for hwc workflow if user's preference.
+    $user = user_load_by_mail($message['to']);
+    $send_notif = variable_get('osha_tmgmt_send_mail', FALSE);
+    // when using rereoute mail, the to address is not of an user.
+    $usr_receive_notif = empty($user) || !empty($user->field_osha_tmgmt_notification[LANGUAGE_NONE][0]['value']);
+    if (!$send_notif || !$usr_receive_notif) {
+      $message['send'] = FALSE;
+    }
+  }
+}
+
+/**
  * Implements hook_entity_info().
  */
 function osha_tmgmt_entity_info() {
