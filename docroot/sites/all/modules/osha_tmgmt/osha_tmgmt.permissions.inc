@@ -12,6 +12,10 @@ function osha_tmgmt_extra_permissions() {
       'title' => t('Access node layout validation preview screen'),
       'description' => t('Allows Layout Validators to preview the node before accepting translation'),
     ),
+    'validate layout translation' => array(
+      'title' => t('Can validate a translation layout'),
+      'description' => t('Allows Layout Validators to validate'),
+    ),
     'view translation job' => array(
       'title' => t('View the list of translation jobs and job details'),
     ),
@@ -23,6 +27,9 @@ function osha_tmgmt_extra_permissions() {
     ),
     'view translation content validators' => array(
       'title' => t('View the job item Content Validators'),
+    ),
+    'can be a content validator' => array(
+      'title' => t('Can be a Translation Content Validator'),
     ),
     'edit translation content validators' => array(
       'title' => t('Edit the job item Content Validators'),

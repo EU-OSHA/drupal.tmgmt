@@ -70,7 +70,8 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    OshaWorkflowNotifications::notifyTranslationLayoutApproved($this);
+    // TODO Rules
+    //OshaWorkflowNotifications::notifyTranslationLayoutApproved($this);
     drupal_set_message(t('You have approved the layout'));
   }
 
@@ -111,7 +112,8 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    OshaWorkflowNotifications::notifyTranslationLayoutApprovers($this);
+    // TODO RULES
+//    OshaWorkflowNotifications::notifyTranslationLayoutApprovers($this);
     drupal_set_message(t('You have Enabled the Translation'));
   }
 
@@ -134,7 +136,8 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    OshaWorkflowNotifications::notifyTranslationValidated($this);
+    // TODO RULES
+//    OshaWorkflowNotifications::notifyTranslationValidated($this);
     drupal_set_message(t('You have Validated the translation!'));
   }
 
@@ -157,7 +160,8 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    OshaWorkflowNotifications::notifyTranslationValidators($this);
+    // TODO RULES
+//    OshaWorkflowNotifications::notifyTranslationValidators($this);
     drupal_set_message(t('You have Required Translation Validation for this translation'));
   }
 
@@ -180,7 +184,8 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    OshaWorkflowNotifications::notifyTranslationRejected($this);
+    // TODO RULES
+//    OshaWorkflowNotifications::notifyTranslationRejected($this);
     drupal_set_message(t('You have Rejected this translation'));
   }
 
@@ -203,7 +208,8 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    OshaWorkflowNotifications::notifyTranslationProjectManager($this);
+    // TODO RULES
+//    OshaWorkflowNotifications::notifyTranslationProjectManager($this);
     drupal_set_message(
       t('You have set Translation as @state.',
         array(

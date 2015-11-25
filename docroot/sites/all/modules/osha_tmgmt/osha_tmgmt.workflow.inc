@@ -5,7 +5,7 @@
  */
 function osha_tmgmt_user_can_edit_job_item($job_item) {
   global $user;
-  if (OshaWorkflowPermissions::userHasRole('administrator', $user)) {
+  if (_osha_tmgmt_user_has_role('administrator')) {
     return TRUE;
   }
 
@@ -208,8 +208,9 @@ function osha_tmgmt_translation_validators_submit($form, &$form_state) {
           $old_current_validator = osha_tmgmt_load_validators_next($removed_validators);
           $new_current_validator = $users[$job_item->target_language][0];
           if (!empty($old_current_validator) && $old_current_validator->uid != $new_current_validator->uid) {
-            OshaWorkflowNotifications::notifyTranslationValidatorsRemoved($old_current_validator, $job_item);
-            OshaWorkflowNotifications::sendEmail($new_current_validator, array('tmgmt_job_item' => $job_item), 'osha_tmgmt');
+            // TODO RULES
+//            OshaWorkflowNotifications::notifyTranslationValidatorsRemoved($old_current_validator, $job_item);
+//            OshaWorkflowNotifications::sendEmail($new_current_validator, array('tmgmt_job_item' => $job_item), 'osha_tmgmt');
           }
         }
 
@@ -598,7 +599,8 @@ function osha_tmgmt_job_item_validators_form_submit($form, &$form_state) {
       foreach ($removed_validators as $removed_validator) {
         // CW-1766: Notify the current content validator that is no longer required to do anything
         if ($removed_validator->next) {
-            OshaWorkflowNotifications::notifyTranslationValidatorsRemoved($removed_validator, $form_state['jobItem']);
+          // TODO RULES
+//          OshaWorkflowNotifications::notifyTranslationValidatorsRemoved($removed_validator, $form_state['jobItem']);
         }
       }
     }
@@ -612,7 +614,8 @@ function osha_tmgmt_job_item_validators_form_submit($form, &$form_state) {
         // if current state is translation validation required, notify the new "current" (if different)
         if ($form_state['jobItem']->state == OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidationRequired && $old_current_validator->uid != $validator['uid']) {
           $current_user = user_load($validator['uid']);
-          OshaWorkflowNotifications::sendEmail($current_user, array('tmgmt_job_item' => $form_state['jobItem']), 'osha_tmgmt');
+          // TODO RULES
+//          OshaWorkflowNotifications::sendEmail($current_user, array('tmgmt_job_item' => $form_state['jobItem']), 'osha_tmgmt');
         }
       }
       $idx++;

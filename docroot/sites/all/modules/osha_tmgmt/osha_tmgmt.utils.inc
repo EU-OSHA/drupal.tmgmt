@@ -255,6 +255,37 @@ function osha_tmgmt_get_translation_languages_options($filter = array()) {
   return array_diff($languages, $filter);
 }
 
+function _osha_tmgmt_get_roles_by_perm($perm) {
+  $query = db_select('role_permission', 'rp');
+  $alias = $query->innerJoin('role', 'r', 'rp.rid=r.rid');
+  $roles = $query->fields('r', array('rid', 'name'))
+    ->condition('permission', $perm)
+    ->execute()
+    ->fetchAllKeyed();
+  return $roles;
+}
+
+function _osha_tmgmt_get_users_by_perm($perm) {
+  $users = array();
+  $roles = _osha_tmgmt_get_roles_by_perm($perm);
+  if (!empty($roles)) {
+    foreach ($roles as $role) {
+      $users = array_merge($users, _osha_tmgmt_users_get_users_from_role($role));
+    }
+  }
+  return $users;
+}
+
+function _osha_tmgmt_user_has_role($role, $user = NULL) {
+  if (empty($user)) {
+    global $user;
+  }
+  if (isset($user->roles)) {
+    return in_array($role, $user->roles);
+  }
+  return FALSE;
+}
+
 /**
  * Retrieve the list of users from a role, ordered by name.
  *
@@ -276,4 +307,68 @@ function _osha_tmgmt_users_get_users_from_role($role_name) {
     $ret = user_load_multiple($uids);
   }
   return $ret;
+}
+
+/**
+ * Get un-merged accepted job items for a revision.
+ * @param $vid
+ * @param null $language
+ * @return array
+ */
+function _osha_tmgmt_get_job_items_by_vid($vid, $language = NULL) {
+  $tjiids = db_select('tmgmt_job_item', 'tji')
+    ->fields('tji', array('tjiid', 'tjiid'))
+    ->condition('vid', $vid)
+    ->condition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED)
+    ->condition('merged', NULL);
+  if (!empty($language)) {
+    $tjiids->condition('target_language', $language);
+  }
+  $tjiids = $tjiids->execute()
+    ->fetchAllKeyed();
+  $job_items = array();
+  if (!empty($tjiids)) {
+    $job_items = tmgmt_job_item_load_multiple($tjiids);
+  }
+  return $job_items;
+}
+
+/**
+ * Loads latest job created.
+ */
+function _osha_tmgmt_get_cart_job_item_id($entity_type, $entity_id) {
+  $query = db_select('tmgmt_job_item', 'tji')
+    ->fields('tji', array('tjiid'))
+    ->condition('tjid', 0)
+    ->condition('item_type', $entity_type)
+    ->condition('item_id', $entity_id)
+    ->orderBy('tjiid', 'DESC')
+    ->range(0,1);
+  $result = $query->execute()->fetchField(0);
+  return $result;
+}
+
+/**
+ * Check incoming string if requires translation and add to locale source.
+ *
+ * @param string $string
+ *   Translated or untranslated string
+ *
+ * @return string
+ *   Returns the $string if translation or its translation
+ */
+function _osha_tmgmt_literal_get_translation($string) {
+  if (empty($string)) {
+    return $string;
+  }
+  global $language;
+  $decoded_string = decode_entities($string);
+  $q = db_query('SELECT lid FROM {locales_target} t WHERE translation=:string and language = :language',
+    array(':string' => $decoded_string, ':language' => $language->language));
+  if ($q->fetchField()) {
+    return $string;
+  }
+  else {
+    return t($string); // Applies only to english untranslated strings
+  }
 }
