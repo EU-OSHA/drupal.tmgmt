@@ -159,7 +159,7 @@ class osha_tmgmt_handler_field_tmgmt_job_item_state extends views_handler_field 
    */
   public function render($job_item) {
     if (isset($job_item->tmgmt_job_item_state)) {
-      return osha_tmgmt_get_job_item_state_label($job_item->tmgmt_job_item_state);
+      return _osha_tmgmt_get_job_item_state_label($job_item->tmgmt_job_item_state);
     }
     return '';
   }

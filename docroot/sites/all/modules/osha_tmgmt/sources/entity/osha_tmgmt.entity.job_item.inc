@@ -63,7 +63,7 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         'Status is now "@state". Message: @message',
       array(
         '@name' => $user->name,
-        '@state' => osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_REVIEW),
+        '@state' => _osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_REVIEW),
         '@message' => $message,
         '@tjiid' => $this->tjiid,
         '@item_id' => $this->item_id,
@@ -104,7 +104,7 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         'Status is now "@state". Message: @message',
       array(
         '@name' => $user->name,
-        '@state' => osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_ACTIVE),
+        '@state' => _osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_ACTIVE),
         '@message' => $message,
         '@tjiid' => $this->tjiid,
         '@item_id' => $this->item_id,
@@ -127,7 +127,7 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         'Status is now "@state". Message: @message',
       array(
         '@name' => $user->name,
-        '@state' => osha_tmgmt_get_job_item_state_label(OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidated),
+        '@state' => _osha_tmgmt_get_job_item_state_label(OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidated),
         '@message' => $message,
         '@tjiid' => $this->tjiid,
         '@item_id' => $this->item_id,
@@ -150,7 +150,7 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         'Status is now "@state". Message: @message',
       array(
         '@name' => $user->name,
-        '@state' => osha_tmgmt_get_job_item_state_label(OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidationRequired),
+        '@state' => _osha_tmgmt_get_job_item_state_label(OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidationRequired),
         '@message' => $message,
         '@tjiid' => $this->tjiid,
         '@item_id' => $this->item_id,
@@ -173,7 +173,7 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         'Status is now "@state". Message: @message',
       array(
         '@name' => $user->name,
-        '@state' => osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_ABORTED),
+        '@state' => _osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_ABORTED),
         '@message' => $message,
         '@tjiid' => $this->tjiid,
         '@item_id' => $this->item_id,
@@ -196,7 +196,7 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         'Status is now "@state". Message: @message',
       array(
         '@name' => $user->name,
-        '@state' => osha_tmgmt_get_job_item_state_label(OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish),
+        '@state' => _osha_tmgmt_get_job_item_state_label(OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish),
         '@message' => $message,
         '@tjiid' => $this->tjiid,
         '@item_id' => $this->item_id,
@@ -207,7 +207,7 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
     drupal_set_message(
       t('You have set Translation as @state.',
         array(
-          '@state' => osha_tmgmt_get_job_item_state_label(OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish),
+          '@state' => _osha_tmgmt_get_job_item_state_label(OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish),
         )
       )
     );
@@ -219,7 +219,7 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
     // Mark node translation dirty to have it re-indexed.
     if ($this->item_type == 'node') {
       global $user;
-      $state = osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_ACCEPTED);
+      $state = _osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_ACCEPTED);
       if ($message) {
         $this->addMessage('@name accepted the translation'.
             ' for job item @tjiid, item @item_id (@bundle), language @lang. '.

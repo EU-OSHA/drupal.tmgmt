@@ -5,9 +5,6 @@
  */
 
 include_once 'osha_tmgmt.features.inc';
-include_once 'osha_tmgmt.utils.inc';
-include_once 'osha_tmgmt.retranslate.inc';
-include_once 'osha_tmgmt.statistics.inc';
 
 
 define('OSHA_TMGMT_DEFAULT_SOURCE_LANGUAGE', 'en');
@@ -22,6 +19,21 @@ define('OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidationRequired', 5);
 define('OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidated', 6);
 define('OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish', 7);
 
+define('OSHA_TMGMT_TRANS_VALID_GROUP', 'translators_group');
+define('OSHA_TMGMT_TRANS_VALID_APPROVED', 'approved');
+define('OSHA_TMGMT_TRANS_VALID_REJECTED', 'rejected');
+
+define('OSHA_TMGMT_CONTENT_VALIDATOR_STATUS_APPROVED', 'approved');
+define('OSHA_TMGMT_CONTENT_VALIDATOR_STATUS_REJECTED', 'rejected');
+
+
+module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.permissions');
+module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.utils');
+module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.statistics');
+module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.retranslate');
+module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.workflow');
+
+
 function osha_tmgmt_menu() {
   $items = array();
   $items['admin/config/content/osha_tmgmt'] = array(
@@ -33,6 +45,13 @@ function osha_tmgmt_menu() {
     'file' => 'osha_tmgmt.admin.inc',
   );
   return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function osha_tmgmt_permission() {
+  return osha_tmgmt_extra_permissions();
 }
 
 /**
@@ -945,7 +964,7 @@ function osha_tmgmt_form_tmgmt_job_form_alter(&$form, &$form_state) {
     '#title' => t('Translation status'),
     '#title_display' => 'before',
     '#weight' => -2,
-    '#options' => array('any' => '- Any -') + osha_tmgmt_get_job_item_states(),
+    '#options' => array('any' => '- Any -') + _osha_tmgmt_get_job_item_states(),
     '#default_value' => $filter_state,
   );
   $form['job_items_wrapper']['filter'] = array(
@@ -1009,7 +1028,7 @@ function osha_tmgmt_form_tmgmt_job_form_alter(&$form, &$form_state) {
     '#prefix' => '<div class="tmgmt-ui-source-type tmgmt-ui-info-item">',
     '#suffix' => '</div>',
     '#title' => t('Priority'),
-    '#markup' => osha_tmgmt_job_priority_name($job),
+    '#markup' => _osha_tmgmt_job_priority_name($job),
     '#weight' => 13,
   );
 

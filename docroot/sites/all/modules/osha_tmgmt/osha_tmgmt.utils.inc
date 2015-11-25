@@ -240,3 +240,40 @@ function _osha_tmgmt_is_duplicate_job_item($nid, $target_language, $bundle) {
     ))->fetchCol(0);
   return $r[0] > 0;
 }
+
+/**
+ * Retrieve the list of target translation languages. This excludes Russian and Turkish - see CW-1285.
+ *
+ * @param array $filter
+ *   Additional filter containing languages code (i.e. fr, de)
+ * @return array
+ *   Array with language names as values and codes as keys.
+ */
+function osha_tmgmt_get_translation_languages_options($filter = array()) {
+  $languages = tmgmt_available_languages();
+  $languages = array_intersect_key($languages, osha_tmgmt_get_language_list());
+  return array_diff($languages, $filter);
+}
+
+/**
+ * Retrieve the list of users from a role, ordered by name.
+ *
+ * @param string $role_name
+ *   Name of the Role
+ *
+ * @return array
+ *   Array of user objects
+ */
+function _osha_tmgmt_users_get_users_from_role($role_name) {
+  $ret = array();
+  if ($role = user_role_load_by_name($role_name)) {
+    $query = db_select('users', 'u')->fields('u', array('uid'));
+    $query->join('users_roles', 'ur', 'ur.uid = u.uid');
+    $uids = $query->condition('ur.rid', $role->rid)
+      ->orderBy('u.name')
+      ->groupBy('u.uid')
+      ->execute()->fetchCol();
+    $ret = user_load_multiple($uids);
+  }
+  return $ret;
+}
