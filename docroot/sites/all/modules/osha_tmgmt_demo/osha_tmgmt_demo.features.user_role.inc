@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * osha_tmgmt_demo.features.user_role.inc
+ */
+
+/**
+ * Implements hook_user_default_roles().
+ */
+function osha_tmgmt_demo_user_default_roles() {
+  $roles = array();
+
+  // Exported role: osha tmgmt demo translation manager.
+  $roles['osha tmgmt demo translation manager'] = array(
+    'name' => 'osha tmgmt demo translation manager',
+    'weight' => 3,
+  );
+
+  return $roles;
+}
