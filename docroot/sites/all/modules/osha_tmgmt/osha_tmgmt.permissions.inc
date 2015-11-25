@@ -5,6 +5,12 @@
  */
 function osha_tmgmt_extra_permissions() {
   $perms = array(
+    'administer osha tmgmt' => array(
+      'title' => 'Administer EU-OSHA TMGMT',
+      'description' => 'Configure the EU-OSHA translation workflow',
+      'restrict access' => TRUE,
+    ),
+
     'osha tmgmt upload translation file' => array(
       'title' => t('Upload translation file to a Job'),
     ),
