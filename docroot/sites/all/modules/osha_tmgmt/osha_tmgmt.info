@@ -58,3 +58,4 @@ files[] = translators/osha_tmgmt.format.cdt.inc
 files[] = tests/osha_tmgmt.base.test
 files[] = tests/osha_tmgmt.config.test
 files[] = tests/osha_tmgmt.forms.test
+files[] = tests/osha_tmgmt.permission.test

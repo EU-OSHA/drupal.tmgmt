@@ -1,0 +1,34 @@
+<?php
+
+class OSHATMGMTNodeEditorTestCase extends OSHATMGMTBaseTestCase {
+
+  static function getInfo() {
+    return array(
+      'name' => 'Test node add/edit forms ',
+      'description' => 'Check the form fields are correct',
+      'group' => 'EU-OSHA',
+    );
+  }
+
+  /**
+   * admin/tmgmt/sources
+   */
+  function testAccessSourcesScreen() {
+    $admin = $this->drupalCreateUser(array(
+      'create osha_tmgmt_demo_article content',
+      'create translation jobs',
+    ));
+    $this->drupalLogin($admin);
+    $this->createTestNode();
+
+    $this->drupalGet('admin/tmgmt/sources');
+    $this->assertText('Content selection');
+
+    $this->drupalGet('admin/tmgmt/sources/locale_default');
+    $this->assertText('Locale overview (Locale source)');
+
+    $this->drupalGet('admin/tmgmt/sources/i18n_string_menu_link');
+    $this->assertText('Menu link overview (i18n String)');
+  }
+
+}
