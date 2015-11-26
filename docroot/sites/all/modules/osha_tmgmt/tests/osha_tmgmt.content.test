@@ -1,6 +1,6 @@
 <?php
 
-class OSHATMGMTNodeEditorTestCase extends OSHATMGMTBaseTestCase {
+class OSHATMGMTNodeTestCase extends OSHATMGMTBaseTestCase {
 
   static function getInfo() {
     return array(
@@ -10,14 +10,9 @@ class OSHATMGMTNodeEditorTestCase extends OSHATMGMTBaseTestCase {
     );
   }
 
-
-  function setUp() {
-    parent::setUp();
+  function testNodeAddForm() {
     $admin = $this->drupalCreateUser(array('create osha_tmgmt_demo_article content'));
     $this->drupalLogin($admin);
-  }
-
-  function testNodeAddForm() {
     $this->drupalGet('node/add/osha-tmgmt-demo-article');
     $this->assertNoText('Page count', 'Found the page count field');
     $this->assertNoText('Character count', 'Found the character count field');
@@ -25,3 +20,4 @@ class OSHATMGMTNodeEditorTestCase extends OSHATMGMTBaseTestCase {
     $this->assertNoRaw('field_page_count', 'Found the character count field');
   }
 }
+
