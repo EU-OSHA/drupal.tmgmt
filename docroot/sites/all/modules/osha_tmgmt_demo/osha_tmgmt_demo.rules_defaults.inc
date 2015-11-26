@@ -29,5 +29,22 @@ function osha_tmgmt_demo_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_osha_tmgmt_demo_new_translation_job'] = entity_import('rules_config', '{ "rules_osha_tmgmt_demo_new_translation_job" : {
+      "LABEL" : "New translation job",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "TAGS" : [ "OSHA TMGMT DEMO" ],
+      "REQUIRES" : [ "rules", "tmgmt" ],
+      "ON" : { "tmgmt_job_insert" : [] },
+      "DO" : [
+        { "mail_to_users_of_role" : {
+            "roles" : { "value" : { "5" : "5" } },
+            "subject" : "OSHA TMGMT Demo: New translation job",
+            "message" : "New translation job available: [tmgmt-job:label] [tmgmt-job:url]"
+          }
+        }
+      ]
+    }
+  }');
   return $items;
 }
