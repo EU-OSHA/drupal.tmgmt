@@ -3,7 +3,9 @@
 # Go to docroot/
 cd docroot/
 
-drush sql-drop -y
+if [ -f sites/default/settings.php ]; then
+    drush sql-drop -y
+fi
 drush site-install standard -y
 drush en -y osha_tmgmt
 drush en -y devel simpletest
