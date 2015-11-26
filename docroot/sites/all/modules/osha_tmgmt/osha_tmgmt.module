@@ -158,6 +158,32 @@ function osha_tmgmt_entity_info() {
 }
 
 /**
+ * Implements hook_node_presave().
+ *
+ * Pre-calculate field_character_count and field_page_count before saving.
+ */
+function osha_tmgmt_node_presave($node) {
+  if (isset($node->field_character_count)) {
+    OshaTMGMTStatistics::computeEntityStatistics($node, 'node');
+    $node->field_character_count[LANGUAGE_NONE][0]['value'] = $node->character_count;
+    if (isset($node->field_page_count)) {
+      $node->field_page_count[LANGUAGE_NONE][0]['value'] = $node->page_count;
+    }
+  }
+  // Prepare re-translation information
+  if (isset($node->body) && is_array($node->body)) {
+    // reformat body text for all languages and enhance paragraphs with unique id's
+    foreach(array_keys($node->body) as $lang) {
+      if (isset($node->body[$lang][0]['format']) && $node->body[$lang][0]['format'] == 'full_html') {
+        // can be not set for a new node with empty body
+        $new_text = OshaTMGMTRetranslate::prepare_text($node->body[$lang][0]['value']);
+        $node->body[$lang][0]['value'] = $new_text;
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_entity_property_info().
  */
 function osha_tmgmt_entity_property_info() {
