@@ -20,3 +20,4 @@ class OSHATMGMTConfigurationTestCase extends OSHATMGMTBaseTestCase {
     $this->assertText('Send e-mails related to translation workflow');
   }
 }
+
