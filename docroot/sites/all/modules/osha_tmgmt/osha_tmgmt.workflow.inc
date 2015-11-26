@@ -1,54 +1,11 @@
 <?php
 
 /**
- * This method creates the user roles required by the workflow.
- */
-function osha_tmgmt_workflow_create_roles() {
-  module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.permissions');
-  module_load_include('inc', 'osha_workflow', 'osha_workflow.permissions');
-  module_load_include('module', 'osha_workflow');
-
-  $roles = array(
-    OSHA_WORKFLOW_ROLE_TRANSLATION_MANAGER => osha_tmgmt_workflow_permissions_role_translation_manager(),
-    OSHA_WORKFLOW_ROLE_TRANSLATION_LIAISON => osha_tmgmt_workflow_permissions_role_translation_liaison(),
-    OSHA_WORKFLOW_ROLE_LAYOUT_VALIDATOR => osha_tmgmt_workflow_permissions_role_layout_validator(),
-    OSHA_WORKFLOW_ROLE_CONTENT_VALIDATOR => osha_tmgmt_workflow_permissions_role_content_validator(),
-    OSHA_WORKFLOW_ROLE_PROJECT_MANAGER => osha_tmgmt_pm_permissions(),
-    OSHA_WORKFLOW_ROLE_APPROVER => osha_workflow_permissions_role_approver(),
-    'administrator' => array_keys(osha_tmgmt_extra_permissions()),
-  );
-
-  foreach ($roles as $role_name => $permissions) {
-    if ($role = user_role_load_by_name($role_name)) {
-      // Nothing to do, really ...
-    }
-    else {
-      $role = new stdClass();
-      $role->name = $role_name;
-      user_role_save($role);
-    }
-
-    $modules = user_permission_get_modules();
-    $filtered = array();
-    foreach($permissions as $perm) {
-      if (empty($modules[$perm])) {
-        watchdog('osha_tmgmt', 'Missing permission: !perm', array('!perm' => $perm), WATCHDOG_ERROR);
-        unset($permissions[$perm]);
-      }
-      else {
-        $filtered[] = $perm;
-      }
-    }
-    user_role_grant_permissions($role->rid, $filtered);
-  }
-}
-
-/**
  * Check if current user can edit the job item.
  */
 function osha_tmgmt_user_can_edit_job_item($job_item) {
   global $user;
-  if (OshaWorkflowPermissions::userHasRole('administrator', $user)) {
+  if (_osha_tmgmt_user_has_role('administrator')) {
     return TRUE;
   }
 
@@ -108,7 +65,9 @@ function osha_tmgmt_layout_validation_node_preview($nid, $job_item) {
   $target_language = $job_item->target_language;
   $source_language = $job_item->source_language;
   $node = entity_load_single($job_item->item_type, $job_item->item_id);
-  $node = workbench_moderation_node_current_load($node);
+  if (module_exists('workbench_moderation')) {
+    $node = workbench_moderation_node_current_load($node);
+  }
 
   $new_job_data = OshaTMGMTRetranslate::apply_partial_translation(
     $node, $job_item->getData(), $source_language, $target_language);
@@ -251,8 +210,9 @@ function osha_tmgmt_translation_validators_submit($form, &$form_state) {
           $old_current_validator = osha_tmgmt_load_validators_next($removed_validators);
           $new_current_validator = $users[$job_item->target_language][0];
           if (!empty($old_current_validator) && $old_current_validator->uid != $new_current_validator->uid) {
-            OshaWorkflowNotifications::notifyTranslationValidatorsRemoved($old_current_validator, $job_item);
-            OshaWorkflowNotifications::sendEmail($new_current_validator, array('tmgmt_job_item' => $job_item), 'osha_tmgmt');
+            // TODO RULES
+//            OshaWorkflowNotifications::notifyTranslationValidatorsRemoved($old_current_validator, $job_item);
+//            OshaWorkflowNotifications::sendEmail($new_current_validator, array('tmgmt_job_item' => $job_item), 'osha_tmgmt');
           }
         }
 
@@ -391,14 +351,9 @@ function osha_tmgmt_get_job_translation_validators_group($eid) {
  * @return array
  *   Array of users with the required skills.
  */
-function osha_tmgmt_get_content_validators_by_skill($target_language, $source_language = 'en', $group_id = NULL) {
+function osha_tmgmt_get_content_validators_by_skill($target_language, $source_language, $group_id) {
   $ret = array();
-  if ($group_id) {
-    $users = osha_tmgmt_get_users_from_collection($group_id);
-  }
-  else {
-    $users = osha_workflow_users_get_users_from_role(OSHA_WORKFLOW_ROLE_CONTENT_VALIDATOR);
-  }
+  $users = osha_tmgmt_get_users_from_collection($group_id);
   foreach ($users as $user) {
     if (!empty($user->tmgmt_translation_skills[LANGUAGE_NONE])) {
       foreach ($user->tmgmt_translation_skills[LANGUAGE_NONE] as $skill) {
@@ -467,8 +422,6 @@ function osha_tmgmt_layout_validator_approve_submit($form, &$form_state) {
  * Form for Managing Content Validators of a Job Item.
  */
 function osha_tmgmt_job_item_validators_form($form, &$form_state, $job_item) {
-  module_load_include('inc', 'osha_workflow', 'osha_workflow.api');
-  module_load_include('inc', 'osha_workflow', 'osha_workflow.admin');
   if (empty($job_item->eid)) {
     drupal_set_message('Please set a content validators group to the job!', 'warning');
     return;
@@ -637,8 +590,10 @@ function osha_tmgmt_job_item_validators_form_validate($form, &$form_state) {
 function osha_tmgmt_job_item_validators_form_submit($form, &$form_state) {
   if (!empty($form_state['values']['rows'])) {
     $validators = array();
+    $current_user = new stdClass();
     $removed_validators = osha_tmgmt_load_validators_by_job_item($form_state['jobItem']);
     $old_current_validator = osha_tmgmt_load_validators_next($removed_validators);
+    $old_current_validator_removed = new stdClass();
     foreach ($form_state['values']['rows'] as $row) {
       $validators[$row['weight']] = $row;
       unset($removed_validators[$row['uid']]);
@@ -648,9 +603,14 @@ function osha_tmgmt_job_item_validators_form_submit($form, &$form_state) {
       foreach ($removed_validators as $removed_validator) {
         // CW-1766: Notify the current content validator that is no longer required to do anything
         if ($removed_validator->next) {
-            OshaWorkflowNotifications::notifyTranslationValidatorsRemoved($removed_validator, $form_state['jobItem']);
+          $old_current_validator_removed = $removed_validator;
+          unset($removed_validators[$removed_validator->uid]);
         }
       }
+    }
+    // If the old current validator was removed, trigger the action.
+    if (!empty($old_current_validator_removed) || !empty($removed_validators)) {
+      rules_invoke_event('osha_tmgmt_no_need_cv_approval', $form_state['jobItem'], $old_current_validator_removed, $removed_validators);
     }
     ksort($validators);
     $idx = 0;
@@ -662,13 +622,13 @@ function osha_tmgmt_job_item_validators_form_submit($form, &$form_state) {
         // if current state is translation validation required, notify the new "current" (if different)
         if ($form_state['jobItem']->state == OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidationRequired && $old_current_validator->uid != $validator['uid']) {
           $current_user = user_load($validator['uid']);
-          OshaWorkflowNotifications::sendEmail($current_user, array('tmgmt_job_item' => $form_state['jobItem']), 'osha_tmgmt');
         }
       }
       $idx++;
       $validators_name[] = $form_state['rows'][$validator['uid']]->name;
       osha_tmgmt_add_translation_validator($validator['uid'], $form_state['jobItem'], $validator['weight'], $next);
     }
+    rules_invoke_event('osha_tmgmt_need_cv_approval', $form_state['jobItem'], $current_user, $validators);
 
     // Save message to job item.
     global $user;
@@ -695,10 +655,11 @@ function osha_tmgmt_translation_validators_accept_validate($form, &$form_state) 
  * Callback for accept translation for Content Validator.
  */
 function osha_tmgmt_translation_validators_accept($form, &$form_state) {
+  global $user;
   $job_item = $form_state['item'];
   $message = $form_state['values']['action_message'];
   $validators = osha_tmgmt_load_validators_by_job_item($job_item);
-  global $user;
+  $next_validator = new stdClass();
   while ($validator = each($validators)) {
     if ($validator[1]->uid == $user->uid) {
       $validator[1]->message = $message;
@@ -722,8 +683,6 @@ function osha_tmgmt_translation_validators_accept($form, &$form_state) {
           $log_entry .= ' Messsage: ' . $message;
         }
         $job_item->addMessage($log_entry);
-        // Notify next approval.
-        OshaWorkflowNotifications::notifyTranslationValidators($job_item);
       }
       else {
         // Last Validator.
@@ -733,11 +692,11 @@ function osha_tmgmt_translation_validators_accept($form, &$form_state) {
         }
         $job_item->addMessage($log_entry);
         $job_item->toTranslationValidated();
-        OshaWorkflowNotifications::notifyTranslationValidated($job_item);
       }
       break;
     }
   }
+  rules_invoke_event('osha_tmgmt_need_cv_approval', $job_item, $next_validator, $validators);
 }
 
 /**
@@ -754,7 +713,6 @@ function osha_tmgmt_job_item_translation_reject($form, &$form_state) {
       $last->approved = OSHA_TMGMT_TRANS_VALID_REJECTED;
       $last->next = 0;
       entity_save('translation_validator', $last);
-      OshaWorkflowNotifications::notifyTranslationRejected($job_item);
     }
   }
   $log_entry = '';
@@ -888,7 +846,8 @@ function osha_tmgmt_file_translation_upload_submit($form, &$form_state) {
           // Validation successful, start import.
           $job->addTranslatedData($controller->import($file->uri));
           $job->addMessage('Successfully imported file.'.$file->uri);
-          OshaWorkflowNotifications::notifyTranslationUploadedFile($form_state['tmgmt_job']);
+          // TODO RULES EVENT
+//          OshaWorkflowNotifications::notifyTranslationUploadedFile($form_state['tmgmt_job']);
           $job->has_file_uploaded = 1;
           $job->save();
 

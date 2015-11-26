@@ -84,7 +84,7 @@ class OSHATMGMTLocaleSourceUIController extends TMGMTLocaleSourceUIController {
       $id = $string->lid;
       // Get existing translations and current job items for the entity
       // to determine translation statuses
-      $current_job_items = osha_tmgmt_job_item_load_latest('locale', $type, $id, $source_language);
+      $current_job_items = _osha_tmgmt_job_item_load_latest('locale', $type, $id, $source_language);
       $objects[$id] = array(
         'id' => $id,
         'object' => $string
@@ -149,7 +149,7 @@ class OSHATMGMTLocaleSourceUIController extends TMGMTLocaleSourceUIController {
       '#default_value' => isset($default_values['page_size']) ? $default_values['page_size'] : 50,
       '#weight' => 8,
     );
-    $ret['search_wrapper']['search']['missing_target_language']['#options'] = osha_language_list_options();
+    $ret['search_wrapper']['search']['missing_target_language']['#options'] = osha_tmgmt_get_language_list();
     return $ret;
   }
 

@@ -1,0 +1,23 @@
+<?php
+
+class OSHATMGMTNodeEditorTestCase extends OSHATMGMTBaseTestCase {
+
+  static function getInfo() {
+    return array(
+      'name' => 'Test node add/edit forms ',
+      'description' => 'Check the form fields are correct',
+      'group' => 'EU-OSHA',
+    );
+  }
+
+  function testNodeAddForm() {
+    $admin = $this->drupalCreateUser(array('create osha_tmgmt_demo_article content'));
+    $this->drupalLogin($admin);
+    $this->drupalGet('node/add/osha-tmgmt-demo-article');
+    $this->assertNoText('Page count', 'Found the page count field');
+    $this->assertNoText('Character count', 'Found the character count field');
+    $this->assertNoRaw('field_character_count', 'Found the page count field');
+    $this->assertNoRaw('field_page_count', 'Found the character count field');
+  }
+}
+

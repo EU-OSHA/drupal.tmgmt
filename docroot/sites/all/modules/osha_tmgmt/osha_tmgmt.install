@@ -1,6 +1,6 @@
 <?php
 
-include_once "osha_tmgmt.module";
+//include_once "osha_tmgmt.module";
 
 /**
  * Implements hook_uninstall().
@@ -50,6 +50,47 @@ function osha_tmgmt_install() {
     ->fields(array('weight' => 9))
     ->condition('name', 'osha_tmgmt', '=')
     ->execute();
+
+  // Create field page count.
+  $field = array(
+    'field_name' => 'field_page_count',
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 1,
+    'module' => 'number',
+    'settings' => array(
+      'decimal_separator' => '.',
+      'entity_translation_sync' => FALSE,
+      'precision' => 10,
+      'scale' => 2,
+    ),
+    'translatable' => 0,
+    'type' => 'number_decimal',
+  );
+  field_create_field($field);
+
+  // Create field character count.
+  $field = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_character_count',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 1,
+    'module' => 'number',
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'number_integer',
+  );
+  field_create_field($field);
 
   // tmgmt_job_item alteration.
   if (!db_field_exists('tmgmt_job_item', 'source_language')) {
@@ -177,6 +218,16 @@ function osha_tmgmt_install() {
       'description' => 'Marks the job if the translation file was sent to CDT',
     );
     db_add_field('tmgmt_job', 'file_sent', $field);
+  }
+
+  if (!db_field_exists('tmgmt_job_item', 'is_full_translation')) {
+    $field = array(
+      'type' => 'int',
+      'unsigned' => FALSE,
+      'default' => 1,
+      'description' => 'FALSE if retranslation, TRUE if full-translation.',
+    );
+    db_add_field('tmgmt_job_item', 'is_full_translation', $field);
   }
 
   // Configure file translator for the CDT format and remove other translators.

@@ -5,12 +5,22 @@
  */
 function osha_tmgmt_extra_permissions() {
   $perms = array(
+    'administer osha tmgmt' => array(
+      'title' => 'Administer EU-OSHA TMGMT',
+      'description' => 'Configure the EU-OSHA translation workflow',
+      'restrict access' => TRUE,
+    ),
+
     'osha tmgmt upload translation file' => array(
       'title' => t('Upload translation file to a Job'),
     ),
     'preview layout validation' => array(
       'title' => t('Access node layout validation preview screen'),
       'description' => t('Allows Layout Validators to preview the node before accepting translation'),
+    ),
+    'validate layout translation' => array(
+      'title' => t('Can validate a translation layout'),
+      'description' => t('Allows Layout Validators to validate'),
     ),
     'view translation job' => array(
       'title' => t('View the list of translation jobs and job details'),
@@ -23,6 +33,9 @@ function osha_tmgmt_extra_permissions() {
     ),
     'view translation content validators' => array(
       'title' => t('View the job item Content Validators'),
+    ),
+    'can be a content validator' => array(
+      'title' => t('Can be a Translation Content Validator'),
     ),
     'edit translation content validators' => array(
       'title' => t('Edit the job item Content Validators'),
@@ -57,143 +70,4 @@ function osha_tmgmt_extra_permissions() {
     ),
   );
   return $perms;
-}
-
-function osha_tmgmt_workflow_permissions_common() {
-  return array(
-    'access dashboard',
-    'view the administration theme',
-    'access toolbar',
-    'view translation job',
-    'use text format full_html',
-    // TODO checko why fails on install if access workbench permission added here.
-//    'access workbench',
-  );
-}
-
-/**
- * Define the permissions for Translation Manager role.
- *
- * @return array
- *   Array of permissions
- */
-function osha_tmgmt_workflow_permissions_role_translation_manager() {
-  // translate content
-  // translate any entity
-  // translate node entities
-  // translate taxonomy_term entities
-  // accept translation jobs
-
-  // Local Translator??
-  return array_merge(
-    array(
-      'access workbench',
-      'create translators_group entity collections',
-      'edit translators_group entity collections',
-      'view translators_group entity collections',
-      'delete translators_group entity collections',
-      'add content to translators_group entity collections',
-      'manage content in translators_group entity collections',
-      'access content',
-      'view own unpublished content',
-      'access workbench',
-      'view all unpublished content',
-
-      'create translation jobs',
-      'submit translation jobs',
-      'accept translation jobs',
-
-      'preview layout validation',
-      'view translation job item',
-      'edit translation job item',
-      'set job item to translated state',
-
-      'view translation content validators',
-
-      'access user profiles',
-      'edit translation content validators',
-      'set job item to require content validation state',
-      'set job item to ready to publish state',
-      'abort job item',
-      'osha tmgmt upload translation file',
-
-      // Translate tab on nodes.
-      'translate node entities',
-      'manage content in translators group entity collections',
-
-      // CW-928, CW-911 - needed for filter by Section
-      'view workbench access information',
-      'access workbench access by role',
-    ),
-    osha_tmgmt_workflow_permissions_common()
-  );
-}
-
-/**
- * Define the permissions for Translation Liaison role.
- *
- * @return array
- *   Array of permissions
- */
-function osha_tmgmt_workflow_permissions_role_translation_liaison() {
-  return array_merge(
-    array(
-      'view translation job item',
-      'view untranslated jobs',
-      'access workbench',
-    ),
-    osha_tmgmt_workflow_permissions_common()
-  );
-}
-
-/**
- * Define the permissions for Translation Liaison role.
- *
- * @return array
- *   Array of permissions
- */
-function osha_tmgmt_workflow_permissions_role_layout_validator() {
-  return array_merge(
-    array(
-      'abort job item',
-      'preview layout validation',
-      'set job item to translated state',
-      'view translation job item',
-      'view on translation content list',
-      'osha tmgmt upload translation file',
-      'access workbench',
-      'access workbench access by role',
-      'view all unpublished content',
-    ),
-    osha_tmgmt_workflow_permissions_common()
-  );
-}
-
-/**
- * Define the permissions for Content Validator role.
- *
- * @return array
- *   Array of permissions
- */
-function osha_tmgmt_workflow_permissions_role_content_validator() {
-  return array_merge(
-    array(
-      'access workbench',
-      'preview layout validation',
-      'abort job item',
-      'view needs content validation list',
-      'view translation job item',
-    ),
-    osha_tmgmt_workflow_permissions_common());
-}
-
-/**
- * Extra permissions for Project Managers (workflow).
- */
-function osha_tmgmt_pm_permissions() {
-  return array(
-    'accept job item translation',
-    'view translation job item',
-    'view translation job',
-  );
 }

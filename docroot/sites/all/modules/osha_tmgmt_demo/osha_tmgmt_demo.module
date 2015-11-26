@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * Code for the EU-OSHA Translation Management DEMO feature.
+ */
+
+include_once 'osha_tmgmt_demo.features.inc';
+
+module_load_include('inc', 'osha_tmgmt_demo', 'osha_tmgmt_demo.permission');
+
+function _osha_tmgmt_demo_assign_perm() {
+  $role = user_role_load_by_name('osha tmgmt demo layout validator');
+  user_role_grant_permissions($role->rid, osha_tmgmt_demo_layout_validator_permission());
+
+  $role = user_role_load_by_name('osha tmgmt demo translation liaison', osha_tmgmt_demo_translation_liaison_permission());
+  user_role_grant_permissions($role->rid);
+
+  $role = user_role_load_by_name('osha tmgmt demo translation manager');
+  user_role_grant_permissions($role->rid, osha_tmgmt_demo_translation_manager_permission());
+
+  $role = user_role_load_by_name('osha tmgmt demo content validator');
+  user_role_grant_permissions($role->rid, osha_tmgmt_demo_content_validator_permission());
+}

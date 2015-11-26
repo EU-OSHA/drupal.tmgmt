@@ -29,7 +29,7 @@ class OSHATMGMTEntitySourceUIController extends TMGMTEntitySourceUIController {
         '#default_value' => isset($_GET[$bundle_key]) ? $_GET[$bundle_key] : NULL,
       );
     }
-    $form['search_wrapper']['search']['target_language']['#options'] = osha_language_list_options();
+    $form['search_wrapper']['search']['target_language']['#options'] = osha_tmgmt_get_language_list();
     return $form;
   }
 
@@ -72,7 +72,7 @@ class OSHATMGMTEntitySourceUIController extends TMGMTEntitySourceUIController {
       // to determine translation statuses
       $translations = $handler->getTranslations();
       $source_lang = entity_language($type, $entity);
-      $current_job_items = osha_tmgmt_job_item_load_latest('entity', $type, $entity_id, $source_lang);
+      $current_job_items = _osha_tmgmt_job_item_load_latest('entity', $type, $entity_id, $source_lang);
 
       // Load basic entity data.
       $return_value[$entity_id] = array(
@@ -236,7 +236,9 @@ function osha_tmgmt_entity_get_translatable_entities($entity_type, $property_con
         }
       }
     }
-    $query->condition('e.' . $property_name, $untranslatable_voc, 'NOT IN');
+    if (!empty($untranslatable_voc)) {
+      $query->condition('e.' . $property_name, $untranslatable_voc, 'NOT IN');
+    }
 
     if (!empty($property_conditions['vocabulary_machine_name'])) {
       $vocabulary = taxonomy_vocabulary_machine_name_load($property_conditions['vocabulary_machine_name']);

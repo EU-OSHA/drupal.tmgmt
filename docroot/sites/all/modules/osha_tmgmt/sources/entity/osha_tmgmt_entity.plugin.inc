@@ -14,7 +14,9 @@ class OSHATMGMTEntitySourcePluginController extends TMGMTEntitySourcePluginContr
     }
     if ($job_item->item_type == 'node') {
       $entity = node_load($job_item->item_id);
-      $entity = workbench_moderation_node_current_load($entity);
+      if (module_exists('workbench_moderation')) {
+        $entity = workbench_moderation_node_current_load($entity);
+      }
     }
     else {
       $entity = entity_load_single($job_item->item_type, $job_item->item_id);
@@ -32,7 +34,9 @@ class OSHATMGMTEntitySourcePluginController extends TMGMTEntitySourcePluginContr
     $entity = entity_load_single($job_item->item_type, $job_item->item_id);
     if ($job_item->item_type == 'node') {
       // load the latest revision
-      $entity = workbench_moderation_node_current_load($entity);
+      if (module_exists('workbench_moderation')) {
+        $entity = workbench_moderation_node_current_load($entity);
+      }
       // apply re-translation
       $new_job_data = OshaTMGMTRetranslate::apply_partial_translation(
         $entity, $job_item->getData(), $job_item->source_language, $job_item->target_language);
@@ -54,7 +58,7 @@ class OSHATMGMTEntitySourcePluginController extends TMGMTEntitySourcePluginContr
     $handler = entity_translation_get_handler($job_item->item_type, $entity);
     $handler->setFormLanguage($job_item->target_language);
 
-    if ( $job_item->item_type == 'node' && workbench_moderation_node_type_moderated($entity->type) ) {
+    if ( $job_item->item_type == 'node' && module_exists('workbench_moderation') && workbench_moderation_node_type_moderated($entity->type) ) {
       // Force the same state in order to avoid creation of new weird transitions.
       $entity->workbench_moderation_state_new = $entity->workbench_moderation['current']->state;
     }
