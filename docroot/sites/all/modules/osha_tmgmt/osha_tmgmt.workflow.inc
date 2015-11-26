@@ -65,7 +65,9 @@ function osha_tmgmt_layout_validation_node_preview($nid, $job_item) {
   $target_language = $job_item->target_language;
   $source_language = $job_item->source_language;
   $node = entity_load_single($job_item->item_type, $job_item->item_id);
-  $node = workbench_moderation_node_current_load($node);
+  if (module_exists('workbench_moderation')) {
+    $node = workbench_moderation_node_current_load($node);
+  }
 
   $new_job_data = OshaTMGMTRetranslate::apply_partial_translation(
     $node, $job_item->getData(), $source_language, $target_language);

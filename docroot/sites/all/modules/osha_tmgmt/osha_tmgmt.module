@@ -46,6 +46,14 @@ function osha_tmgmt_menu() {
     'file' => 'osha_tmgmt.admin.inc',
   );
 
+  $items['node/%/layout-validation/%tmgmt_job_item'] = array(
+    'page callback' => 'osha_tmgmt_layout_validation_node_preview',
+    'page arguments' => array(1, 3),
+    'access arguments' => array('preview layout validation'),
+    'type' => MENU_CALLBACK,
+    'file' => 'osha_tmgmt.workflow.inc',
+  );
+
   $items['admin/tmgmt/items/%tmgmt_job_item/content-validators'] = array(
     'title' => 'Content Validators',
     'page callback' => 'drupal_get_form',
@@ -1881,7 +1889,6 @@ function osha_tmgmt_form_views_exposed_form_alter(&$form, &$form_state) {
     $form['#attached']['js'] = array(
       drupal_get_path('theme', 'osha_admin') . '/js/theme.js',
     );
-    dpm($form);
   }
 }
 
