@@ -17,4 +17,7 @@ function _osha_tmgmt_demo_assign_perm() {
 
   $role = user_role_load_by_name('osha tmgmt demo translation manager');
   user_role_grant_permissions($role->rid, osha_tmgmt_demo_translation_manager_permission());
+
+  $role = user_role_load_by_name('osha tmgmt demo content validator');
+  user_role_grant_permissions($role->rid, osha_tmgmt_demo_content_validator_permission());
 }
