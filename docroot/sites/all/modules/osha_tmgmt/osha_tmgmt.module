@@ -889,8 +889,8 @@ function osha_tmgmt_form_entity_collection_content_add_form_alter(&$form, &$form
     if ($collection->bundle == 'translators_group') {
       $options = _osha_tmgmt_get_users_by_perm('can be a content validator');
       $users = array();
-      foreach ($options as $uid => $account) {
-        $users['user:' . $uid] = $account;
+      foreach ($options as $account) {
+        $users['user:' . $account->uid] = $account->name;
       }
       $form['add_content']['#title'] = t('Add validator');
       $form['add_content']['entity_type']['#access'] = FALSE;
@@ -1811,8 +1811,7 @@ function osha_tmgmt_job_items_mass_change_submit($form, $form_state) {
         // CW-1766: Notify the current validator that his action is no longer required
         $removed_validators = osha_tmgmt_load_validators_by_job_item($job_item);
         $old_current_validator = osha_tmgmt_load_validators_next($removed_validators);
-        // TODO RULES
-//        OshaWorkflowNotifications::notifyTranslationValidatorsRemoved($old_current_validator, $job_item);
+        rules_invoke_event('osha_tmgmt_no_need_cv_approval', $job_item, $old_current_validator, $removed_validators);
       }
       switch ($new_state) {
         case TMGMT_JOB_ITEM_STATE_ACTIVE:

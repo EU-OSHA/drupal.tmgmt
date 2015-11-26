@@ -70,8 +70,6 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    // TODO Rules
-    //OshaWorkflowNotifications::notifyTranslationLayoutApproved($this);
     drupal_set_message(t('You have approved the layout'));
   }
 
@@ -112,8 +110,6 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    // TODO RULES
-//    OshaWorkflowNotifications::notifyTranslationLayoutApprovers($this);
     drupal_set_message(t('You have Enabled the Translation'));
   }
 
@@ -136,8 +132,6 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    // TODO RULES
-//    OshaWorkflowNotifications::notifyTranslationValidated($this);
     drupal_set_message(t('You have Validated the translation!'));
   }
 
@@ -160,8 +154,9 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    // TODO RULES
-//    OshaWorkflowNotifications::notifyTranslationValidators($this);
+    $all_validators = osha_tmgmt_load_validators_by_job_item($this);
+    $next_validator = osha_tmgmt_load_validators_next($all_validators);
+    rules_invoke_event('osha_tmgmt_no_need_cv_approval', $this, $next_validator, $all_validators);
     drupal_set_message(t('You have Required Translation Validation for this translation'));
   }
 
@@ -184,8 +179,6 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    // TODO RULES
-//    OshaWorkflowNotifications::notifyTranslationRejected($this);
     drupal_set_message(t('You have Rejected this translation'));
   }
 
@@ -208,8 +201,6 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    // TODO RULES
-//    OshaWorkflowNotifications::notifyTranslationProjectManager($this);
     drupal_set_message(
       t('You have set Translation as @state.',
         array(

@@ -590,8 +590,10 @@ function osha_tmgmt_job_item_validators_form_validate($form, &$form_state) {
 function osha_tmgmt_job_item_validators_form_submit($form, &$form_state) {
   if (!empty($form_state['values']['rows'])) {
     $validators = array();
+    $current_user = new stdClass();
     $removed_validators = osha_tmgmt_load_validators_by_job_item($form_state['jobItem']);
     $old_current_validator = osha_tmgmt_load_validators_next($removed_validators);
+    $old_current_validator_removed = new stdClass();
     foreach ($form_state['values']['rows'] as $row) {
       $validators[$row['weight']] = $row;
       unset($removed_validators[$row['uid']]);
@@ -601,10 +603,14 @@ function osha_tmgmt_job_item_validators_form_submit($form, &$form_state) {
       foreach ($removed_validators as $removed_validator) {
         // CW-1766: Notify the current content validator that is no longer required to do anything
         if ($removed_validator->next) {
-          // TODO RULES
-//          OshaWorkflowNotifications::notifyTranslationValidatorsRemoved($removed_validator, $form_state['jobItem']);
+          $old_current_validator_removed = $removed_validator;
+          unset($removed_validators[$removed_validator->uid]);
         }
       }
+    }
+    // If the old current validator was removed, trigger the action.
+    if (!empty($old_current_validator_removed) || !empty($removed_validators)) {
+      rules_invoke_event('osha_tmgmt_no_need_cv_approval', $form_state['jobItem'], $old_current_validator_removed, $removed_validators);
     }
     ksort($validators);
     $idx = 0;
@@ -616,14 +622,13 @@ function osha_tmgmt_job_item_validators_form_submit($form, &$form_state) {
         // if current state is translation validation required, notify the new "current" (if different)
         if ($form_state['jobItem']->state == OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidationRequired && $old_current_validator->uid != $validator['uid']) {
           $current_user = user_load($validator['uid']);
-          // TODO RULES
-//          OshaWorkflowNotifications::sendEmail($current_user, array('tmgmt_job_item' => $form_state['jobItem']), 'osha_tmgmt');
         }
       }
       $idx++;
       $validators_name[] = $form_state['rows'][$validator['uid']]->name;
       osha_tmgmt_add_translation_validator($validator['uid'], $form_state['jobItem'], $validator['weight'], $next);
     }
+    rules_invoke_event('osha_tmgmt_need_cv_approval', $form_state['jobItem'], $current_user, $validators);
 
     // Save message to job item.
     global $user;
@@ -650,10 +655,11 @@ function osha_tmgmt_translation_validators_accept_validate($form, &$form_state) 
  * Callback for accept translation for Content Validator.
  */
 function osha_tmgmt_translation_validators_accept($form, &$form_state) {
+  global $user;
   $job_item = $form_state['item'];
   $message = $form_state['values']['action_message'];
   $validators = osha_tmgmt_load_validators_by_job_item($job_item);
-  global $user;
+  $next_validator = new stdClass();
   while ($validator = each($validators)) {
     if ($validator[1]->uid == $user->uid) {
       $validator[1]->message = $message;
@@ -677,9 +683,6 @@ function osha_tmgmt_translation_validators_accept($form, &$form_state) {
           $log_entry .= ' Messsage: ' . $message;
         }
         $job_item->addMessage($log_entry);
-        // Notify next approval.
-        // @TODO RULES EVENT
-//        OshaWorkflowNotifications::notifyTranslationValidators($job_item);
       }
       else {
         // Last Validator.
@@ -689,12 +692,11 @@ function osha_tmgmt_translation_validators_accept($form, &$form_state) {
         }
         $job_item->addMessage($log_entry);
         $job_item->toTranslationValidated();
-        // @TODO RULES EVENT
-//        OshaWorkflowNotifications::notifyTranslationValidated($job_item);
       }
       break;
     }
   }
+  rules_invoke_event('osha_tmgmt_need_cv_approval', $job_item, $next_validator, $validators);
 }
 
 /**
@@ -711,8 +713,6 @@ function osha_tmgmt_job_item_translation_reject($form, &$form_state) {
       $last->approved = OSHA_TMGMT_TRANS_VALID_REJECTED;
       $last->next = 0;
       entity_save('translation_validator', $last);
-      // @TODO RULES EVENT
-//      OshaWorkflowNotifications::notifyTranslationRejected($job_item);
     }
   }
   $log_entry = '';
