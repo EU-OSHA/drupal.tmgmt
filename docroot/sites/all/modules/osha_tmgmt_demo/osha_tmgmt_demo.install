@@ -1,5 +1,5 @@
 <?php
 
 function osha_tmgmt_demo_enable() {
-  _osha_tmgmt_demo_assign_perm();
+  // _osha_tmgmt_demo_assign_perm();
 }
