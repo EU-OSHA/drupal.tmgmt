@@ -124,11 +124,7 @@ function _osha_tmgmt_get_job_item_states() {
 function osha_tmgmt_language_list() {
   $languages = language_list();
   drupal_alter('osha_tmgmt_language_list', $languages);
-  $options = array();
-  foreach ($languages as $lang_code => $language) {
-    $options[$lang_code] = $language->name;
-  }
-  return $options;
+  return $languages;
 }
 
 
