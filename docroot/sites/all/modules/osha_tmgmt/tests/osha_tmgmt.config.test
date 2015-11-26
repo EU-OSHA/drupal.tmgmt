@@ -16,5 +16,7 @@ class OSHATMGMTConfigurationTestCase extends OSHATMGMTBaseTestCase {
     $this->drupalGet('admin/config/content/osha_tmgmt');
     $this->assertText('Basic page');
     $this->assertText('Article');
+    $this->assertText('TMGMT Article');
+    $this->assertText('Send e-mails related to translation workflow');
   }
 }

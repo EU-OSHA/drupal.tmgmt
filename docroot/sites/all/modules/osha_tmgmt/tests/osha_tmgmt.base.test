@@ -55,7 +55,7 @@ class OSHATMGMTBaseTestCase extends DrupalWebTestCase {
       $modules = $modules[0];
     }
 
-    $modules = array_merge(array('entity', 'tmgmt', 'tmgmt_test', 'osha_tmgmt'), $modules);
+    $modules = array_merge(array('entity', 'tmgmt', 'tmgmt_test', 'osha_tmgmt', 'osha_tmgmt_demo'), $modules);
     parent::setUp($modules);
     $this->default_translator = tmgmt_translator_load('test_translator');
 

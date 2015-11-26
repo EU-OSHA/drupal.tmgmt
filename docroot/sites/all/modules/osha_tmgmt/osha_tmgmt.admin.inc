@@ -35,7 +35,7 @@ function osha_tmgmt_config_form($form, &$form_state) {
   }
 
   $form['osha_tmgmt_send_mail'] = array(
-    '#title' => 'Send mail',
+    '#title' => 'Send e-mails related to translation workflow',
     '#type' => 'checkbox',
     '#default_value' => variable_get('osha_tmgmt_send_mail', FALSE),
   );
