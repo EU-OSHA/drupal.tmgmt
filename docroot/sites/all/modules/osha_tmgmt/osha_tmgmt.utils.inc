@@ -119,16 +119,44 @@ function _osha_tmgmt_get_job_item_states() {
 }
 
 /**
- * Get language list as options.
+ * Get language list.
  */
-function osha_tmgmt_get_language_list() {
+function osha_tmgmt_language_list() {
   $languages = language_list();
-  drupal_alter('osha_tmgmt_get_language_list', $languages);
+  drupal_alter('osha_tmgmt_language_list', $languages);
   $options = array();
   foreach ($languages as $lang_code => $language) {
     $options[$lang_code] = $language->name;
   }
   return $options;
+}
+
+
+/**
+ * Get language list as options.
+ */
+function osha_tmgmt_language_list_as_options() {
+  $languages = osha_tmgmt_language_list();
+  drupal_alter('osha_tmgmt_language_list', $languages);
+  $options = array();
+  foreach ($languages as $lang_code => $language) {
+    $options[$lang_code] = $language->name;
+  }
+  return $options;
+}
+
+/**
+ * Retrieve the list of target translation languages.
+ *
+ * @param array $filter
+ *   Additional filter containing languages code (i.e. fr, de)
+ * @return array
+ *   Array with language names as values and codes as keys.
+ */
+function osha_tmgmt_get_translation_languages_options($filter = array()) {
+  $languages = tmgmt_available_languages();
+  $languages = array_intersect_key($languages, osha_tmgmt_language_list_as_options());
+  return array_diff($languages, $filter);
 }
 
 /**
@@ -239,20 +267,6 @@ function _osha_tmgmt_is_duplicate_job_item($nid, $target_language, $bundle) {
       ':nid' => $nid,
     ))->fetchCol(0);
   return $r[0] > 0;
-}
-
-/**
- * Retrieve the list of target translation languages. This excludes Russian and Turkish - see CW-1285.
- *
- * @param array $filter
- *   Additional filter containing languages code (i.e. fr, de)
- * @return array
- *   Array with language names as values and codes as keys.
- */
-function osha_tmgmt_get_translation_languages_options($filter = array()) {
-  $languages = tmgmt_available_languages();
-  $languages = array_intersect_key($languages, osha_tmgmt_get_language_list());
-  return array_diff($languages, $filter);
 }
 
 function _osha_tmgmt_get_roles_by_perm($perm) {

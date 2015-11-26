@@ -1,3 +1,3 @@
 <?php
 
-function hook_osha_tmgmt_get_language_list($languages) {}
+function hook_osha_tmgmt_language_list($languages) {}

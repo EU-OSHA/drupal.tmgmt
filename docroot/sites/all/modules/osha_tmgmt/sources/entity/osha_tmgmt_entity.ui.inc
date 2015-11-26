@@ -29,7 +29,7 @@ class OSHATMGMTEntitySourceUIController extends TMGMTEntitySourceUIController {
         '#default_value' => isset($_GET[$bundle_key]) ? $_GET[$bundle_key] : NULL,
       );
     }
-    $form['search_wrapper']['search']['target_language']['#options'] = osha_tmgmt_get_language_list();
+    $form['search_wrapper']['search']['target_language']['#options'] = osha_tmgmt_language_list_as_options();
     return $form;
   }
 
