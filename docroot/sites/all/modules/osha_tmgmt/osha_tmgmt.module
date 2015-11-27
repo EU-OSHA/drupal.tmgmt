@@ -1925,7 +1925,7 @@ function osha_tmgmt_form_views_exposed_form_alter(&$form, &$form_state) {
     $form['translation_exists']['#prefix'] = '<a href="javascript:void(0)"
         class="osha-select-all-link">Select All</a>';
     $form['#attached']['js'] = array(
-      drupal_get_path('theme', 'osha_admin') . '/js/theme.js',
+      drupal_get_path('module', 'osha_tmgmt') . '/js/osha_tmgmt.js',
     );
   }
 }

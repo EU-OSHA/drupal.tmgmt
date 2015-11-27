@@ -539,19 +539,14 @@ function osha_tmgmt_views_default_views() {
     2 => '2',
     1 => 0,
     3 => 0,
-    4 => 0,
-    5 => 0,
-    6 => 0,
     7 => 0,
-    8 => 0,
-    9 => 0,
-    10 => 0,
-    11 => 0,
+    6 => 0,
+    5 => 0,
+    4 => 0,
   );
   $handler->display->display_options['filters']['combine']['fields'] = array(
-    'field_summary' => 'field_summary',
     'body' => 'body',
-    'title_1' => 'title_1',
+    'title_field' => 'title_field',
   );
   /* Filter criterion: Content: Nid */
   $handler->display->display_options['filters']['nid']['id'] = 'nid';
