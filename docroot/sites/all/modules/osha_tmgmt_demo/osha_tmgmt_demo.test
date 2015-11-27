@@ -1,0 +1,21 @@
+<?php
+
+class OSHATMGMTDemoConfigurationTestCase extends OSHATMGMTBaseTestCase {
+
+  static function getInfo() {
+    return array(
+      'name' => 'Demo configuration tests',
+      'description' => 'Verifies the correct configuration of the demo',
+      'group' => 'EU-OSHA',
+    );
+  }
+
+  function testConfigurationScreen() {
+    $admin = $this->drupalCreateUser(array('administer languages'));
+    $this->drupalLogin($admin);
+    $this->drupalGet('admin/config/regional/language/configure');
+    $rows = $this->xpath("//input[@id='edit-language-enabled-locale-url'][@checked='checked']");
+    var_dump($rows);
+    $this->assertEqual(1, count($rows));
+  }
+}
