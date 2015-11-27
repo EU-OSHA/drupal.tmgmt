@@ -156,7 +156,7 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
       ));
     $all_validators = osha_tmgmt_load_validators_by_job_item($this);
     $next_validator = osha_tmgmt_load_validators_next($all_validators);
-    rules_invoke_event('osha_tmgmt_no_need_cv_approval', $this, $next_validator, $all_validators);
+    rules_invoke_event('osha_tmgmt_need_cv_approval', $this, $next_validator, $all_validators);
     drupal_set_message(t('You have Required Translation Validation for this translation'));
   }
 

@@ -49,7 +49,7 @@ function osha_tmgmt_menu() {
   $items['node/%/layout-validation/%tmgmt_job_item'] = array(
     'page callback' => 'osha_tmgmt_layout_validation_node_preview',
     'page arguments' => array(1, 3),
-    'access arguments' => array('preview layout validation'),
+    'access arguments' => array('osha tmgmt preview layout validation'),
     'type' => MENU_CALLBACK,
     'file' => 'osha_tmgmt.workflow.inc',
   );
@@ -58,7 +58,7 @@ function osha_tmgmt_menu() {
     'title' => 'Content Validators',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('osha_tmgmt_job_item_validators_form', 3),
-    'access arguments' => array('view translation content validators'),
+    'access arguments' => array('osha tmgmt view translation content validators'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'osha_tmgmt.workflow.inc',
   );
@@ -500,7 +500,7 @@ function osha_tmgmt_menu_local_tasks_alter(&$items) {
  */
 function osha_tmgmt_job_access($op, $job = NULL, $account = NULL) {
   if ($op == 'view') {
-    return user_access('view translation job', $account);
+    return user_access('osha tmgmt view translation job', $account);
   }
   return tmgmt_job_access($op, $job, $account);
 }
@@ -926,7 +926,7 @@ function osha_tmgmt_form_tmgmt_ui_cart_content_alter(&$form, &$form_state) {
 function osha_tmgmt_form_entity_collection_content_add_form_alter(&$form, &$form_state) {
   if ($collection = $form_state['entity_collection']) {
     if ($collection->bundle == 'translators_group') {
-      $options = _osha_tmgmt_get_users_by_perm('can be a content validator');
+      $options = _osha_tmgmt_get_users_by_perm('osha tmgmt can be a content validator');
       $users = array();
       foreach ($options as $account) {
         $users['user:' . $account->uid] = $account->name;
@@ -1000,7 +1000,7 @@ function osha_tmgmt_form_tmgmt_ui_entity_translation_review_form_alter(&$form, &
     $form['actions']['accept']['#access'] = TRUE;
   }
 
-  if ($job_item->item_type == 'node' && user_access('preview layout validation')) {
+  if ($job_item->item_type == 'node' && user_access('osha tmgmt preview layout validation')) {
     $form['preview'] = array(
       '#theme' => 'link',
       '#text' => 'Preview layout',
@@ -1039,7 +1039,7 @@ function osha_tmgmt_form_tmgmt_ui_entity_translation_review_form_alter(&$form, &
     }
 
     if (!empty($form['actions']['accept'])) {
-      $can_accept = user_access('accept job item translation')
+      $can_accept = user_access('osha tmgmt accept job item translation')
         && $job_item->state != TMGMT_JOB_ITEM_STATE_ACCEPTED
         && $job_item->state != TMGMT_JOB_ITEM_STATE_ABORTED;
       $form['actions']['accept']['#access'] = $can_accept;
@@ -1050,7 +1050,7 @@ function osha_tmgmt_form_tmgmt_ui_entity_translation_review_form_alter(&$form, &
 
     if ($user_can_edit) {
       // Set default access for buttons.
-      $show_ready_to_publish = user_access('set job item to ready to publish state')
+      $show_ready_to_publish = user_access('osha tmgmt set job item to ready to publish state')
         && !in_array($job_item->state,
           array(TMGMT_JOB_ITEM_STATE_ACCEPTED, TMGMT_JOB_ITEM_STATE_ABORTED,
             OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish));
@@ -1100,7 +1100,7 @@ function osha_tmgmt_form_tmgmt_ui_entity_translation_review_form_alter(&$form, &
         '#submit' => array('osha_tmgmt_job_item_translation_reject'),
         '#validate' => array(),
         '#value' => 'Reject Translation',
-        '#access' => user_access('abort job item'),
+        '#access' => user_access('osha tmgmt abort job item'),
       );
       $form['action_message'] = array(
         '#type' => 'textarea',
@@ -1147,7 +1147,7 @@ function osha_tmgmt_form_tmgmt_ui_entity_translation_review_form_alter(&$form, &
             '#value' => t('Approve layout'),
             '#submit' => array('osha_tmgmt_layout_validator_approve_submit'),
             '#validate' => array('osha_tmgmt_layout_validator_approve_validate'),
-            '#access' => user_access('set job item to translated state'),
+            '#access' => user_access('osha tmgmt set job item to translated state'),
           );
           break;
 
@@ -1157,7 +1157,7 @@ function osha_tmgmt_form_tmgmt_ui_entity_translation_review_form_alter(&$form, &
             '#value' => t('Require Content Validation'),
             '#submit' => array('osha_tmgmt_require_content_validation_submit'),
             '#validate' => array('osha_tmgmt_require_content_validation_validate'),
-            '#access' => user_access('set job item to require content validation state'),
+            '#access' => user_access('osha tmgmt set job item to require content validation state'),
           );
           // CW-1851 Make sure comments are not lost
           $form_protect_js_file = drupal_get_path('module', 'osha_tmgmt').'/js/osha_tmgmt_form_protect.js';
@@ -1199,7 +1199,7 @@ function osha_tmgmt_form_tmgmt_ui_locale_translation_review_form_alter(&$form, &
   $form['actions']['accept']['#access'] =
     $job_item->state != TMGMT_JOB_ITEM_STATE_ABORTED
     && $job_item->state != TMGMT_JOB_ITEM_STATE_ACCEPTED
-    && (user_access('accept job item translation') || user_access('validate layout translation'));
+    && (user_access('osha tmgmt accept job item translation') || user_access('osha tmgmt validate layout translation'));
 }
 
 /**
@@ -1223,7 +1223,7 @@ function osha_tmgmt_tmgmt_ui_i18n_string_translation_review_form_alter(&$form, &
   $form['actions']['accept']['#access'] =
     $job_item->state != TMGMT_JOB_ITEM_STATE_ABORTED
     && $job_item->state != TMGMT_JOB_ITEM_STATE_ACCEPTED
-    && (user_access('accept job item translation') || in_array('Layout Validator', $user->roles));
+    && (user_access('osha tmgmt accept job item translation') || in_array('Layout Validator', $user->roles));
 }
 
 /**
@@ -1529,13 +1529,13 @@ function osha_tmgmt_form_tmgmt_job_form_alter(&$form, &$form_state) {
       '#type' => 'submit',
       '#value' => 'File Sent to CDT',
       '#submit' => array('osha_tmgmt_job_file_sent_cdt_submit'),
-      '#access' => user_access('view translation job'),
+      '#access' => user_access('osha tmgmt view translation job'),
     );
     $form['info']['file_sent']['#markup'] = t('No');
   }
 
   // Allow Translation Managers to assign content validators to all job items.
-  if(user_access('edit translation content validators')) {
+  if(user_access('osha tmgmt edit translation content validators')) {
     $form['translation_validators'] = array(
       '#type' => 'fieldset',
       '#title' => 'Translation Validators',
@@ -1583,7 +1583,7 @@ function osha_tmgmt_form_tmgmt_job_form_alter(&$form, &$form_state) {
   }
   // CW-1133: Add a checkbox for each content into a separate fieldset
   if ($job->has_file_uploaded == 1 &&
-    (user_access('set job item to translated state') || user_access('edit translation content validators'))) {
+    (user_access('osha tmgmt set job item to translated state') || user_access('osha tmgmt edit translation content validators'))) {
     $rows = array();
     $form['nodes'] = array(
       '#description' => t('Manage multiple nodes at a time. All job items from this translation job - associated to a node - will be set ready to publish.'),
@@ -1645,10 +1645,10 @@ function osha_tmgmt_form_tmgmt_job_form_alter(&$form, &$form_state) {
     );
     $all_options = _osha_tmgmt_get_job_item_states();
     $options = array('' => t('-- Please select --'));
-    if (user_access('edit translation content validators')) {
+    if (user_access('osha tmgmt edit translation content validators')) {
       $options = $all_options;
     }
-    else if (user_access('set job item to translated state')) {
+    else if (user_access('osha tmgmt set job item to translated state')) {
       $options[TMGMT_JOB_ITEM_STATE_REVIEW] = $all_options[TMGMT_JOB_ITEM_STATE_REVIEW];
     }
     if (count($options) > 1) {
@@ -1800,7 +1800,7 @@ function osha_tmgtm_data_field_update_submit($form, &$form_state) {
 function osha_tmgmt_job_items_mass_change_validate($form, $form_state) {
   $values = $form_state['values']['nodes'];
   // Only translation manager or layout validator can access this screen
-  if (!user_access('set job item to translated state') && !user_access('edit translation content validators')) {
+  if (!user_access('osha tmgmt set job item to translated state') && !user_access('osha tmgmt edit translation content validators')) {
     form_set_error('nodes][table', t('Insufficient privileges'));
   }
 
@@ -1810,11 +1810,11 @@ function osha_tmgmt_job_items_mass_change_validate($form, $form_state) {
   }
   else {
     $new_state = $values['new_state'];
-    if ($new_state != TMGMT_JOB_ITEM_STATE_REVIEW && !user_access('edit translation content validators')) {
+    if ($new_state != TMGMT_JOB_ITEM_STATE_REVIEW && !user_access('osha tmgmt edit translation content validators')) {
       form_set_error('new_state', t('You are not allowed to assign this state'));
     }
     if ($new_state == TMGMT_JOB_ITEM_STATE_REVIEW
-      && (!user_access('set job item to translated state') && !user_access('edit translation content validators'))) {
+      && (!user_access('osha tmgmt set job item to translated state') && !user_access('osha tmgmt edit translation content validators'))) {
       form_set_error('new_state', t('You are not allowed to assign this state'));
     }
   }
