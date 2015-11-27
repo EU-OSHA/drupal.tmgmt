@@ -584,6 +584,19 @@ function osha_tmgmt_preprocess_page(&$variables) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
+function osha_tmgmt_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Hide character and page count fields.
+  if (!empty($form['field_character_count'])) {
+    $form['field_character_count']['#access'] = FALSE;
+  }
+  if (!empty($form['field_page_count'])) {
+    $form['field_page_count']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
 function osha_tmgmt_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
   list($id, $vid, $bundle) = entity_extract_ids($form_state['entity_type'], $form_state['entity']);
   $entity_language = entity_language($form_state['entity_type'], $form_state['entity']);
