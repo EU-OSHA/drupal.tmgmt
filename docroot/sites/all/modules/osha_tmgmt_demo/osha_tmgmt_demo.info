@@ -58,5 +58,6 @@ features[variable][] = menu_parent_osha_tmgmt_demo_article
 features[variable][] = node_options_osha_tmgmt_demo_article
 features[variable][] = node_preview_osha_tmgmt_demo_article
 features[variable][] = node_submitted_osha_tmgmt_demo_article
+files[] = osha_tmgmt_demo.test
 mtime = 1448554206
 project path = sites/all/modules
