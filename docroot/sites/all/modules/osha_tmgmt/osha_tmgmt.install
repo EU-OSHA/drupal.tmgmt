@@ -39,6 +39,11 @@ function osha_tmgmt_uninstall() {
     watchdog('osha_tmgmt', 'Removing priority field from tmgmt_job');
     db_drop_field('tmgmt_job', 'priority');
   }
+
+  module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.fields');
+  field_delete_instance(osha_tmgmt_field_osha_tmgmt_notification_instance());
+  field_delete_field('field_osha_tmgmt_notification');
+  // @todo - Also delete the field_character_count & field_page_count?
 }
 
 
@@ -51,46 +56,18 @@ function osha_tmgmt_install() {
     ->condition('name', 'osha_tmgmt', '=')
     ->execute();
 
+  module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.fields');
   // Create field page count.
-  $field = array(
-    'field_name' => 'field_page_count',
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'foreign keys' => array(),
-    'indexes' => array(),
-    'locked' => 1,
-    'module' => 'number',
-    'settings' => array(
-      'decimal_separator' => '.',
-      'entity_translation_sync' => FALSE,
-      'precision' => 10,
-      'scale' => 2,
-    ),
-    'translatable' => 0,
-    'type' => 'number_decimal',
-  );
-  field_create_field($field);
-
+  field_create_field(osha_tmgmt_field_page_count_base());
   // Create field character count.
-  $field = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_character_count',
-    'foreign keys' => array(),
-    'indexes' => array(),
-    'locked' => 1,
-    'module' => 'number',
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'number_integer',
-  );
-  field_create_field($field);
+  field_create_field(osha_tmgmt_field_character_count_base());
+  // Create base & instance for field_osha_tmgmt_notification.
+  field_create_field(osha_tmgmt_field_osha_tmgmt_notification_base());
+  $config = osha_tmgmt_field_osha_tmgmt_notification_instance();
+  $config['bundle'] = 'user';
+  field_create_instance($config);
+  t('Receive OSHA translation notifications');
+
 
   // tmgmt_job_item alteration.
   if (!db_field_exists('tmgmt_job_item', 'source_language')) {

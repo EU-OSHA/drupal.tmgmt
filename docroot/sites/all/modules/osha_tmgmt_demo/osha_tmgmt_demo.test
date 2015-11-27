@@ -25,4 +25,15 @@ class OSHATMGMTDemoConfigurationTestCase extends OSHATMGMTBaseTestCase {
     $rows = $this->xpath("//input[@id='edit-entity-translation-entity-types-taxonomy-term'][@checked='checked']");
     $this->assertEqual(1, count($rows));
   }
+
+  function testCustomFieldsCreation() {
+    $info = field_info_field('field_osha_tmgmt_notification');
+    $this->assertTrue(array_key_exists('user', $info['bundles']));
+
+    $info = field_info_field('field_character_count');
+    $this->assertTrue(in_array('osha_tmgmt_demo_article', $info['bundles']['node']));
+
+    $info = field_info_field('field_page_count');
+    $this->assertTrue(in_array('osha_tmgmt_demo_article', $info['bundles']['node']));
+  }
 }

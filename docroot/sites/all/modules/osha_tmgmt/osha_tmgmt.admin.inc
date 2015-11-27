@@ -48,6 +48,7 @@ function osha_tmgmt_config_form($form, &$form_state) {
 }
 
 function osha_tmgmt_config_form_submit($form, &$form_state) {
+  module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.fields');
   $values = $form_state['values'];
   $items = array_filter($values['items']);
   foreach ($items as $k => $name) {
@@ -56,104 +57,15 @@ function osha_tmgmt_config_form_submit($form, &$form_state) {
     $et_var_name = 'language_content_type_' . $name;
     $can_be_activated = variable_get($et_var_name) == 4 && array_key_exists('title_field', $fields);
     if (!$is_active && $can_be_activated) {
-      _osha_tmgmt_create_field_character_count($name);
-      _osha_tmgmt_create_field_page_count($name);
+      $config = osha_tmgmt_field_character_count_instance();
+      $config['bundle'] = $name;
+      field_create_instance($config);
+
+      $config = osha_tmgmt_field_page_count_instance();
+      $config['bundle'] = $name;
+      field_create_instance($config);
     }
   }
 
   variable_set('osha_tmgmt_send_mail', $form_state['values']['osha_tmgmt_send_mail']);
-}
-
-function _osha_tmgmt_create_field_character_count($bundle) {
-  $instance = array(
-    'bundle' => $bundle,
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => 'Automatically calculated when saving. The count of characters found in the default language text (English).',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 15,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 6,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_character_count',
-    'label' => 'Character count',
-    'required' => 0,
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'max' => '',
-      'min' => 0,
-      'prefix' => '',
-      'suffix' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'number',
-      'settings' => array(),
-      'type' => 'number',
-      'weight' => 6,
-    ),
-  );
-  field_create_instance($instance);
-}
-
-function _osha_tmgmt_create_field_page_count($bundle) {
-  $instance = array(
-    'bundle' => $bundle,
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => 'Automatically calculated when saving. The count of pages of text in the default language (English).',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 16,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 9,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_page_count',
-    'label' => 'Page count',
-    'required' => 0,
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'max' => '',
-      'min' => 0,
-      'prefix' => '',
-      'suffix' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'number',
-      'settings' => array(),
-      'type' => 'number',
-      'weight' => 7,
-    ),
-  );
-  field_create_instance($instance);
 }
