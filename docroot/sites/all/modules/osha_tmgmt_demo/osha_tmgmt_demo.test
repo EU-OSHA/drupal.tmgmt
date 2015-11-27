@@ -15,7 +15,14 @@ class OSHATMGMTDemoConfigurationTestCase extends OSHATMGMTBaseTestCase {
     $this->drupalLogin($admin);
     $this->drupalGet('admin/config/regional/language/configure');
     $rows = $this->xpath("//input[@id='edit-language-enabled-locale-url'][@checked='checked']");
-    var_dump($rows);
+    $this->assertEqual(1, count($rows));
+  }
+
+  function testTaxonomyTranslationActiveScreen() {
+    $admin = $this->drupalCreateUser(array('administer entity translation'));
+    $this->drupalLogin($admin);
+    $this->drupalGet('admin/config/regional/entity_translation');
+    $rows = $this->xpath("//input[@id='edit-entity-translation-entity-types-taxonomy-term'][@checked='checked']");
     $this->assertEqual(1, count($rows));
   }
 }
