@@ -220,6 +220,17 @@ function osha_tmgmt_install() {
   if ($local) {
     $local->delete();
   }
+
+  // Create the 'Translators Group' entity collection
+  $bundle = new stdClass();
+  $bundle->disabled = FALSE; /* Edit this to true to make a default preset disabled initially */
+  $bundle->api_version = 1;
+  $bundle->name = 'translators_group';
+  $bundle->storage = 'entity_collection_storage_db';
+  $bundle->label = 'Translators Group';
+  $bundle->description = '';
+  $bundle->settings = array();
+  entity_collection_bundle_save($bundle);
 }
 
 /**
