@@ -43,7 +43,7 @@ function osha_tmgmt_demo_default_rules_configuration() {
       ],
       "DO" : [
         { "mail_to_users_of_role" : {
-            "roles" : { "value" : { "4" : "4" } },
+            "roles" : { "value" : { "7" : "7" } },
             "subject" : "OSHA TMGMT Demo: New content translated",
             "message" : "New content was translated and requires your attention: [tmgmt-job-item:url]"
           }
@@ -63,7 +63,7 @@ function osha_tmgmt_demo_default_rules_configuration() {
       ],
       "DO" : [
         { "mail_to_users_of_role" : {
-            "roles" : { "value" : { "4" : "4" } },
+            "roles" : { "value" : { "7" : "7" } },
             "subject" : "OSHA TMGMT Demo: New content can be translated",
             "message" : "New content can be translated: [node:title] [node:url]"
           }
@@ -80,7 +80,7 @@ function osha_tmgmt_demo_default_rules_configuration() {
       "ON" : { "tmgmt_job_insert" : [] },
       "DO" : [
         { "mail_to_users_of_role" : {
-            "roles" : { "value" : { "5" : "5" } },
+            "roles" : { "value" : { "6" : "6" } },
             "subject" : "OSHA TMGMT Demo: New translation job",
             "message" : "New translation job available: [tmgmt-job:label] [tmgmt-job:url]"
           }
@@ -101,7 +101,7 @@ function osha_tmgmt_demo_default_rules_configuration() {
       ],
       "DO" : [
         { "mail_to_users_of_role" : {
-            "roles" : { "value" : { "4" : "4", "5" : "5" } },
+            "roles" : { "value" : { "6" : "6" } },
             "subject" : "OSHA TMGMT Demo: A translation has been rejected",
             "message" : "A translation job item was rejected: [tmgmt-job-item:url]"
           }
@@ -122,7 +122,7 @@ function osha_tmgmt_demo_default_rules_configuration() {
       ],
       "DO" : [
         { "mail_to_users_of_role" : {
-            "roles" : { "value" : { "4" : "4" } },
+            "roles" : { "value" : { "7" : "7" } },
             "subject" : "OSHA TMGMT Demo: New translation validated",
             "message" : "New translation job item was validated: [tmgmt-job-item:url]"
           }
