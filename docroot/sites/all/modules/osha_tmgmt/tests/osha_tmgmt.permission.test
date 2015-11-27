@@ -22,13 +22,13 @@ class OSHATMGMTNodeEditorTestCase extends OSHATMGMTBaseTestCase {
     $this->createTestNode();
 
     $this->drupalGet('admin/tmgmt/sources');
-    $this->assertText('Content selection');
+    $this->assertText('Content selection', 'Access the node selection screen');
 
     $this->drupalGet('admin/tmgmt/sources/locale_default');
-    $this->assertText('Locale overview (Locale source)');
+    $this->assertText('Locale overview (Locale source)', 'Access the literals selection screen');
 
     $this->drupalGet('admin/tmgmt/sources/i18n_string_menu_link');
-    $this->assertText('Menu link overview (i18n String)');
+    $this->assertText('Menu link overview (i18n String)', 'Access the menu item selection screen');
   }
 
 }
