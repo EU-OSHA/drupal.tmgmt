@@ -2,8 +2,146 @@
 
 
 function osha_tmgmt_demo_install() {
+  module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.fields');
 
-  // Enable language negociation for URL
+  // Attach fields to osha_tmgmt_demo_article.
+  $info = field_info_field('title_field');
+  if (!$info) {
+    $config = array(
+      'active' => 1,
+      'cardinality' => 1,
+      'deleted' => 0,
+      'entity_types' => array(),
+      'field_name' => 'title_field',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => 0,
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => 255,
+      ),
+      'translatable' => 1,
+      'type' => 'text',
+    );
+    field_create_field($config);
+  }
+
+  $config = array(
+    'bundle' => 'osha_tmgmt_demo_article',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'title_field',
+    'label' => 'Title',
+    'required' => TRUE,
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+      'hide_label' => array(
+        'entity' => FALSE,
+        'page' => FALSE,
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => -5,
+    ),
+  );
+  field_create_instance($config);
+
+  $config = array(
+    'bundle' => 'osha_tmgmt_demo_article',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(
+          'trim_length' => 600,
+        ),
+        'type' => 'text_summary_or_trimmed',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'body',
+    'label' => 'Body',
+    'required' => FALSE,
+    'settings' => array(
+      'display_summary' => TRUE,
+      'entity_translation_sync' => FALSE,
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 20,
+        'summary_rows' => 5,
+      ),
+      'type' => 'text_textarea_with_summary',
+      'weight' => -4,
+    ),
+  );
+  field_create_instance($config);
+
+  $config = osha_tmgmt_field_character_count_instance();
+  $config['bundle'] = 'osha_tmgmt_demo_article';
+  field_create_instance($config);
+
+  $config = osha_tmgmt_field_page_count_instance();
+  $config['bundle'] = 'osha_tmgmt_demo_article';
+  field_create_instance($config);
+
+  t('Automatically calculated when saving. The count of characters found in the default language text (English).');
+  t('Automatically calculated when saving. The count of pages of text in the default language (English).');
+  t('Body');
+  t('Character count');
+  t('Page count');
+  t('Title');
+
+  // Enable language negotiation for URL
   $form_state = array(
     'values' => array(
       'language' => array(
