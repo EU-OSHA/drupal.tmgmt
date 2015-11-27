@@ -5,7 +5,7 @@ class OSHATMGMTPermissionTestCase extends OSHATMGMTBaseTestCase {
   static function getInfo() {
     return array(
       'name' => 'Test node add/edit forms ',
-      'description' => 'Check the form fields are correct',
+      'description' => 'Check translation permissions',
       'group' => 'EU-OSHA',
     );
   }

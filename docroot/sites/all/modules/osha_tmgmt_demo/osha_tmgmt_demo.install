@@ -5,6 +5,40 @@ function osha_tmgmt_demo_install() {
   module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.fields');
 
   // Attach fields to osha_tmgmt_demo_article.
+  $info = field_info_field('body');
+  if (!$info) {
+    $config = array(
+      'active' => 1,
+      'cardinality' => 1,
+      'deleted' => 0,
+      'entity_types' => array(
+        0 => 'node',
+      ),
+      'field_name' => 'body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => 0,
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+      ),
+      'translatable' => 1,
+      'type' => 'text_with_summary',
+    );
+    field_create_field($config);
+  }
+
   $info = field_info_field('title_field');
   if (!$info) {
     $config = array(
