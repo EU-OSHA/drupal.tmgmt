@@ -17,32 +17,32 @@ function osha_tmgmt_user_can_edit_job_item($job_item) {
         && $validators[$user->uid]->next == 1) {
         return TRUE;
       }
-      if (user_access('set job item to ready to publish state')) {
+      if (user_access('osha tmgmt set job item to ready to publish state')) {
         return TRUE;
       }
       break;
 
     case TMGMT_JOB_ITEM_STATE_ACTIVE:
-      if (user_access('set job item to translated state')) {
+      if (user_access('osha tmgmt set job item to translated state')) {
         return TRUE;
       }
       break;
 
     case OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidated:
-      if (user_access('set job item to ready to publish state')) {
+      if (user_access('osha tmgmt set job item to ready to publish state')) {
         return TRUE;
       }
       break;
 
     case TMGMT_JOB_ITEM_STATE_REVIEW:
-      if (user_access('set job item to require content validation state')
-      || user_access('set job item to ready to publish state')) {
+      if (user_access('osha tmgmt set job item to require content validation state')
+      || user_access('osha tmgmt set job item to ready to publish state')) {
         return TRUE;
       }
       break;
 
     case OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish:
-      if (user_access('accept job item translation')) {
+      if (user_access('osha tmgmt accept job item translation')) {
         return TRUE;
       }
       break;
@@ -172,7 +172,7 @@ function osha_tmgmt_get_translators_groups_as_options() {
   $translators_groups = osha_tmgmt_get_translators_groups();
   $options = array();
   foreach ($translators_groups as $group) {
-    $options[$group->eid] = $group->name;
+    $options[$group->eid] = $group->title;
   }
   return $options;
 }
@@ -438,7 +438,7 @@ function osha_tmgmt_job_item_validators_form($form, &$form_state, $job_item) {
     return;
   }
   $form_state['jobItem'] = $job_item;
-  $can_edit = user_access('edit translation content validators');
+  $can_edit = user_access('osha tmgmt edit translation content validators');
   $form['#can_edit']  = $can_edit;
   $form['#tree'] = TRUE;
   $form['#theme'] = 'osha_tmgmt_job_item_validators_form_table';
@@ -762,7 +762,7 @@ function osha_tmgmt_require_content_validation_submit($form, &$form_state) {
  * Validation callback for Ready to publish form.
  */
 function osha_tmgmt_ready_to_publish_validate($form, &$form_state) {
-  if (!user_access('set job item to ready to publish state')) {
+  if (!user_access('osha tmgmt set job item to ready to publish state')) {
     form_set_error('actions][ready_to_publish', t('You do not have the rights to make this action'));
   }
   $result = OshaTMGMTRetranslate::validate_translation_structure($form_state['item']);
@@ -787,7 +787,7 @@ function osha_tmgmt_ready_to_publish_submit($form, &$form_state) {
  * Validation Callback for Save as Completed action.
  */
 function osha_tmgmt_job_item_accept_validate($form, &$form_state) {
-  if (!user_access('accept job item translation')) {
+  if (!user_access('osha tmgmt accept job item translation')) {
     form_set_error('actions][accept', t('You do not have the rights to make this action'));
   }
 }
