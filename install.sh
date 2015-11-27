@@ -11,3 +11,7 @@ drush en -y osha_tmgmt osha_tmgmt_demo
 drush en -y devel simpletest
 drush dis -y overlay
 drush cc all
+
+# Create a demo user to test permissions
+drush user-create demo
+drush upwd --password=demo demo
