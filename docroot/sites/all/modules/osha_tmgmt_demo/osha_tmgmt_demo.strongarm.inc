@@ -119,7 +119,8 @@ function osha_tmgmt_demo_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'node_options_osha_tmgmt_demo_article';
   $strongarm->value = array(
-    0 => 'status',
+    0 => 'moderation',
+    1 => 'revision',
   );
   $export['node_options_osha_tmgmt_demo_article'] = $strongarm;
 
