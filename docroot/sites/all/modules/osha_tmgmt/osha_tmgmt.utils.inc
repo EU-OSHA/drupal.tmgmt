@@ -249,8 +249,8 @@ function _osha_tmgmt_job_priority_name($job) {
  */
 function _osha_tmgmt_is_duplicate_job_item($nid, $target_language, $bundle) {
   $r = db_query(
-    "SELECT count(*) FROM tmgmt_job_item a
-      INNER JOIN tmgmt_job b ON a.tjid = b.tjid
+    "SELECT count(*) FROM {tmgmt_job_item} a
+      INNER JOIN {tmgmt_job} b ON a.tjid = b.tjid
       WHERE (b.state = :s1 OR b.state = :s1)
         AND a.target_language = :target_language
         AND a.item_type = :bundle

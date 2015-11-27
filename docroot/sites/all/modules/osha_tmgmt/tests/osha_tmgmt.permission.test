@@ -1,6 +1,6 @@
 <?php
 
-class OSHATMGMTNodeEditorTestCase extends OSHATMGMTBaseTestCase {
+class OSHATMGMTPermissionTestCase extends OSHATMGMTBaseTestCase {
 
   static function getInfo() {
     return array(
@@ -29,6 +29,36 @@ class OSHATMGMTNodeEditorTestCase extends OSHATMGMTBaseTestCase {
 
     $this->drupalGet('admin/tmgmt/sources/i18n_string_menu_link');
     $this->assertText('Menu link overview (i18n String)', 'Access the menu item selection screen');
+  }
+
+  /**
+   * admin/tmgmt/sources
+   */
+  function testCreateTranslationJob() {
+    $admin = $this->drupalCreateUser(array(
+      'create osha_tmgmt_demo_article content',
+      'create translation jobs',
+      'osha tmgmt view translation job',
+    ));
+    $this->drupalLogin($admin);
+    $this->createTestNode();
+
+    $this->drupalGet('admin/tmgmt/sources');
+    $this->assertText('Content selection', 'Access the node selection screen');
+
+    $edit = array(
+      'views_bulk_operations[0]' => 1,
+    );
+    $this->drupalPost('admin/tmgmt/sources', $edit, t('Add to cart (full translation)'));
+
+    $edit = array(
+      'items[1]' => 1,
+      'target_language[]' => array('de', 'es')
+    );
+    $this->drupalPost('admin/tmgmt/cart', $edit, t('Create translation job'));
+
+    $this->drupalGet('admin/tmgmt');
+    $this->assertText('Translation job #1');
   }
 
 }
