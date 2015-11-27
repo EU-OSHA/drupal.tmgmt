@@ -59,6 +59,10 @@ class OSHATMGMTPermissionTestCase extends OSHATMGMTBaseTestCase {
 
     $this->drupalGet('admin/tmgmt');
     $this->assertText('Translation job #1');
+
+    $this->drupalGet('admin/tmgmt/jobs/1');
+    $this->assertNoText('Access denied');
+    $this->assertText(OSHA_TMGMT_TEST_TITLE);
   }
 
 }
