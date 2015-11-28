@@ -75,7 +75,8 @@ class OSHATMGMTPermissionTestCase extends OSHATMGMTBaseTestCase {
     $this->createTestNode();
 
     $this->drupalGet('node/1/translate');
-    $this->assertRaw('Add to cart (full translation)', 'I can add node into cart from the node translation tab');
+    $this->assertRaw('Add to cart (full translation)', 'I can see the translation button in the node translation tab');
+    $this->assertRaw('Add to cart (retranslation)', 'I can see the retranslation button in the node translation tab');
+    $this->assertRaw('Validate retranslation', 'I can see the retranslation button');
   }
-
 }
