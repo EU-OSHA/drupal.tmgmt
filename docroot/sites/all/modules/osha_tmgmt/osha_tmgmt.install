@@ -231,6 +231,18 @@ function osha_tmgmt_install() {
   $bundle->description = '';
   $bundle->settings = array();
   entity_collection_bundle_save($bundle);
+
+  // Disable defautl view - replaced by osha_translation_job_overview.
+  $view = views_get_view('tmgmt_ui_job_overview');
+  if (!empty($view)) {
+    // Revert the view before disable it.
+    $view->delete();
+    ctools_include('object-cache');
+    ctools_object_cache_clear('view', 'tmgmt_ui_job_overview');
+    $status = variable_get('views_defaults', array());
+    $status['tmgmt_ui_job_overview'] = TRUE;
+    variable_set('views_defaults', $status);
+  }
 }
 
 /**
