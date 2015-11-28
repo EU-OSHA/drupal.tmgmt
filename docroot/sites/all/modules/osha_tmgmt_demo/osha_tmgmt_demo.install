@@ -288,4 +288,28 @@ function osha_tmgmt_demo_install() {
       ->condition('language', $language->language)
       ->execute();
   }
+
+
+  $roles = array(
+    (object)array(
+      'name' => 'osha tmgmt demo content validator',
+      'weight' => 6,
+    ),
+    (object)array(
+      'name' => 'osha tmgmt demo layout validator',
+      'weight' => 5,
+    ),
+    (object)array(
+      'name' => 'osha tmgmt demo translation liaison',
+      'weight' => 4,
+    ),
+    (object)array(
+      'name' => 'osha tmgmt demo translation manager',
+      'weight' => 3,
+    ),
+  );
+  foreach($roles as $role) {
+    user_role_save($role);
+  }
+
 }
