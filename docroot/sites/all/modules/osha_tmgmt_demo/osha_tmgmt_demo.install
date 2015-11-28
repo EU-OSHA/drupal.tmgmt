@@ -289,7 +289,7 @@ function osha_tmgmt_demo_install() {
       ->execute();
   }
 
-
+  // Create the demo roles
   $roles = array(
     (object)array(
       'name' => 'osha tmgmt demo content validator',
@@ -312,4 +312,46 @@ function osha_tmgmt_demo_install() {
     user_role_save($role);
   }
 
+  // Create demo translators queues
+  $groups = array('translators_group_1', 'translators_group_2', 'translators_group_3');
+  foreach($groups as $entity_name) {
+    $entity = entity_import('entity_collection', strtr('{
+    "type" : null,
+    "name" : "translators_group_n",
+    "bid" : null,
+    "title" : "translators_group_n",
+    "cache" : null,
+    "requiredcontexts" : [],
+    "contexts" : [],
+    "bundle" : "translators_group",
+    "style" : "entity_collection_style_flat",
+    "row" : "entity_collection_row_view_mode",
+    "settings" : {
+      "row_settings" : [],
+      "style_settings" : [],
+      "allowed_bundles" : {
+        "node" : [],
+        "taxonomy_term" : [],
+        "comment" : [],
+        "entity_collection" : [],
+        "i18n_translation" : [],
+        "file" : [],
+        "taxonomy_vocabulary" : [],
+        "tmgmt_job" : [],
+        "tmgmt_job_item" : [],
+        "tmgmt_message" : [],
+        "tmgmt_translator" : [],
+        "tmgmt_remote" : [],
+        "tmgmt_local_task" : [],
+        "tmgmt_local_task_item" : [],
+        "user" : [ "user" ],
+        "workbench_moderation_transition" : [],
+        "translation_validator" : [],
+        "rules_config" : []
+      }
+    },
+    "rdf_mapping" : []
+  }', array('translators_group_n' => $entity_name)));
+    entity_save('entity_collection', $entity);
+  }
 }
