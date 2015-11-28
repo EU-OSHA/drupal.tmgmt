@@ -126,7 +126,7 @@ class OSHATMGMTEntitySourcePluginController extends TMGMTEntitySourcePluginContr
       foreach (element_children($data[$field_name]) as $delta) {
         foreach (element_children($data[$field_name][$delta]) as $column) {
           $translation = $data[$field_name][$delta][$column];
-          if ($translation['#translate'] == TRUE
+          if ($translation['#translate'] === TRUE
               && empty($translation['#translation']['#text']) && !empty($translation['#text'])) {
             // There was a translation #text sent, but returned empty (i.e. loading a single language).
             return FALSE;
