@@ -240,4 +240,52 @@ function osha_tmgmt_demo_install() {
     ))
     ->execute();
   wysiwyg_profile_cache_clear();
+
+  // Install German & Spanish
+  $languages = array();
+  $languages['de'] = (object)array(
+    'language' => 'de',
+    'name' => 'German',
+    'native' => 'Deutsch',
+    'direction' => 0,
+    'enabled' => 1,
+    'plurals' => 0,
+    'formula' => '',
+    'domain' => '',
+    'prefix' => 'de',
+    'weight' => 0,
+  );
+  $languages['es'] = (object)array(
+    'language' => 'es',
+    'name' => 'Spanish',
+    'native' => 'Español',
+    'direction' => 0,
+    'enabled' => 1,
+    'plurals' => 0,
+    'formula' => '',
+    'domain' => '',
+    'prefix' => 'es',
+    'weight' => 0,
+  );
+
+  foreach($languages as $language) {
+    locale_add_language(
+      $language->language,
+      $language->name,
+      $language->native,
+      $language->direction,
+      $language->domain,
+      $language->prefix,
+      $language->enabled,
+      0
+    );
+    // Additional params, locale_add_language does not implement.
+    db_update('languages')
+      ->fields(array(
+        'plurals' => empty($language->plurals) ? 0 : $language->plurals,
+        'formula' => empty($language->formula) ? '' : $language->formula,
+      ))
+      ->condition('language', $language->language)
+      ->execute();
+  }
 }
