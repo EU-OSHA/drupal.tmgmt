@@ -158,6 +158,30 @@ function osha_tmgmt_entity_info() {
 }
 
 /**
+ * Implements hook_node_access().
+ *
+ * Checks if node is in an active job and denies edit for the node. admin still
+ * can edit the node anyway at is own risk.
+ */
+function osha_tmgmt_node_access($node, $operation, $user) {
+  if ($operation == 'update' || $operation == 'delete') {
+    // Deny editing or deletion of nodes in translation workflow
+    $query = db_select('tmgmt_job_item')
+      ->fields(NULL, array('tjiid'));
+    $query->condition('state', '3', '<>') // TMGMT_JOB_ITEM_STATE_ACCEPTED
+    ->condition('state', '4', '<>') // TMGMT_JOB_ITEM_STATE_ABORTED
+    ->condition('item_type', 'node')
+      ->condition('tjid', 0, '<>') // Not in translation cart (temporary)
+      ->condition('item_id', $node->nid);
+    $count = $query->execute()->rowCount();
+    if ($count > 0) {
+      return NODE_ACCESS_DENY;
+    }
+  }
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
  * Implements hook_node_presave().
  *
  * Pre-calculate field_character_count and field_page_count before saving.
