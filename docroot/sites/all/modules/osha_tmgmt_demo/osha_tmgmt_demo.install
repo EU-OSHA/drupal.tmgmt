@@ -225,4 +225,19 @@ function osha_tmgmt_demo_install() {
   module_load_include('inc', 'entity_translation', 'entity_translation.admin');
   $form_state = array();
   entity_translation_admin_form_submit(array(), $form_state);
+
+
+  include_once 'osha_tmgmt_demo.wysiwyg.inc';
+  $profiles = osha_tmgmt_demo_wysiwyg_default_profiles();
+  $full_html = $profiles['full_html'];
+  // @todo: Do some checks before, maybe another editor is already configured?
+  // Setup the WYSIWYG editor profile for the 'full_html'
+  db_merge('wysiwyg')
+    ->key(array('format' => $full_html['format']))
+    ->fields(array(
+      'editor' => $full_html['editor'],
+      'settings' => serialize($full_html['settings']),
+    ))
+    ->execute();
+  wysiwyg_profile_cache_clear();
 }
