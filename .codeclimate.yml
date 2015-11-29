@@ -1,7 +1,7 @@
 ---
 engines:
   csslint:
-    enabled: true
+    enabled: false
   eslint:
     enabled: true
   fixme:
@@ -12,6 +12,9 @@ engines:
         enabled: false
   phpmd:
     enabled: true
+    checks:
+      UnusedFormalParameter:
+        enabled: false
 ratings:
   paths:
   - "**.css"
