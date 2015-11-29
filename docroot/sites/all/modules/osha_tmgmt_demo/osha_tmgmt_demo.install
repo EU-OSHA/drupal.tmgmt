@@ -289,27 +289,16 @@ function osha_tmgmt_demo_install() {
       ->execute();
   }
 
-  // Create the demo roles
-  $roles = array(
-    (object)array(
-      'name' => 'content validator',
-      'weight' => 6,
-    ),
-    (object)array(
-      'name' => 'layout validator',
-      'weight' => 5,
-    ),
-    (object)array(
-      'name' => 'translation liaison',
-      'weight' => 4,
-    ),
-    (object)array(
-      'name' => 'translation manager',
-      'weight' => 3,
-    ),
-  );
-  foreach($roles as $role) {
+  // Create the demo roles & users
+  module_load_include('inc', 'osha_tmgmt_demo', 'osha_tmgmt_demo.permissions');
+  $demo_roles = osha_tmgmt_demo_roles();
+  foreach($demo_roles as $role) {
     user_role_save($role);
+  }
+
+  $users = osha_tmgmt_demo_users();
+  foreach($users as $u) {
+    user_save('', $u);
   }
 
   // Create demo translators queues

@@ -36,4 +36,11 @@ class OSHATMGMTDemoConfigurationTestCase extends OSHATMGMTBaseTestCase {
     $info = field_info_field('field_page_count');
     $this->assertTrue(in_array('osha_tmgmt_demo_article', $info['bundles']['node']));
   }
+
+  function testDemoRolesPermissions() {
+    $tm = user_role_load_by_name('translation manager');
+    $tm_perm = user_role_permissions(array($tm->rid => array()));
+    $this->assertTrue(in_array('accept translation jobs', $tm_perm[$tm->rid]), 'Translation manager has `accept translation jobs`');
+
+  }
 }
