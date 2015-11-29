@@ -10,9 +10,9 @@
 function osha_tmgmt_demo_default_roles_permissions() {
   $roles = array();
 
-  // Exported role: osha tmgmt demo content validator
-  $roles['osha tmgmt demo content validator'] = array(
-    'name' => 'osha tmgmt demo content validator',
+  // Exported role: content validator
+  $roles['content validator'] = array(
+    'name' => 'content validator',
     'weight' => 6,
     'permissions' => array(
       'accept translation jobs' => TRUE,
@@ -29,9 +29,9 @@ function osha_tmgmt_demo_default_roles_permissions() {
     ),
   );
 
-  // Exported role: osha tmgmt demo layout validator
-  $roles['osha tmgmt demo layout validator'] = array(
-    'name' => 'osha tmgmt demo layout validator',
+  // Exported role: layout validator
+  $roles['layout validator'] = array(
+    'name' => 'layout validator',
     'weight' => 5,
     'permissions' => array(
       'accept translation jobs' => TRUE,
@@ -55,9 +55,9 @@ function osha_tmgmt_demo_default_roles_permissions() {
     ),
   );
 
-  // Exported role: osha tmgmt demo translation liaison
-  $roles['osha tmgmt demo translation liaison'] = array(
-    'name' => 'osha tmgmt demo translation liaison',
+  // Exported role: translation liaison
+  $roles['translation liaison'] = array(
+    'name' => 'translation liaison',
     'weight' => 4,
     'permissions' => array(
       'access administration pages' => TRUE,
@@ -67,9 +67,9 @@ function osha_tmgmt_demo_default_roles_permissions() {
     ),
   );
 
-  // Exported role: osha tmgmt demo translation manager
-  $roles['osha tmgmt demo translation manager'] = array(
-    'name' => 'osha tmgmt demo translation manager',
+  // Exported role: translation manager
+  $roles['translation manager'] = array(
+    'name' => 'translation manager',
     'weight' => 3,
     'permissions' => array(
       'accept translation jobs' => TRUE,

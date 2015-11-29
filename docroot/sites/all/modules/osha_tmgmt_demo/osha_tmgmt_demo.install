@@ -292,19 +292,19 @@ function osha_tmgmt_demo_install() {
   // Create the demo roles
   $roles = array(
     (object)array(
-      'name' => 'osha tmgmt demo content validator',
+      'name' => 'content validator',
       'weight' => 6,
     ),
     (object)array(
-      'name' => 'osha tmgmt demo layout validator',
+      'name' => 'layout validator',
       'weight' => 5,
     ),
     (object)array(
-      'name' => 'osha tmgmt demo translation liaison',
+      'name' => 'translation liaison',
       'weight' => 4,
     ),
     (object)array(
-      'name' => 'osha tmgmt demo translation manager',
+      'name' => 'translation manager',
       'weight' => 3,
     ),
   );
