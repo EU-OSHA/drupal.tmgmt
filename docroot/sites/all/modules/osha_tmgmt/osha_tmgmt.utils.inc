@@ -382,3 +382,8 @@ function _osha_tmgmt_literal_get_translation($string) {
     return t($string); // Applies only to english untranslated strings
   }
 }
+
+function osha_tmgmt_et_taxonomy_enabled() {
+  $enabled_types = array_filter(variable_get('entity_translation_entity_types', array()));
+  return !empty($enabled_types['taxonomy_term']);
+}

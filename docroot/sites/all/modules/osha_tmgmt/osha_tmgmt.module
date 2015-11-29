@@ -35,6 +35,28 @@ module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.workflow');
 module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.entity');
 
 
+function osha_tmgmt_requirements($phase) {
+  $ret = array();
+  if ($phase == 'runtime') {
+    $fi = field_info_field('body');
+    if (empty($fi['translatable'])) {
+      $ret['osha_tmgmt_body_translatable'] = array(
+        'title' => t('EU-OSHA TMGMT body field translatable'),
+        'value' => 'Not translatable. View the ' . l(t('fields list'), 'admin/reports/fields'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+    if (!osha_tmgmt_et_taxonomy_enabled()) {
+      $ret['osha_tmgmt_et_taxonomy'] = array(
+        'title' => t('EU-OSHA TMGMT taxonomy entity translation'),
+        'value' => 'Disabled or not properly configured. ' . l('Visit configuration screen', 'admin/config/regional/entity_translation'),
+        'severity' => REQUIREMENT_WARNING,
+      );
+    }
+  }
+  return $ret;
+}
+
 function osha_tmgmt_menu() {
   $items = array();
   $items['admin/config/content/osha_tmgmt'] = array(

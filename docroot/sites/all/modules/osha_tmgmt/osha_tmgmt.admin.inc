@@ -29,8 +29,7 @@ function osha_tmgmt_config_form($form, &$form_state) {
     }
   }
 
-  $enabled_types = array_filter(variable_get('entity_translation_entity_types', array()));
-  if (empty($enabled_types['taxonomy_term'])) {
+  if (!osha_tmgmt_et_taxonomy_enabled()) {
     drupal_set_message('<strong>Warning:</strong> Entity translation of taxonomy terms is disabled or not properly configured. ' . l('Visit configuration screen', 'admin/config/regional/entity_translation'), 'warning');
   }
 

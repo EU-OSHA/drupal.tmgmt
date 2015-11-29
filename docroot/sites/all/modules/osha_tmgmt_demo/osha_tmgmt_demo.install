@@ -4,6 +4,10 @@
 function osha_tmgmt_demo_install() {
   module_load_include('inc', 'osha_tmgmt', 'osha_tmgmt.fields');
 
+  // Make the body field translatable
+  module_load_include('inc', 'entity_translation', 'entity_translation.admin');
+  entity_translation_translatable_switch(1, 'body');
+
   // Attach fields to osha_tmgmt_demo_article.
   $info = field_info_field('body');
   if (!$info) {
