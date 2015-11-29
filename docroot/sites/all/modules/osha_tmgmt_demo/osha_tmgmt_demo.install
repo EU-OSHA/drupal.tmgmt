@@ -354,4 +354,17 @@ function osha_tmgmt_demo_install() {
   }', array('translators_group_n' => $entity_name)));
     entity_save('entity_collection', $entity);
   }
+
+  // Make the full_html the default format
+  module_load_include('inc', 'filter', 'filter.admin');
+  $cfg = array('values' =>
+    array(
+      'formats' => array(
+        'full_html' => array('weight' => -10),
+        'filtered_html' => array('weight' => -9),
+        'plain_text' => array('weight' => -8),
+      )
+    )
+  );
+  drupal_form_submit('filter_admin_overview', $cfg);
 }
