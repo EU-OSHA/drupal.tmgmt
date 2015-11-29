@@ -8,7 +8,7 @@ if [ -f sites/default/settings.php ]; then
 fi
 drush site-install standard -y
 drush en -y osha_tmgmt osha_tmgmt_demo
-drush en -y devel simpletest
+drush en -y devel simpletest views_ui
 drush dis -y overlay
 drush cc all
 
