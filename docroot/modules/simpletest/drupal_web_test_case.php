@@ -1488,6 +1488,14 @@ class DrupalWebTestCase extends DrupalTestCase {
     // Install the modules specified by the testing profile.
     module_enable($profile_details['dependencies'], FALSE);
 
+
+    // Run the profile tasks.
+    $install_profile_module_exists = db_query("SELECT 1 FROM {system} WHERE type = 'module' AND name = :name", array(
+      ':name' => $this->profile,
+    ))->fetchField();
+    if ($install_profile_module_exists) {
+      module_enable(array($this->profile), FALSE);
+    }
     // Install modules needed for this test. This could have been passed in as
     // either a single array argument or a variable number of string arguments.
     // @todo Remove this compatibility layer in Drupal 8, and only accept
@@ -1499,14 +1507,6 @@ class DrupalWebTestCase extends DrupalTestCase {
     if ($modules) {
       $success = module_enable($modules, TRUE);
       $this->assertTrue($success, t('Enabled modules: %modules', array('%modules' => implode(', ', $modules))));
-    }
-
-    // Run the profile tasks.
-    $install_profile_module_exists = db_query("SELECT 1 FROM {system} WHERE type = 'module' AND name = :name", array(
-      ':name' => $this->profile,
-    ))->fetchField();
-    if ($install_profile_module_exists) {
-      module_enable(array($this->profile), FALSE);
     }
 
     // Reset/rebuild all data structures after enabling the modules.
