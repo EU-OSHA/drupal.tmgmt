@@ -641,7 +641,6 @@ function osha_tmgmt_views_default_views() {
     t('There are no translation jobs that match the specified filter criteria.'),
     t('Translator'),
     t('- Choose an operation -'),
-    t('Delete Job'),
     t('Label'),
     t('State'),
     t('Priority'),
@@ -662,7 +661,7 @@ function osha_tmgmt_views_default_views() {
   $view = new view();
   $view->name = 'tmgmt_node_selection_view';
   $view->description = '';
-  $view->tag = 'Workbench';
+  $view->tag = 'OSHA TMGMT';
   $view->base_table = 'node';
   $view->human_name = 'Content selection';
   $view->core = 7;
@@ -862,12 +861,6 @@ function osha_tmgmt_views_default_views() {
     'scale' => '2',
     'prefix_suffix' => 1,
   );
-  /* Field: Workbench Moderation: State */
-  $handler->display->display_options['fields']['state']['id'] = 'state';
-  $handler->display->display_options['fields']['state']['table'] = 'workbench_moderation_node_history';
-  $handler->display->display_options['fields']['state']['field'] = 'state';
-  $handler->display->display_options['fields']['state']['label'] = 'Workflow state';
-  $handler->display->display_options['fields']['state']['machine_name'] = 0;
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
@@ -1065,7 +1058,6 @@ function osha_tmgmt_views_default_views() {
     t('Updated'),
     t('Character count'),
     t('Page count'),
-    t('Workflow state'),
     t('Author'),
     t('Published'),
     t('Use CTRL to select multiple items'),

@@ -374,4 +374,46 @@ function osha_tmgmt_demo_install() {
   $menu = menu_load('main-menu');
   $menu['i18n_mode'] = 5;
   menu_save($menu);
+
+  _osha_tmgmt_demo_create_demo_content();
+}
+
+function _osha_tmgmt_demo_create_demo_content() {
+  module_load_include('test', 'osha_tmgmt' , 'tests/osha_tmgmt.content_definition');
+
+  // Create demo tag term.
+  $voc = taxonomy_vocabulary_machine_name_load('tags');
+  $term = new stdClass();
+  $term->vid = $voc->vid;
+  $term->name = OSHA_TMGMT_TERM_NAME;
+  $term->description = OSHA_TMGMT_TERM_DESC;
+  taxonomy_term_save($term);
+
+  // Create a demo article
+  $node = new stdClass();
+  $node->type = 'osha_tmgmt_demo_article';
+  $node->title = OSHA_TMGMT_TEST_TITLE;
+  $node->title_field['en'][0]['value'] = OSHA_TMGMT_TEST_TITLE;
+  $node->body['en'][0]['value'] = OSHA_TMGMT_TEST_BODY;
+  $node->workbench_moderation_state_new = 'published';
+  $node->status = 1;
+  node_submit($node);
+  node_save($node);
+  $translation_handler = entity_translation_get_handler('node', $node);
+  $translation_handler->initTranslations();
+  $translation_handler->saveTranslations();
+
+  // Create demo menu link
+  $item = array (
+    'link_title' => 'VVV',
+    'link_path' => 'node/2',
+    'menu_name' => 'main-menu',
+    'enabled' => 1,
+    'weight' => 0,
+    'plid' => 0,
+    'customized' => 1,
+    'language' => LANGUAGE_NONE,
+    'options' => array('alter' => TRUE),
+  );
+  menu_link_save($item);
 }

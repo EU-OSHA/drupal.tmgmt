@@ -5,8 +5,7 @@
  * Contains tests for EU-OSHA Translation management
  */
 
-define ('OSHA_TMGMT_TEST_TITLE', 'Sample article with a long title');
-define ('OSHA_TMGMT_TEST_BODY', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque gravida lectus vitae fermentum imperdiet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sed ligula nibh. Nulla magna arcu, maximus sed facilisis eget, laoreet at dui. Sed est lectus, venenatis non purus a, mattis aliquam odio. Quisque facilisis urna eu pellentesque eleifend. Donec at ultrices nisi, ut imperdiet nibh. Donec facilisis purus eget blandit feugiat. Praesent sed justo laoreet, venenatis ex at, efficitur lacus. Phasellus quis urna nisi. Quisque ac odio turpis. Morbi sed ex in elit ultricies mattis et eu augue. Curabitur consectetur at velit sed egestas.</p><p>Sed sed egestas turpis. Donec felis velit, lacinia eu efficitur id, finibus a quam. Pellentesque tempor malesuada lectus in vestibulum. Nulla a ornare tellus, vel sollicitudin nibh. Aliquam erat volutpat. Morbi condimentum arcu risus, a maximus ligula ullamcorper vel. Sed eleifend quam et mi blandit accumsan. Aenean orci tortor, varius at est at, vehicula convallis lectus. Integer lectus nisi, dapibus ac risus eu, rhoncus accumsan velit. Mauris porta sollicitudin tellus ut auctor. Nullam consectetur ligula turpis, nec feugiat lacus facilisis eget. Sed feugiat lorem imperdiet consectetur sollicitudin. Mauris rhoncus ullamcorper velit at placerat. Cras fermentum tellus id tellus convallis, eu consequat erat faucibus. Fusce volutpat aliquam porta. Integer eu est tortor.</p><p>Aenean lorem magna, mattis ut semper nec, sagittis a erat. Fusce hendrerit interdum blandit. Nam vehicula rutrum aliquam cras amet.</p>');
+require_once 'osha_tmgmt.content_definition.test';
 
 /**
  * Base class for tests.
