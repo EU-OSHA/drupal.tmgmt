@@ -2033,6 +2033,15 @@ function osha_tmgmt_job_file_sent_cdt_submit($form, &$form_state) {
 function osha_tmgmt_form_views_exposed_form_alter(&$form, &$form_state) {
   // Add date pop up to update date filter in Node Source TMGTM view.
   if ($form['#id'] == 'views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page') {
+    $content_types = node_type_get_types();
+    $form['type']['#options'] = array();
+    foreach ($content_types as $name => $content_type) {
+      $et_var_name = 'language_content_type_' . $name;
+      if (variable_get($et_var_name, NULL) == 4) {
+        $form['type']['#options'][$name] = $content_type->name;
+      }
+    }
+
     $format = 'd/m/Y';
     $months_ago = date('Y-m-d', strtotime("-8 months"));
     $form['from_date'] = array(
