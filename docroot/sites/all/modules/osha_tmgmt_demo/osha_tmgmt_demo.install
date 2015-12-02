@@ -245,34 +245,11 @@ function osha_tmgmt_demo_install() {
     ->execute();
   wysiwyg_profile_cache_clear();
 
-  // Install German & Spanish
-  $languages = array();
-  $languages['de'] = (object)array(
-    'language' => 'de',
-    'name' => 'German',
-    'native' => 'Deutsch',
-    'direction' => 0,
-    'enabled' => 1,
-    'plurals' => 0,
-    'formula' => '',
-    'domain' => '',
-    'prefix' => 'de',
-    'weight' => 0,
-  );
-  $languages['es'] = (object)array(
-    'language' => 'es',
-    'name' => 'Spanish',
-    'native' => 'Español',
-    'direction' => 0,
-    'enabled' => 1,
-    'plurals' => 0,
-    'formula' => '',
-    'domain' => '',
-    'prefix' => 'es',
-    'weight' => 0,
-  );
-
+  // Add EU25 languages.
+  module_load_include('inc', 'osha_tmgmt_demo', 'osha_tmgmt_demo.languages');
+  $languages = osha_tmgmt_demo_get_languages();
   foreach($languages as $language) {
+    $language = (object) $language;
     locale_add_language(
       $language->language,
       $language->name,
