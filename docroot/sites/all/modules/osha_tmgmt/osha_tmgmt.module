@@ -1307,7 +1307,7 @@ function osha_tmgmt_workbench_moderation_transition($node, $old, $new) {
       ->execute()
       ->fetchField();
     if (!empty($publishing_rev)) {
-      $job_items = osha_tmgmt_get_job_items_by_vid($publishing_rev);
+      $job_items = _osha_tmgmt_get_job_items_by_vid($publishing_rev);
       if (!empty($job_items)) {
         foreach ($job_items as $job_item) {
           $job_item->merged = 1;
