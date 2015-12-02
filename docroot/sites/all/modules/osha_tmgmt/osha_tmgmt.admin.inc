@@ -6,7 +6,7 @@ function osha_tmgmt_config_form($form, &$form_state) {
   $items = array();
 
   $form['items'] = array(
-    '#title' => 'Translation workflow status',
+    '#title' => 'Enabled content types',
     '#description' => 'Check the types of content you want to enable the translation workflow',
     '#type' => 'checkboxes',
     '#options' => $items,
