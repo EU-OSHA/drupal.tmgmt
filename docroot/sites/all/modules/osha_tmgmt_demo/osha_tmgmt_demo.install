@@ -360,4 +360,18 @@ function osha_tmgmt_demo_install() {
     )
   );
   drupal_form_submit('filter_admin_overview', $cfg);
+
+  // Replace name and desc for tags.
+  title_field_replacement_toggle('taxonomy_term', 'tags', 'name');
+  title_field_replacement_toggle('taxonomy_term', 'tags', 'description');
+
+  // Set tags as translatable.
+  $voc = taxonomy_vocabulary_machine_name_load('tags');
+  $voc->i18n_mode = 1;
+  entity_save('taxonomy_vocabulary', $voc);
+
+  // Make main menu translatable.
+  $menu = menu_load('main-menu');
+  $menu['i18n_mode'] = 5;
+  menu_save($menu);
 }
