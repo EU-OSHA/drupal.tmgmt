@@ -133,6 +133,7 @@ function osha_tmgmt_language_list() {
  */
 function osha_tmgmt_language_list_as_options() {
   $languages = osha_tmgmt_language_list();
+  unset($languages[language_default('language')]);
   drupal_alter('osha_tmgmt_language_list', $languages);
   $options = array();
   foreach ($languages as $lang_code => $language) {
