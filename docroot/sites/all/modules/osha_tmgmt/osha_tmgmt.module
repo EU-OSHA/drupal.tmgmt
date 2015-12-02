@@ -146,6 +146,24 @@ function osha_tmgmt_entity_insert($entity, $type) {
 }
 
 /**
+ * hook_translated_menu_link_alter().
+ */
+function osha_tmgmt_translated_menu_link_alter(&$item, $map) {
+  // Menu link preview.
+  if (!empty($_GET['osha_tmgmt_ml_preview']) && user_access('preview layout validation')) {
+    $preview_comp = explode(':', $_GET['osha_tmgmt_ml_preview']);
+    if ($item['mlid'] == $preview_comp[1]) {
+      if ($job_item = tmgmt_job_item_load($preview_comp[0])) {
+        $data = current($job_item->getData());
+        if (!empty($data['#translation']['#text'])) {
+          $item['title'] = $data['#translation']['#text'];
+        }
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_mail_alter().
  */
 function osha_tmgmt_mail_alter(&$message) {
@@ -1251,13 +1269,34 @@ function osha_tmgmt_form_tmgmt_ui_locale_translation_review_form_alter(&$form, &
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function osha_tmgmt_tmgmt_ui_i18n_string_translation_review_form_alter(&$form, &$form_state) {
+function osha_tmgmt_form_tmgmt_ui_i18n_string_translation_review_form_alter(&$form, &$form_state) {
   global $user;
   $job_item = $form_state['item'];
   _osha_tmgmt_form_alter_add_source_target_info($form, $form_state);
   foreach (element_children($form['review']) as $field_name) {
     $form['review'][$field_name]['#theme'] = 'osha_tmgmt_ui_translator_review_form';
   }
+
+  // For menu links, add a preview link.
+  if ($job_item->item_type == 'menu_link'
+    && user_access('preview layout validation')) {
+    $menu_link_comp = explode(':', $form_state['item']->item_id) ;
+    $menu_link = menu_link_load($menu_link_comp[2]);
+    $form['preview'] = array(
+      '#theme' => 'link',
+      '#text' => 'Preview layout',
+      '#path' => $menu_link['link_path'],
+      '#weight' => -10,
+      '#options' => array(
+        'attributes' => array('target' => '_blank'),
+        'html' => FALSE,
+        'query' => array('osha_tmgmt_ml_preview' => $form_state['item']->tjiid . ':' . $menu_link['mlid']),
+        'language' => language_list()[$form_state['item']->target_language],
+      ),
+    );
+    $form['actions']['accept']['#value'] = 'Approve layout and publish';
+  }
+
   if (isset($form_state['triggering_element']['#ajax'])
     && isset($form_state['triggering_element']['#submit'][0])
     && $form_state['triggering_element']['#submit'][0] == 'tmgmt_ui_translation_review_form_update_state'
