@@ -9,6 +9,42 @@
  */
 function osha_tmgmt_demo_default_rules_configuration() {
   $items = array();
+  $items['rules_osha_tmgmt_demo_trans_no_cv_action'] = entity_import('rules_config', '{ "osha_tmgmt_demo_osha_tmgmt_demo_trans_no_cv_action" : {
+      "LABEL" : "Translation doesn\\u0027t need CV action",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "TAGS" : [ "OSHA TMGMT DEMO" ],
+      "REQUIRES" : [ "rules", "osha_tmgmt" ],
+      "ON" : { "osha_tmgmt_no_need_cv_approval" : [] },
+      "DO" : [
+        { "mail" : {
+            "to" : "[user:mail]",
+            "subject" : "OSHA TMGMT Demo: No action required",
+            "message" : "The job item doesn\\u0027t needs your attention anymore: [tmgmt-job-item:url] ",
+            "language" : [ "user:language" ]
+          }
+        }
+      ]
+    }
+  }');
+  $items['rules_osha_tmgmt_demo_translation_cv_action'] = entity_import('rules_config', '{ "osha_tmgmt_demo_osha_tmgmt_demo_translation_cv_action" : {
+      "LABEL" : "Translation needs content validator action",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "TAGS" : [ "OSHA TMGMT DEMO" ],
+      "REQUIRES" : [ "rules", "osha_tmgmt" ],
+      "ON" : { "osha_tmgmt_needs_cv_approval" : [] },
+      "DO" : [
+        { "mail" : {
+            "to" : "[user:mail]",
+            "subject" : "OSHA TMGMT Demo: New content translated",
+            "message" : "New content was translated and requires your attention: [tmgmt-job-item:url]",
+            "language" : [ "user:language" ]
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_osha_tmgmt_demo_job_item_re_enabled'] = entity_import('rules_config', '{ "rules_osha_tmgmt_demo_job_item_re_enabled" : {
       "LABEL" : "Translation job item re-enabled",
       "PLUGIN" : "reaction rule",
