@@ -324,6 +324,37 @@ function osha_tmgmt_demo_install() {
   }', array('translators_group_n' => $entity_name)));
     entity_save('entity_collection', $entity);
   }
+  entity_collection_flush_caches();
+  // Add users to entity collection.
+  $user_cv1 = user_load_by_name('demo_cv1');
+  $user_cv2 = user_load_by_name('demo_cv2');
+  $user_cv3 = user_load_by_name('demo_cv3');
+  $values = array(
+    'user:' . $user_cv1->uid => array(
+      'key' => 'user:' . $user_cv1->uid,
+      'entity_id' => $user_cv1->uid,
+      'type' => 'user',
+      'position' => '0',
+    ),
+    'user:' . $user_cv2->uid => array(
+      'key' => 'user:' . $user_cv2->uid,
+      'entity_id' => $user_cv2->uid,
+      'type' => 'user',
+      'position' => '1',
+    ),
+    'user:' . $user_cv3->uid => array(
+      'key' => 'user:' . $user_cv3->uid,
+      'entity_id' => $user_cv3->uid,
+      'type' => 'user',
+      'position' => '2',
+    ),
+  );
+
+  module_load_include('inc', 'entity_collection', 'entity_collection.admin');
+  $entity_collection = entity_collection_load('translators_group_1');
+  $tree = entity_collection_content_build_tree($entity_collection, $values);
+  $ec_storage = new EntityCollectionStorageDB();
+  $ec_storage->save($entity_collection, $tree);
 
   // Make the full_html the default format
   module_load_include('inc', 'filter', 'filter.admin');

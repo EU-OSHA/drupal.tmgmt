@@ -47,19 +47,22 @@ function osha_tmgmt_demo_users() {
       'name' => 'demo_cv1',
       'pass' => 'demo',
       'status' => 1,
-      'roles' => array($cv->rid => 'content validator')
+      'roles' => array($cv->rid => 'content validator'),
+      'tmgmt_translation_skills' => array(LANGUAGE_NONE => array(0 => array('language_from' => 'en', 'language_to' => 'es'))),
     ),
     'demo_cv2' => array(
       'name' => 'demo_cv2',
       'pass' => 'demo',
       'status' => 1,
-      'roles' => array($cv->rid => 'content validator')
+      'roles' => array($cv->rid => 'content validator'),
+      'tmgmt_translation_skills' => array(LANGUAGE_NONE => array(0 => array('language_from' => 'en', 'language_to' => 'fr'))),
     ),
     'demo_cv3' => array(
       'name' => 'demo_cv3',
       'pass' => 'demo',
       'status' => 1,
-      'roles' => array($cv->rid => 'content validator')
+      'roles' => array($cv->rid => 'content validator'),
+      'tmgmt_translation_skills' => array(LANGUAGE_NONE => array(0 => array('language_from' => 'en', 'language_to' => 'de'))),
     ),
     'demo_lv1' => array(
       'name' => 'demo_lv1',
