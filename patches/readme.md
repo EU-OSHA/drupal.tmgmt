@@ -7,6 +7,10 @@ When patching a contrib module, the following steps should be followed:
 
 List of patches (most recent first)
 
+* core
+  * Modules are enabled before the installation profile
+  * patches/core/core-simpletest-install-profile.patch
+
 * match_redirect
   * checks redirect module in match_redirect_url_exists
   * /patches/match_redirect/match_redirect.patch
