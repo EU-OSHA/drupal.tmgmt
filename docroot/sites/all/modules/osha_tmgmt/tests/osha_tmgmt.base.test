@@ -175,4 +175,27 @@ class OSHATMGMTBaseTestCase extends DrupalWebTestCase {
     $this->drupalPost('node/add/osha-tmgmt-demo-article', $edit, t('Save'));
     $this->assertText('Sample article with a long title', 'Found the test title');
   }
+
+  /**
+   * Creates, saves and returns a translation job.
+   * @param array $source_items
+   *   Array of three elements: ('id', 'plugin', 'type'), for nodes:
+   *   ('1', 'entity', 'node')
+   *
+   * @return TMGMTJob
+   */
+  function createJob($source_items, $target_language = array('de', 'fr', 'es'), $source_language = 'en')  {
+    foreach ($source_items as list($source_id, $plugin, $item_type)) {
+      tmgmt_ui_cart_get()->addJobItem($plugin, $item_type, $source_id);
+    }
+    $items = tmgmt_ui_cart_get()->getJobItemsFromCart();
+    $form_state = array(
+      'values' => array(
+        'target_language' => $target_language,
+        'priority' => 'normal',
+        'items' => array_keys($items),
+      )
+    );
+    osha_tmgmt_tmgmt_ui_cart_content_submit(NULL, $form_state);
+  }
 }

@@ -4,8 +4,8 @@ class OSHATMGMTPermissionTestCase extends OSHATMGMTBaseTestCase {
 
   static function getInfo() {
     return array(
-      'name' => 'Test node add/edit forms ',
-      'description' => 'Check translation permissions',
+      'name' => 'Acess to EU-OSHA TMGMT permission system',
+      'description' => 'Check access, buttons and screens depending on user permissions',
       'group' => 'EU-OSHA',
     );
   }
@@ -78,5 +78,24 @@ class OSHATMGMTPermissionTestCase extends OSHATMGMTBaseTestCase {
     $this->assertRaw('Add to cart (full translation)', 'I can see the translation button in the node translation tab');
     $this->assertRaw('Add to cart (retranslation)', 'I can see the retranslation button in the node translation tab');
     $this->assertRaw('Validate retranslation', 'I can see the retranslation button');
+  }
+
+  /**
+   * The translation liaison can log in, open a job and download the XML translation file
+   */
+  function testRoleTranslationLiaison() {
+    //
+    $user = $this->drupalCreateUser(array(
+      'create osha_tmgmt_demo_article content',
+      'osha tmgmt view translation job'
+    ));
+    $this->drupalLogin($user);
+    $this->createTestNode();
+    $this->createJob(array(array(1, 'entity', 'node')));
+
+    $this->drupalGet('admin/tmgmt/jobs/1');
+    $this->assertNoText('Access denied');
+    $this->assertText(OSHA_TMGMT_TEST_TITLE);
+    $this->assertText('Click here to download the XML file');
   }
 }
