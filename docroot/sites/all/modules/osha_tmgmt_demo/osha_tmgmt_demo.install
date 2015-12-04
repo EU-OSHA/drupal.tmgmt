@@ -404,6 +404,7 @@ function _osha_tmgmt_demo_create_demo_content() {
   $node->title = OSHA_TMGMT_TEST_TITLE;
   $node->title_field['en'][0]['value'] = OSHA_TMGMT_TEST_TITLE;
   $node->body['en'][0]['value'] = OSHA_TMGMT_TEST_BODY;
+  $node->body['en'][0]['format'] = 'full_html';
   $node->workbench_moderation_state_new = 'published';
   // Set the fields so the hook will pick them up to compute them
   $node->field_character_count[LANGUAGE_NONE][0]['value'] = 0;
