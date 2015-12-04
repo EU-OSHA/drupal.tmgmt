@@ -405,7 +405,12 @@ function _osha_tmgmt_demo_create_demo_content() {
   $node->title_field['en'][0]['value'] = OSHA_TMGMT_TEST_TITLE;
   $node->body['en'][0]['value'] = OSHA_TMGMT_TEST_BODY;
   $node->workbench_moderation_state_new = 'published';
+  // Set the fields so the hook will pick them up to compute them
+  $node->field_character_count[LANGUAGE_NONE][0]['value'] = 0;
+  $node->field_page_count[LANGUAGE_NONE][0]['value'] = 0;
+
   $node->status = 1;
+  node_object_prepare($node);
   node_submit($node);
   node_save($node);
   $translation_handler = entity_translation_get_handler('node', $node);
