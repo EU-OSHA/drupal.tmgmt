@@ -84,7 +84,6 @@ class OSHATMGMTPermissionTestCase extends OSHATMGMTBaseTestCase {
    * The translation liaison can log in, open a job and download the XML translation file
    */
   function testRoleTranslationLiaison() {
-    //
     $user = $this->drupalCreateUser(array(
       'create osha_tmgmt_demo_article content',
       'osha tmgmt view translation job'
@@ -98,4 +97,6 @@ class OSHATMGMTPermissionTestCase extends OSHATMGMTBaseTestCase {
     $this->assertText(OSHA_TMGMT_TEST_TITLE);
     $this->assertText('Click here to download the XML file');
   }
+
+
 }

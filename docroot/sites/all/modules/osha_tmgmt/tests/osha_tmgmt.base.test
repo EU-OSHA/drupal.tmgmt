@@ -192,7 +192,7 @@ class OSHATMGMTBaseTestCase extends DrupalWebTestCase {
     $form_state = array(
       'values' => array(
         'target_language' => $target_language,
-        'priority' => 'normal',
+        'priority' => 0,
         'items' => array_keys($items),
       )
     );
