@@ -99,4 +99,58 @@ class OSHATMGMTPermissionTestCase extends OSHATMGMTBaseTestCase {
   }
 
 
+  function testRoleLayoutValidator() {
+    $user = $this->drupalCreateUser(array(
+      'create osha_tmgmt_demo_article content',
+      'accept translation jobs',
+      'access administration pages',
+      'access content',
+      'access toolbar',
+      'osha tmgmt abort job item',
+      'osha tmgmt preview layout validation',
+      'osha tmgmt set job item to translated state',
+      'osha tmgmt upload translation file',
+      'osha tmgmt validate layout translation',
+      'osha tmgmt view translation job',
+      'osha tmgmt view translation job item',
+      'translate admin strings',
+      'translate any entity',
+      'translate user-defined strings',
+      'use text format filtered_html',
+      'use text format full_html',
+      'view the administration theme',
+    ));
+    $this->drupalLogin($user);
+    $this->createTestNode();
+    $this->createJob(array(array(1, 'entity', 'node')));
+
+    $this->drupalGet('admin/tmgmt/jobs/1');
+    $this->assertNoText('Access denied');
+    $this->assertText('Import translated file');
+
+    $this->drupalGet('admin/tmgmt/items/2');
+    $this->assertNoText('Access denied');
+    $this->assertText('Preview layout');
+
+    // Simulate 'upload' XML
+    db_update('tmgmt_job_item')
+      ->fields(array('data' => 'a:2:{s:11:"title_field";a:2:{s:6:"#label";s:5:"Title";i:0;a:3:{s:5:"value";a:5:{s:6:"#label";s:5:"Title";s:5:"#text";s:32:"Sample article with a long title";s:10:"#translate";b:1;s:7:"#status";i:2;s:12:"#translation";a:3:{s:5:"#text";s:3:"xxx";s:7:"#origin";s:5:"local";s:10:"#timestamp";i:1449343614;}}s:6:"#label";s:8:"Delta #0";s:6:"format";a:3:{s:6:"#label";s:0:"";s:5:"#text";s:0:"";s:10:"#translate";b:0;}}}s:4:"body";a:2:{s:6:"#label";s:4:"Body";i:0;a:3:{s:5:"value";a:5:{s:6:"#label";s:4:"Body";s:5:"#text";s:1661:"<p id="tmgmt-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque gravida lectus vitae fermentum imperdiet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sed ligula nibh. Nulla magna arcu, maximus sed facilisis eget, laoreet at dui. Sed est lectus, venenatis non purus a, mattis aliquam odio. Quisque facilisis urna eu pellentesque eleifend. Donec at ultrices nisi, ut imperdiet nibh. Donec facilisis purus eget blandit feugiat. Praesent sed justo laoreet, venenatis ex at, efficitur lacus. Phasellus quis urna nisi. Quisque ac odio turpis. Morbi sed ex in elit ultricies mattis et eu augue. Curabitur consectetur at velit sed egestas.</p><p id="tmgmt-2">Sed sed egestas turpis. Donec felis velit, lacinia eu efficitur id, finibus a quam. Pellentesque tempor malesuada lectus in vestibulum. Nulla a ornare tellus, vel sollicitudin nibh. Aliquam erat volutpat. Morbi condimentum arcu risus, a maximus ligula ullamcorper vel. Sed eleifend quam et mi blandit accumsan. Aenean orci tortor, varius at est at, vehicula convallis lectus. Integer lectus nisi, dapibus ac risus eu, rhoncus accumsan velit. Mauris porta sollicitudin tellus ut auctor. Nullam consectetur ligula turpis, nec feugiat lacus facilisis eget. Sed feugiat lorem imperdiet consectetur sollicitudin. Mauris rhoncus ullamcorper velit at placerat. Cras fermentum tellus id tellus convallis, eu consequat erat faucibus. Fusce volutpat aliquam porta. Integer eu est tortor.</p><p id="tmgmt-3">Aenean lorem magna, mattis ut semper nec, sagittis a erat. Fusce hendrerit interdum blandit. Nam vehicula rutrum aliquam cras amet.</p>
+";s:10:"#translate";b:1;s:7:"#status";i:2;s:12:"#translation";a:3:{s:5:"#text";s:1660:"<p id="tmgmt-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque gravida lectus vitae fermentum imperdiet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sed ligula nibh. Nulla magna arcu, maximus sed facilisis eget, laoreet at dui. Sed est lectus, venenatis non purus a, mattis aliquam odio. Quisque facilisis urna eu pellentesque eleifend. Donec at ultrices nisi, ut imperdiet nibh. Donec facilisis purus eget blandit feugiat. Praesent sed justo laoreet, venenatis ex at, efficitur lacus. Phasellus quis urna nisi. Quisque ac odio turpis. Morbi sed ex in elit ultricies mattis et eu augue. Curabitur consectetur at velit sed egestas.</p><p id="tmgmt-2">Sed sed egestas turpis. Donec felis velit, lacinia eu efficitur id, finibus a quam. Pellentesque tempor malesuada lectus in vestibulum. Nulla a ornare tellus, vel sollicitudin nibh. Aliquam erat volutpat. Morbi condimentum arcu risus, a maximus ligula ullamcorper vel. Sed eleifend quam et mi blandit accumsan. Aenean orci tortor, varius at est at, vehicula convallis lectus. Integer lectus nisi, dapibus ac risus eu, rhoncus accumsan velit. Mauris porta sollicitudin tellus ut auctor. Nullam consectetur ligula turpis, nec feugiat lacus facilisis eget. Sed feugiat lorem imperdiet consectetur sollicitudin. Mauris rhoncus ullamcorper velit at placerat. Cras fermentum tellus id tellus convallis, eu consequat erat faucibus. Fusce volutpat aliquam porta. Integer eu est tortor.</p><p id="tmgmt-3">Aenean lorem magna, mattis ut semper nec, sagittis a erat. Fusce hendrerit interdum blandit. Nam vehicula rutrum aliquam cras amet.</p>";s:7:"#origin";s:5:"local";s:10:"#timestamp";i:1449343614;}}s:6:"#label";s:8:"Delta #0";s:6:"format";a:3:{s:6:"#label";s:0:"";s:5:"#text";s:9:"full_html";s:10:"#translate";b:0;}}}}'))
+      ->condition('tjiid', 2)
+      ->execute();
+
+    // Accept translation job item #2
+    $edit = array(
+      'title_field|0|value[translation]' => 'Translated title',
+      'body|0|value[translation][value]' => '<p id="tmgmt-1">PARA 1</p><p id="tmgmt-2">PARA 2</p><p id="tmgmt-3">PARA 3</p>',
+    );
+    $this->drupalPost('admin/tmgmt/items/2', $edit, t('Approve layout'));
+
+    // Accept translation job item #3
+    $edit = array();
+    $this->drupalPost('admin/tmgmt/items/3', $edit, t('Reject Translation'));
+
+    $this->drupalGet('admin/tmgmt/jobs/1');
+
+  }
 }

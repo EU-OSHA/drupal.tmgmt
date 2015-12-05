@@ -64,20 +64,8 @@ function osha_tmgmt_demo_users() {
       'roles' => array($cv->rid => 'content validator'),
       'tmgmt_translation_skills' => array(LANGUAGE_NONE => array(0 => array('language_from' => 'en', 'language_to' => 'de'))),
     ),
-    'demo_lv1' => array(
-      'name' => 'demo_lv1',
-      'pass' => 'demo',
-      'status' => 1,
-      'roles' => array($lv->rid => 'layout validator')
-    ),
-    'demo_lv2' => array(
-      'name' => 'demo_lv2',
-      'pass' => 'demo',
-      'status' => 1,
-      'roles' => array($lv->rid => 'layout validator')
-    ),
-    'demo_lv3' => array(
-      'name' => 'demo_lv3',
+    'demo_lv' => array(
+      'name' => 'demo_lv',
       'pass' => 'demo',
       'status' => 1,
       'roles' => array($lv->rid => 'layout validator')
