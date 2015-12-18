@@ -1,0 +1,31 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "cristiroma/centos-7-minimal"
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.enable :yum
+    if not ARGV.include?('--no-parallel') # when running in parallel,
+      config.cache.scope = :machine # use the per machine cache
+    end
+  end
+
+  # Forward apache port in host
+  config.vm.network "forwarded_port", guest: 80, host: 8011
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = false
+
+    # Customize the amount of memory on the VM:
+    vb.memory = "1024"
+  end
+  config.vm.provision "shell", path: "provision.sh"
+end
