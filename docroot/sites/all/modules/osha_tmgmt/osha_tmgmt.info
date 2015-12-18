@@ -12,6 +12,7 @@ dependencies[] = entity
 dependencies[] = entity_collection
 dependencies[] = entity_collection_db
 dependencies[] = features
+dependencies[] = i18n
 dependencies[] = i18n_field
 dependencies[] = i18n_menu
 dependencies[] = i18n_taxonomy
