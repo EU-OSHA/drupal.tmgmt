@@ -11,10 +11,10 @@ Vagrant VM for Drupal 7 stack
 
 To create an virtual machine with a Drupal 7 working environment, type the following commands:
 
-``
+```
 vagrant box add cristiroma/centos-7-minimal
 vagrant up
-``
+```
 
 ## Content
 
