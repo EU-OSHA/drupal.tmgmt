@@ -357,6 +357,28 @@ function osha_tmgmt_demo_install() {
   $ec_storage = new EntityCollectionStorageDB();
   $ec_storage->save($entity_collection, $tree);
 
+  // Manually assignment, as otherwise fails with PDOException: Column 'module' cannot be null
+  $tg_perms = array(
+    'create translators_group entity collections',
+    'edit translators_group entity collections',
+    'view translators_group entity collections',
+    'delete translators_group entity collections',
+    'add content to translators_group entity collections',
+    'manage content in translators_group entity collections'
+  );
+  $roles = array('translation manager', 'administrator');
+  foreach($roles as $role) {
+    if ($tm = user_role_load_by_name($role)) {
+      foreach ($tg_perms as $permission) {
+        db_insert('role_permission')->fields(array(
+          'rid' => $tm->rid,
+          'permission' => $permission,
+          'module' => 'entity_collection',
+        ))->execute();
+      }
+    }
+  }
+
   // Make the full_html the default format
   module_load_include('inc', 'filter', 'filter.admin');
   $cfg = array('values' =>
