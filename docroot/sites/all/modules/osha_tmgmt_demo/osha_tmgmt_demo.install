@@ -417,7 +417,9 @@ function _osha_tmgmt_demo_create_demo_content() {
   $term = new stdClass();
   $term->vid = $voc->vid;
   $term->name = OSHA_TMGMT_TERM_NAME;
-  $term->description = OSHA_TMGMT_TERM_DESC;
+  $term->language = 'en';
+  $term->description_field['en'][0]['format'] = 'full_html';
+  $term->description_field['en'][0]['value'] = OSHA_TMGMT_TERM_DESC;
   taxonomy_term_save($term);
 
   // Create a demo article
