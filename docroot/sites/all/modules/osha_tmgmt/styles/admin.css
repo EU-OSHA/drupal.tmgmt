@@ -1,0 +1,39 @@
+
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-type-wrapper .form-type-select,
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-type-wrapper select,
+#edit-translation-exists-wrapper .form-type-select, #edit-type-wrapper select {
+    margin: 0;
+    padding-bottom: 0;
+}
+
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-from-date-wrapper,
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #views-submit-button {
+    clear: left;
+}
+
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-field-character-count-value-min,
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-field-character-count-value-wrapper label,
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-field-character-count-value-wrapper div,
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page div.form-item-field-character-count-value-max {
+    display: inline;
+}
+
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-field-character-count-value-wrapper .form-type-textfield label {
+    text-transform: lowercase;
+}
+
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-field-page-count-value-wrapper,
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-field-page-count-value-wrapper label,
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-field-page-count-value-wrapper div,
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page div.form-item-field-character-count-value-max {
+    display: inline;
+}
+
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-field-page-count-value-wrapper .form-type-textfield label {
+    text-transform: lowercase;
+}
+
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-from-date .form-type-textfield label,
+#views-exposed-form-tmgmt-node-selection-view-tmgmt-node-selection-view-page #edit-to-date .form-type-textfield label {
+    display: none;
+}

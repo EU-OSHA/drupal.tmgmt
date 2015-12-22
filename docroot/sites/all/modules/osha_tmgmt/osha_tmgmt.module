@@ -2060,13 +2060,23 @@ function osha_tmgmt_form_views_exposed_form_alter(&$form, &$form_state) {
       $form['#submit']
     );
     // Add select all link for some multiselects.
-    $form['type']['#prefix'] = '<a href="javascript:void(0)"
+    $form['type']['#suffix'] = '<a href="javascript:void(0)"
         class="osha-select-all-link">Select All</a>';
-    $form['translation_exists']['#prefix'] = '<a href="javascript:void(0)"
+    $form['translation_exists']['#suffix'] = '<a href="javascript:void(0)"
         class="osha-select-all-link">Select All</a>';
     $form['#attached']['js'] = array(
       drupal_get_path('module', 'osha_tmgmt') . '/js/osha_tmgmt.js',
     );
+    $form['#attached']['css'] = array(
+      drupal_get_path('module', 'osha_tmgmt') . '/styles/admin.css',
+    );
+    $form['field_character_count_value']['min']['#size'] = 6;
+    $form['field_character_count_value']['max']['#size'] = 6;
+    $form['field_page_count_value']['min']['#size'] = 6;
+    $form['field_page_count_value']['max']['#size'] = 6;
+
+    $form['submit']['#weight'] = 10;
+    $form['reset']['#weight'] = 11;
   }
 }
 
