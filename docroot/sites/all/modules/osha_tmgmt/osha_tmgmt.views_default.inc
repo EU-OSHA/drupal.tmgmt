@@ -1022,6 +1022,44 @@ function osha_tmgmt_views_default_views() {
     1 => 0,
     3 => 0,
   );
+  /* Filter criterion: Content: Character count (field_character_count) */
+  $handler->display->display_options['filters']['field_character_count_value']['id'] = 'field_character_count_value';
+  $handler->display->display_options['filters']['field_character_count_value']['table'] = 'field_data_field_character_count';
+  $handler->display->display_options['filters']['field_character_count_value']['field'] = 'field_character_count_value';
+  $handler->display->display_options['filters']['field_character_count_value']['operator'] = 'between';
+  $handler->display->display_options['filters']['field_character_count_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_character_count_value']['expose']['operator_id'] = 'field_character_count_value_op';
+  $handler->display->display_options['filters']['field_character_count_value']['expose']['label'] = 'Character count between';
+  $handler->display->display_options['filters']['field_character_count_value']['expose']['operator'] = 'field_character_count_value_op';
+  $handler->display->display_options['filters']['field_character_count_value']['expose']['identifier'] = 'field_character_count_value';
+  $handler->display->display_options['filters']['field_character_count_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    7 => 0,
+    6 => 0,
+    5 => 0,
+    4 => 0,
+  );
+  /* Filter criterion: Content: Page count (field_page_count) */
+  $handler->display->display_options['filters']['field_page_count_value']['id'] = 'field_page_count_value';
+  $handler->display->display_options['filters']['field_page_count_value']['table'] = 'field_data_field_page_count';
+  $handler->display->display_options['filters']['field_page_count_value']['field'] = 'field_page_count_value';
+  $handler->display->display_options['filters']['field_page_count_value']['operator'] = 'between';
+  $handler->display->display_options['filters']['field_page_count_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_page_count_value']['expose']['operator_id'] = 'field_page_count_value_op';
+  $handler->display->display_options['filters']['field_page_count_value']['expose']['label'] = 'Page count between';
+  $handler->display->display_options['filters']['field_page_count_value']['expose']['operator'] = 'field_page_count_value_op';
+  $handler->display->display_options['filters']['field_page_count_value']['expose']['identifier'] = 'field_page_count_value';
+  $handler->display->display_options['filters']['field_page_count_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    7 => 0,
+    6 => 0,
+    5 => 0,
+    4 => 0,
+  );
 
   /* Display: Content selection */
   $handler = $view->new_display('page', 'Content selection', 'tmgmt_node_selection_view_page');
@@ -1066,6 +1104,8 @@ function osha_tmgmt_views_default_views() {
     t('Not translated in'),
     t('Updated after'),
     t('Updated before'),
+    t('Character count between'),
+    t('Page count between'),
   );
   $export['tmgmt_node_selection_view'] = $view;
 
