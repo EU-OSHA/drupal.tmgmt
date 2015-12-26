@@ -1,13 +1,12 @@
 #!/bin/sh
 
 # Potential fix to issue related to yum being stuck during provisioning
-sudo sed -i 's/enabled=1/enabled=0/g' /etc/yum/pluginconf.d/fastestmirror.conf
 sudo echo 'nameserver 8.8.8.8' > /etc/resolv.conf
-sudo rm -f /var/cache/yum/timedhosts.txt
-sudo yum makecache fast
+echo "Updating system packages ..."
 sudo yum update -y
 
 # MariaDB
+echo "Installing MariaDB server ..."
 sudo yum install mariadb-server mariadb -y
 sudo systemctl enable mariadb
 sudo cp /vagrant/etc/my.cnf.d/drupal.conf /etc/my.cnf.d/
@@ -17,6 +16,7 @@ sudo mysql -u root -e "GRANT ALL ON drupal.* TO drupal@'localhost' IDENTIFIED BY
 sudo mysqladmin -u root password vagrant
 
 # PHP
+echo "Installing PHP libraries ..."
 sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 sudo rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
 sudo yum install -y php55w php55w-cli php55w-common php55w-gd php55w-intl php55w-ldap php55w-mbstring php55w-mcrypt php55w-mysql php55w-opcache php55w-pdo php55w-pear php55w-pecl-imagick php55w-pecl-memcached php55w-xml
@@ -26,6 +26,7 @@ echo "max_input_vars=20000" | sudo tee --append /etc/php.d/custom.ini
 echo "date.timezone = 'Europe/Zurich'" | sudo tee --append /etc/php.d/custom.ini
 
 # Drush
+echo "Installing Drush CLI ..."
 sudo yum install -y composer
 sudo git clone https://www.github.com/drush-ops/drush /opt/drush
 cd /opt/drush/ && sudo composer install
@@ -34,6 +35,7 @@ mkdir -p ~/.drush
 cp /vagrant/etc/drushrc.php ~/.drush/
 
 # Apache
+echo "Installing Apache web server ..."
 sudo yum install -y httpd
 sudo systemctl enable httpd
 sudo setsebool -P httpd_can_sendmail on
