@@ -14,3 +14,8 @@ This repository contains a demonstration of the EU-OSHA translation management.
 
 @todo: Upload the specifications document
 
+
+## Known issues
+
+In order to develop the product, we have integrated functionality from third party modules. However, during development we have identified issues using these modules, therefore we have applied a set of patches on these modules.
+To keep track of the applied patches, these are stored in the [patches](patches) directory.
