@@ -28,7 +28,7 @@ function osha_tmgmt_demo_node_info() {
  * Implements hook_modules_enabled().
  */
 function osha_tmgmt_demo_modules_enabled($modules) {
-  if (in_array('osha_tmgmt', $modules)) {
+  if (in_array('osha_tmgmt_demo', $modules)) {
     module_load_include('inc', 'osha_tmgmt_demo', 'osha_tmgmt_demo.permissions');
     $roles = osha_tmgmt_demo_roles_permissions();
     foreach($roles as $role_name => $permissions) {
