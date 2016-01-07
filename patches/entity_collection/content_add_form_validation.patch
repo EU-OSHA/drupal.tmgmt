@@ -1,7 +1,7 @@
-diff --git a/docroot/sites/all/modules/contrib/entity_collection/entity_collection.admin.inc b/docroot/sites/all/modules/contrib/entity_collection/entity_collection.admin.inc
+diff --git a/entity_collection.admin.inc b/entity_collection.admin.inc
 index 09eced7..07c38de 100644
---- a/docroot/sites/all/modules/contrib/entity_collection/entity_collection.admin.inc
-+++ b/docroot/sites/all/modules/contrib/entity_collection/entity_collection.admin.inc
+--- a/entity_collection.admin.inc
++++ b/entity_collection.admin.inc
 @@ -626,15 +626,19 @@ function entity_collection_content_add_form($form, &$form_state, $entity_collect
   */
  function entity_collection_content_add_form_validate($form, &$form_state) {

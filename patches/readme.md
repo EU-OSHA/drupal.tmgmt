@@ -15,14 +15,6 @@ List of patches (alphabetically)
     * Fixes undefined method strings_remove and strings_update
     * patches/i18n/strings_remove_update_undefined_method.patch
 
-* tmgmt
-  * Menu link source search is not case sensitive
-  * patches/tmgmt/i18n_string-search-case-insensitive.patch
-
-* tmgmt
-  * Notice: Undefined index: format in text_tmgmt_source_translation_structure() (line 27 of /Users/cristiroma/Work/osha/project/docroot/sites/all/modules/contrib/tmgmt/sources/field/tmgmt_field.module). when creating nodes
-  * patches/tmgmt/undefined_index_format.patch
-
 * entity_collection
   * Fixed bug when using autocomplete for entities
   * https://www.drupal.org/node/2351417
@@ -56,6 +48,14 @@ List of patches (alphabetically)
   * added && if isset($data[$hook]) to avoid error when running update.sh (https://www.drupal.org/node/2161847)
   * https://www.drupal.org/files/issues/rules-fix-unsupported-operand-types-2161847-2.patch
   * patches/rules/rules-fix-unsupported-operand-types-2161847-2.patch
+
+* tmgmt
+  * Menu link source search is not case sensitive
+  * patches/tmgmt/i18n_string-search-case-insensitive.patch
+
+* tmgmt
+  * Notice: Undefined index: format in text_tmgmt_source_translation_structure() (line 27 of /Users/cristiroma/Work/osha/project/docroot/sites/all/modules/contrib/tmgmt/sources/field/tmgmt_field.module). when creating nodes
+  * patches/tmgmt/undefined_index_format.patch
 
 * workbench_moderation
   * Fix saving 2 current statuses for same revision
