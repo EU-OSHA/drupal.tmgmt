@@ -11,15 +11,10 @@ List of patches (alphabetically)
   * Modules are enabled before the installation profile
   * patches/core/core-simpletest-install-profile.patch
 
-* drupal (core)
+* core
   * Menu links with query string params (from views exposed filters, solr facetAPI search, etc) get munged by url encoding
   * https://www.drupal.org/node/1220410
   * patches/core/core-menu_links_with_query_param-1220410-coment-16.patch
-
-* drupal
-  * Applied patch to allow HTTPS
-  * patches/drupal/471970_0.patch
-  * patches/drupal/961508-20.patch
 
 * features
   * Fixed double-string translation
