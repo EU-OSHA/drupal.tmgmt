@@ -277,157 +277,38 @@ if(file_exists($json_path)) {
 }
 
 $options['init-modules'] = array(
-  'admin_views',
-  'better_exposed_filters',
-
   'ctools',
+  'date',
+  'diff',
   'entity',
-  'aggregator',
-  'elysia_cron',
-
-  'locale',
+  'entity_collection',
+  'entity_collection_db',
   'entity_translation',
+  'features',
   'i18n',
+  'i18n_block',
+  'i18n_menu',
   'i18n_string',
   'i18n_taxonomy',
+  'locale',
+  'rules',
+  'rules_admin',
+  'strongarm',
+  'title',
+  'tmgmt',
+  'tmgmt_entity',
+  'tmgmt_entity_ui',
+  'tmgmt_file',
+  'tmgmt_i18n_string',
+  'tmgmt_local',
+  'tmgmt_locale',
+  'tmgmt_ui',
   'variable',
-
-  // contrib module that add email field.
-  'email',
-
   'views',
   'views_ui',
   'views_bulk_operations',
-  'date_views',
-  'better_exposed_filters',
-
-  'mailsystem',
-  'htmlmail',
-
-  'taxonomy_access_fix',
-  'date',
-  'migrate',
-  'migrate_ui',
-  'features',
-
-  'field_group',
-  'entityreference',
-  'entityreference_view_widget',
-  'link',
-  'title',
-  'wysiwyg',
-  'pathauto',
-  'redirect',
-  'match_redirect',
-  'file_entity',
-  'media',
-  'media_wysiwyg',
-  'languagefield',
-  'image_field_caption',
-
-  'tmgmt',
-  'tmgmt_local',
-  'tmgmt_locale',
-  'tmgmt_entity',
-  'tmgmt_entity_ui',
-  'tmgmt_ui',
-  'tmgmt_file',
-  'tmgmt_i18n_string',
-
-  'blockgroup',
-
-  'i18n_menu',
-  'i18n_block',
-
-  'strongarm',
-  'exclude_node_title',
-  'metatag',
-  'metatag_dc',
-
-  'pdf_to_image',
-  'doc_to_imagefield',
-
-  'special_menu_items',
-  'menu_block',
-  'menuimage',
-  'lang_dropdown',
-  'multiple_selects',
-
-  'imce_wysiwyg',
-  'wysiwyg_accordion',
-
-  'nodequeue',
-  'fe_block',
-  'fe_nodequeue',
-
-  'views_slideshow',
-  'views_slideshow_cycle',
-  'custom_formatters',
-
-  'taxonomy_manager',
-  'term_reference_tree',
-  'node_export',
-  'mpac',
-  'linkit',
-  'pathologic',
-  'scanner',
-  'search_and_replace',
-  'nodeblock',
-  'quicktabs',
-  'context',
-  'context_ui',
-  'context_block_visibility',
-  'site_map',
-  'smart_trim',
-  'menu_attributes',
-  'menu_item_visibility',
-  'shs',
-  'smtp',
-
-  // Enable last (conflict with rules)
-  'uuid',
-
-  'path_breadcrumbs',
-  'path_breadcrumbs_ui',
-  'path_breadcrumbs_i18n',
-
-  'jquery_update',
-  'responsive_menus',
-
-  'workbench',
-  'workbench_access',
   'workbench_moderation',
-  'node_revision_delete',
-
-  'osha_taxonomies',
-  'osh_image_gallery',
-  'osha',
-
-  'facetapi',
-  'search_api_facetapi',
-  'search_autocomplete',
-  'search_api_et',
-  'search_api_et_solr',
-  'search_api_views',
-  'search_api_attachments',
-
-  'dvs',
-
-  // Newsletter modules.
-  'entity_collection',
-  'entity_collection_db',
-
-  'spamspan',
-  'on_the_web',
-
-  // Link content types with main menu items
-  'menu_position',
-  'r4032login',
-
-  'hreflang',
-
-  'diff',
-  'securepages',
+  'wysiwyg',
   'update',
 );
 
@@ -457,13 +338,8 @@ $command_specific['devify'] = array(
     'simpletest',
     'devel',
     'devel_node_access',
-    'stage_file_proxy',
   ),
   'delete-variables' => array(
-    'googleanalytics_account',
-    'piwik_site_id',
-    'piwik_url_http',
-    'piwik_url_https',
   ),
   'reset-variables' => array_merge(
     array(
