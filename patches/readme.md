@@ -62,11 +62,6 @@ List of patches (alphabetically)
   * [https://www.drupal.org/node/1436260](https://www.drupal.org/files/issues/1436260-workbench_moderation-states-node_save-74.patch)
 
 * workbench_moderation
-  * Added patch for node_export
-  * [https://www.drupal.org/node/2176841](https://www.drupal.org/files/issues/node_export-2176841-4.patch)
-  * patches/workbench_moderation/node_export-2176841-4.patch
-
-* workbench_moderation
   * Added patch for hard-coded label
   * [https://www.drupal.org/node/2360059](https://www.drupal.org/files/issues/workbench_moderation_hardcoded_set_moderation_state-2360059-1.patch)
   * patches/workbench_moderation/workbench_moderation_hardcoded_set_moderation_state-2360059-1.patch
