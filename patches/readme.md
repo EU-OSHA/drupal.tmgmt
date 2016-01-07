@@ -11,11 +11,6 @@ List of patches (alphabetically)
   * Modules are enabled before the installation profile
   * patches/core/core-simpletest-install-profile.patch
 
-* core
-  * Menu links with query string params (from views exposed filters, solr facetAPI search, etc) get munged by url encoding
-  * https://www.drupal.org/node/1220410
-  * patches/core/core-menu_links_with_query_param-1220410-coment-16.patch
-
 * features
   * Fixed double-string translation
   * patches/features/features-double-translations-2462991-1-D7.patch
