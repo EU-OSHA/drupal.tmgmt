@@ -11,12 +11,6 @@ List of patches (alphabetically)
   * Modules are enabled before the installation profile
   * patches/core/core-simpletest-install-profile.patch
 
-* features
-  * Fixed double-string translation
-  * patches/features/features-double-translations-2462991-1-D7.patch
-  * https://www.drupal.org/node/2462991
-  * https://www.drupal.org/files/issues/features-double-translations-2462991-1-D7.patch
-
 * i18n_string
     * Fixes undefined method strings_remove and strings_update
     * patches/i18n/strings_remove_update_undefined_method.patch
@@ -57,10 +51,6 @@ List of patches (alphabetically)
   * Added entity_translation in views (to be able to filter by language)
   * https://www.drupal.org/node/1330332 (https://www.drupal.org/files/issues/entity_translation-filter_views-1330332-47.patch)
   * patches/entity_translation/entity_translation-filter_views-1330332-47.patch
-
-* features
-  * Add support for node UUID in menu import/export
-  * patches/features/features_menu_uuid_export.patchs
 
 * rules
   * added && if isset($data[$hook]) to avoid error when running update.sh (https://www.drupal.org/node/2161847)
