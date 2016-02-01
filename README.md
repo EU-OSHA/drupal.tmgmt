@@ -5,7 +5,8 @@ This repository contains a demonstration of the EU-OSHA translation management.
 [![Code Climate](https://codeclimate.com/github/EU-OSHA/drupal.tmgmt/badges/gpa.svg)](https://codeclimate.com/github/EU-OSHA/drupal.tmgmt)
 [![Issue Count](https://codeclimate.com/github/EU-OSHA/drupal.tmgmt/badges/issue_count.svg)](https://codeclimate.com/github/EU-OSHA/drupal.tmgmt)
 
-The `docs/` folder contains the project's documentation, installation instructions etc.
+
+Read the [product specifications](docs/functional-specifications.pdf) located in the `docs/` directory.
 
 
 ## Known issues
