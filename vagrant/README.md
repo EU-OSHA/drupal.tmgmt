@@ -26,3 +26,9 @@ The VM will contain the full LAMP stack and a working Drupal installation
 * Apache 2.4
 * PHP 5.5 (Webtatic)
 * Drush 8.x-dev
+
+## How to view the demo
+
+After bootstrapping the VM, access the new instance by pointing your browser to http://localhost:8011
+
+Note: If you look in the Vagrant file, port 80 is forwarded to port 8011 in the host.
