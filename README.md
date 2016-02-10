@@ -1,6 +1,6 @@
 # EU-OSHA Translation management demo
 
-This repository contains a demonstration of the EU-OSHA translation management.
+This repository contains a fully working Drupal installation that demonstrates the functionality of the EU-OSHA translation management workflow. If you want to separately download only the Drupal module that implements the functionality, please use the [release](release) page where the archive is found.
 
 [![Code Climate](https://codeclimate.com/github/EU-OSHA/drupal.tmgmt/badges/gpa.svg)](https://codeclimate.com/github/EU-OSHA/drupal.tmgmt)
 [![Issue Count](https://codeclimate.com/github/EU-OSHA/drupal.tmgmt/badges/issue_count.svg)](https://codeclimate.com/github/EU-OSHA/drupal.tmgmt)
