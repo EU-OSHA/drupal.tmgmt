@@ -2106,7 +2106,7 @@ function osha_tmgmt_job_items_mass_change_submit($form, $form_state) {
 
         case TMGMT_JOB_ITEM_STATE_ACCEPTED:
           if ($job_item->item_type == 'node') {
-            osha_tmgtm_job_item_node_accept($job_item);
+            osha_tmgtm_job_item_node_accept($job_item, 'Mass updated by ' . $user->name);
           }
           else {
             $job_item->acceptTranslationIntoEntity('Mass updated by ' . $user->name);
@@ -2269,8 +2269,8 @@ function osha_tmgtm_job_item_node_accept_submit($form, &$form_state) {
   osha_tmgtm_job_item_node_accept($job_item);
 }
 
-function osha_tmgtm_job_item_node_accept($job_item) {
-  $node = node_load($job_item->item_id);
+function osha_tmgtm_job_item_node_accept($job_item, $message = '') {
+  $node = node_load($job_item->item_id, NULL, TRUE);
   if (!empty($node)) {
     $job_item->state = TMGMT_JOB_ITEM_STATE_ACCEPTED;
     // If the translation is for published revision, then save it.
@@ -2281,7 +2281,7 @@ function osha_tmgtm_job_item_node_accept($job_item) {
       || !isset($node->workbench_moderation['published'])
       || $node->workbench_moderation['current']->published) {
       $job_item->merged = 1;
-      $job_item->acceptTranslationIntoEntity();
+      $job_item->acceptTranslationIntoEntity($message);
     }
     $job_item->save();
   }

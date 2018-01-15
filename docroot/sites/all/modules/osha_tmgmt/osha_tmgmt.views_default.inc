@@ -44,7 +44,6 @@ function osha_tmgmt_views_default_views() {
     'character_count' => 'character_count',
     'type' => 'type',
     'section' => 'section',
-    'field_activity-revision_id' => 'field_activity-revision_id',
     'state' => 'state',
     'changed' => 'changed',
     'name' => 'name',
@@ -100,13 +99,6 @@ function osha_tmgmt_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_activity-revision_id' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
     'state' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
@@ -153,12 +145,26 @@ function osha_tmgmt_views_default_views() {
   $handler->display->display_options['relationships']['job_item_to_node']['id'] = 'job_item_to_node';
   $handler->display->display_options['relationships']['job_item_to_node']['table'] = 'tmgmt_job_item';
   $handler->display->display_options['relationships']['job_item_to_node']['field'] = 'job_item_to_node';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title_field']['id'] = 'title_field';
+  $handler->display->display_options['fields']['title_field']['table'] = 'field_data_title_field';
+  $handler->display->display_options['fields']['title_field']['field'] = 'title_field';
+  $handler->display->display_options['fields']['title_field']['relationship'] = 'job_item_to_node';
+  $handler->display->display_options['fields']['title_field']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title_field']['type'] = 'publication_title_linked';
+  $handler->display->display_options['fields']['title_field']['settings'] = array(
+    'title_style' => '_none',
+    'title_link' => 'content',
+    'title_class' => '',
+  );
+  $handler->display->display_options['fields']['title_field']['link_to_entity'] = 1;
   /* Field: Content (historical data): Title */
   $handler->display->display_options['fields']['title_field-revision_id']['id'] = 'title_field-revision_id';
   $handler->display->display_options['fields']['title_field-revision_id']['table'] = 'field_revision_title_field';
   $handler->display->display_options['fields']['title_field-revision_id']['field'] = 'title_field-revision_id';
   $handler->display->display_options['fields']['title_field-revision_id']['relationship'] = 'job_item_to_node_revision';
   $handler->display->display_options['fields']['title_field-revision_id']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title_field-revision_id']['empty'] = '[title_field]';
   $handler->display->display_options['fields']['title_field-revision_id']['type'] = 'title_linked';
   $handler->display->display_options['fields']['title_field-revision_id']['settings'] = array(
     'title_style' => '_none',
@@ -369,6 +375,7 @@ function osha_tmgmt_views_default_views() {
     t('revision user'),
     t('Content'),
     t('Title'),
+    t('[title_field]'),
     t('Label'),
     t('[title_field-revision_id]'),
     t('Source language'),
