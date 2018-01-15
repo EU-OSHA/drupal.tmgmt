@@ -18,16 +18,16 @@
 function _osha_tmgmt_job_item_load_latest($plugin, $item_type, $item_id, $source_language) {
   $query = db_select('tmgmt_job_item', 'tji');
   $query->innerJoin('tmgmt_job', 'tj', 'tj.tjid = tji.tjid');
-  $state_or = db_or()->condition('tji.state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
-    ->condition(
-      db_and()->condition('tji.state', TMGMT_JOB_ITEM_STATE_ACCEPTED)
-        ->condition('tji.merged', NULL)
-    );
+//  $state_or = db_or()->condition('tji.state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
+//    ->condition(
+//      db_and()->condition('tji.state', TMGMT_JOB_ITEM_STATE_ACCEPTED)
+//        ->condition('tji.merged', NULL)
+//    );
   $result = $query->condition('tj.source_language', $source_language)
     // Only query for jobs that are currently active.
     ->condition('tj.state', array(TMGMT_JOB_STATE_UNPROCESSED, TMGMT_JOB_STATE_ACTIVE))
     // And only query for job items that are not yet finished.
-    ->condition($state_or)
+    ->condition('tji.state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
     ->condition('tji.plugin', $plugin)
     ->condition('tji.item_type', $item_type)
     ->condition('tji.item_id', $item_id)
@@ -113,8 +113,9 @@ function _osha_tmgmt_get_job_item_states() {
     OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidationRequired => t('Content Validation Required'),
     TMGMT_JOB_ITEM_STATE_ABORTED => t('Translation Rejected'),
     OSHA_TMGMT_JOB_ITEM_STATE_TranslationValidated => t('Translation Validated'),
-    OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish => t('Translated Ready to Publish'),
-    TMGMT_JOB_ITEM_STATE_ACCEPTED => t('Published'),
+//    OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish => t('Translated Ready to Publish'),
+    TMGMT_JOB_ITEM_STATE_ACCEPTED => t('Ready to Publish'),
+//    TMGMT_JOB_ITEM_STATE_ACCEPTED => t('Published'),
   );
 }
 
@@ -236,6 +237,65 @@ function _osha_tmgmt_job_priority_name($job) {
 }
 
 /**
+ * Add english version to a specified lang.
+ */
+function _osha_tmgmt_create_english_translations($language, $node) {
+  $source_lang = $node->translations->original;
+  $translation_handler = entity_translation_get_handler('node', $node);
+  $type = $node->type;
+  $fields = _osha_tmgmt_translatable_field_instances($type);
+  $translation_handler->setTranslation(
++    array(
+      'translate' => 0,
+      'status' => 1,
+      'uid' => 1,
+      'language' => $language,
+      'source' => $source_lang,
+    )
+  );
+  $translation_handler->saveTranslations();
+
+  $new_node = new stdClass();
+  $new_node->id = $node->nid;
+  $new_node->nid = $node->nid;
+  $new_node->vid = $node->vid;
+  $new_node->type = $type;
+  $new_node->bundle = $type;
+  $new_node->translations = $node->translations;
+  foreach ($fields as $field) {
+    $new_node->{$field['field_name']}[$language] = $node->{$field['field_name']}[$source_lang];
+  }
+  field_attach_update('node', $new_node);
+
+  // clone url_aliases
+  $args = array(
+    'source' => 'node/' . $node->nid,
+    'alias' => $node->path['alias'],
+    'language' => $language,
+  );
+  path_save($args);
+}
+
+/**
+ * Helper function to get translatable fields of a node type.
+ *
+ * @param $bundle
+ *  The type of the node to call field_info_instances().
+ * @return array
+ *  Array of fields.
+ */
+function _osha_tmgmt_translatable_field_instances($bundle) {
+  $translatable_fields = array();
+  $fields = field_info_instances('node', $bundle);
+  foreach ($fields as $field) {
+    if (istranslatable($field['field_id'])) {
+      $translatable_fields[] = $field;
+    }
+  }
+  return $translatable_fields;
+}
+
+/**
  * Check if there's an active job for this node in the same target language.
  *
  * @param int $nid
@@ -326,7 +386,7 @@ function _osha_tmgmt_users_get_users_from_role($role_name) {
  * @param null $language
  * @return array
  */
-function _osha_tmgmt_get_job_items_by_vid($vid, $language = NULL) {
+/*function _osha_tmgmt_get_job_items_by_vid($vid, $language = NULL) {
   $tjiids = db_select('tmgmt_job_item', 'tji')
     ->fields('tji', array('tjiid', 'tjiid'))
     ->condition('vid', $vid)
@@ -342,7 +402,7 @@ function _osha_tmgmt_get_job_items_by_vid($vid, $language = NULL) {
     $job_items = tmgmt_job_item_load_multiple($tjiids);
   }
   return $job_items;
-}
+}*/
 
 /**
  * Loads latest job created.
