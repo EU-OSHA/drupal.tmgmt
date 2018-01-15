@@ -245,7 +245,7 @@ function _osha_tmgmt_create_english_translations($language, $node) {
   $type = $node->type;
   $fields = _osha_tmgmt_translatable_field_instances($type);
   $translation_handler->setTranslation(
-+    array(
+    array(
       'translate' => 0,
       'status' => 1,
       'uid' => 1,
