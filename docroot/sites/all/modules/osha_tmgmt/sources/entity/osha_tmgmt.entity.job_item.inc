@@ -225,6 +225,9 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
               '@bundle' => $this->item_type, '@lang' => strtoupper($this->target_language)
         )
       );
+      if (module_exists('search_api')) {
+        $item_id = $this->target_language . '_' . $this->item_id;
+        search_api_track_item_change('search_api_et_node', [$item_id]);
       }
     }
     $this->save();
