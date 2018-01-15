@@ -57,6 +57,23 @@ function osha_tmgmt_requirements($phase) {
   return $ret;
 }
 
+
+/**
+ * Implements Elysia hook_cronapi().
+ */
+function osha_tmgmt_cron_cronapi() {
+  return array('osha_tmgmt_cron' => array(
+    'description' => 'Remove old job items that were in cart',
+    'rule' => '0 0 * * *', // Synchronize daily
+  ));
+}
+
+function osha_tmgmt_cron() {
+  // Remove old job items in cart
+  $time_limit = strtotime('-1 day');
+  _osha_tmgmt_remove_old_cart_jobs($time_limit);
+}
+
 function osha_tmgmt_menu() {
   $items = array();
   $items['admin/config/content/osha_tmgmt'] = array(
@@ -567,6 +584,13 @@ function osha_tmgmt_job_access($op, $job = NULL, $account = NULL) {
     return user_access('osha tmgmt view translation job', $account);
   }
   return tmgmt_job_access($op, $job, $account);
+}
+
+function _osha_tmgmt_remove_old_cart_jobs($changed) {
+  db_delete('tmgmt_job_item')
+    ->condition('tjid', 0)
+    ->condition('changed', $changed, '<')
+    ->execute();
 }
 
 /**
