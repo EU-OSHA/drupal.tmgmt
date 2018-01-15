@@ -240,8 +240,11 @@ function _osha_tmgmt_job_priority_name($job) {
  * Add english version to a specified lang.
  */
 function _osha_tmgmt_create_english_translations($language, $node) {
+  // This function is similar to osha_lingua_tools_create_translations, but copies all fields
   $source_lang = $node->translations->original;
-  $translation_handler = entity_translation_get_handler('node', $node);
+  // Must update translation handler because of multiple subsequent calls to entity_translation_get_handler
+  // otherwise the 2nd+ translations are not created
+  $translation_handler = entity_translation_get_handler('node', $node, TRUE);
   $type = $node->type;
   $fields = _osha_tmgmt_translatable_field_instances($type);
   $translation_handler->setTranslation(
@@ -263,7 +266,22 @@ function _osha_tmgmt_create_english_translations($language, $node) {
   $new_node->bundle = $type;
   $new_node->translations = $node->translations;
   foreach ($fields as $field) {
-    $new_node->{$field['field_name']}[$language] = $node->{$field['field_name']}[$source_lang];
+    if (!isset($node->{$field['field_name']}[$source_lang])) {
+      continue;
+    }
+    $field_name = $field['field_name'];
+    $field_info = field_info_field($field_name);
+    if ( $field_info['type'] == 'file' || $field_info['type'] == 'image' ) {
+      if ($field_info['cardinality'] == 1) {
+        // don't clone fields with cardinality 1
+        continue;
+      } else {
+        // Set for all existing languages also, otherwise it is removed by file_field_update
+        // see https://www.drupal.org/node/1483736 and https://jira.osha.europa.eu/browse/MDR-767
+        $new_node->{$field_name} = $node->{$field_name};
+      }
+    }
+    $new_node->{$field_name}[$language] = $node->{$field_name}[$source_lang];
   }
   field_attach_update('node', $new_node);
 
@@ -274,6 +292,7 @@ function _osha_tmgmt_create_english_translations($language, $node) {
     'language' => $language,
   );
   path_save($args);
+  entity_get_controller('node')->resetCache(array($node->nid));
 }
 
 /**
