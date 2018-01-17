@@ -57,16 +57,6 @@ function osha_tmgmt_requirements($phase) {
   return $ret;
 }
 
-  $items['node/%node/retranslate'] = array(
-    'title' => 'Retranslate',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('osha_tmgmt_retranslate_ui_form',1),
-    'access arguments' => array('translate interface'),
-    'type' => MENU_LOCAL_TASK,
-    'file' => 'osha_tmgmt.retranslate.inc',
-  );
-
-
 /**
  * Implements Elysia hook_cronapi().
  */
@@ -126,6 +116,15 @@ function osha_tmgmt_menu() {
     'access arguments' => array('translate interface'),
     'file' => 'i18n_string.pages.inc',
     'file path' => drupal_get_path('module', 'i18n_string'),
+  );
+
+  $items['node/%node/retranslate'] = array(
+    'title' => 'Retranslate',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('osha_tmgmt_retranslate_ui_form',1),
+    'access arguments' => array('translate interface'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'osha_tmgmt.retranslate.inc',
   );
 
   return $items;
