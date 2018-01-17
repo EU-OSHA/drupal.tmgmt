@@ -61,6 +61,8 @@ class OSHATMGMTEntitySourcePluginController extends TMGMTEntitySourcePluginContr
     if ( $job_item->item_type == 'node' && module_exists('workbench_moderation') && workbench_moderation_node_type_moderated($entity->type) ) {
       // Force the same state in order to avoid creation of new weird transitions.
       $entity->workbench_moderation_state_new = $entity->workbench_moderation['current']->state;
+      // Create a new revision to prevent unpublishing the published version if we translate a draft.
+      $entity->revision = TRUE;
     }
     // Unset the pid so that the alias is created for current language.
     if (!empty($entity->path['pid'])) {
@@ -101,17 +103,27 @@ class OSHATMGMTEntitySourcePluginController extends TMGMTEntitySourcePluginContr
    */
   public static function osha_tmgmt_field_populate_entity($entity_type, $entity, $langcode, $data, $use_field_translation = TRUE) {
     tmgmt_field_populate_entity($entity_type, $entity, $langcode, $data, $use_field_translation);
-    unset($entity->metatags);
-    foreach(element_children($data) as $field_name) {
-      if ($field_name == 'metatags') {
-        $metatags = array();
-        foreach (element_children($data[$field_name]) as $delta) {
-          $translation = $data[$field_name][$delta];
-          if (!empty($translation['value']['#translation']['#text'])) {
-            $metatags[$delta]['value'] = $translation['value']['#translation']['#text'];
+    $mtver = system_get_info('module', 'metatag');
+    if (!empty($mtver['version'])) {
+      if (version_compare($mtver['version'], '7.x-1.21', '<')) {
+        unset($entity->metatags);
+      }
+      foreach (element_children($data) as $field_name) {
+        if ($field_name == 'metatags') {
+          $metatags = [];
+          foreach (element_children($data[$field_name]) as $delta) {
+            $translation = $data[$field_name][$delta];
+            if (!empty($translation['value']['#translation']['#text'])) {
+              $metatags[$delta]['value'] = $translation['value']['#translation']['#text'];
+            }
+          }
+          if (version_compare($mtver['version'], '7.x-1.21', '<')) {
+            $entity->{$field_name} = $metatags;
+          }
+          else {
+            $entity->{$field_name}[$langcode] = $metatags;
           }
         }
-        $entity->{$field_name} = $metatags;
       }
     }
   }

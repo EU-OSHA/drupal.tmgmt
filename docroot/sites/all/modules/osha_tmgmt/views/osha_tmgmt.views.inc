@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function osha_tmgmt_query_group_by_job_item_id_alter(QueryAlterableInterface $query){
+  $query->groupBy('tmgmt_job_item.item_id');
+}
 
 /**
  * Alter the view tmgmt_node_selection_view to show latest node state.
@@ -39,6 +45,11 @@ function osha_tmgmt_views_query_alter(&$view, &$query) {
       'operator' => '=',
       'value' => 'translators_group',
     );
+  }
+  if ($view->name == 'osha_job_overview_job_items') {
+    if ($view->current_display == 'job_preview') {
+      $query->add_tag('group_by_job_item_id');
+    }
   }
 }
 

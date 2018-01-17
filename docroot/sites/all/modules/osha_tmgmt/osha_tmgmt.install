@@ -207,6 +207,17 @@ function osha_tmgmt_install() {
     db_add_field('tmgmt_job_item', 'is_full_translation', $field);
   }
 
+  if (!db_field_exists('tmgmt_job_item', 'retranslation_data')) {
+    $field = array(
+      'description' => 'Store data for retranslation.',
+      'type' => 'text',
+      'default' => NULL,
+      'size' => 'big',
+      'serialize' => TRUE,
+    );
+    db_add_field('tmgmt_job_item', 'retranslation_data', $field);
+  }
+
   // Configure file translator for the CDT format and remove other translators.
   /* @var TMGMTTranslator $file */
   $file = tmgmt_translator_load('file');
@@ -346,4 +357,20 @@ function osha_tmgmt_schema() {
   );
 
   return $schema;
+}
+
+/**
+ * Add field retranslation_data to job item.
+ */
+function osha_tmgmt_update_7018() {
+  if (!db_field_exists('tmgmt_job_item', 'retranslation_data')) {
+    $field = array(
+      'description' => 'Store data for retranslation.',
+      'type' => 'text',
+      'default' => NULL,
+      'size' => 'big',
+      'serialize' => TRUE,
+    );
+    db_add_field('tmgmt_job_item', 'retranslation_data', $field);
+  }
 }

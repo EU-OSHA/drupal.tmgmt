@@ -132,7 +132,7 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
         '@bundle' => $this->item_type,
         '@lang' => strtoupper($this->target_language),
       ));
-    drupal_set_message(t('You have Validated the translation!'));
+    drupal_set_message(t('All content validators have validated the translation!'));
   }
 
   /**
@@ -183,7 +183,7 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
   }
 
   /**
-   * Move the Job Item to Translation Validation Required state.
+   * Move the Job Item to Translation Ready to Publish state.
    */
   public function toTranslationReadyToPublish($message = '') {
     $this->state = OSHA_TMGMT_JOB_ITEM_STATE_TranslatedReadyToPublish;
@@ -217,25 +217,17 @@ class OshaTMGMTJobItem extends TMGMTJobItem {
     if ($this->item_type == 'node') {
       global $user;
       $state = _osha_tmgmt_get_job_item_state_label(TMGMT_JOB_ITEM_STATE_ACCEPTED);
-      if ($message) {
-        $this->addMessage('@name accepted the translation'.
-            ' for job item @tjiid, item @item_id (@bundle), language @lang. '.
-            'Status is now <strong>@state</strong>. Message: @message',
-          array('@name' => $user->name, '@state' => $state, '@message' => $message,
-                '@tjiid' => $this->tjiid, '@item_id' => $this->item_id,
-                '@bundle' => $this->item_type, '@lang' => strtoupper($this->target_language)
-          )
-        );
-      }
-      else {
-        $this->addMessage('@name accepted the translation'.
-            ' for job item @tjiid, item @item_id (@bundle), language @lang. '.
-            'Status is now <strong>@state</strong>.',
-          array('@name' => $user->name, '@state' => $state,
-                '@tjiid' => $this->tjiid, '@item_id' => $this->item_id,
-                '@bundle' => $this->item_type, '@lang' => strtoupper($this->target_language)
-          )
-        );
+      $this->addMessage('@name accepted the translation'.
+          ' for job item @tjiid, item @item_id (@bundle), language @lang. '.
+          'Status is now <strong>@state</strong>. @message',
+        array('@name' => $user->name, '@state' => $state, '@message' => 'Message: '.$message,
+              '@tjiid' => $this->tjiid, '@item_id' => $this->item_id,
+              '@bundle' => $this->item_type, '@lang' => strtoupper($this->target_language)
+        )
+      );
+      if (module_exists('search_api')) {
+        $item_id = $this->target_language . '_' . $this->item_id;
+        search_api_track_item_change('search_api_et_node', [$item_id]);
       }
     }
     $this->save();
