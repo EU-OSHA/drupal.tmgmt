@@ -307,7 +307,7 @@ function _osha_tmgmt_translatable_field_instances($bundle) {
   $translatable_fields = array();
   $fields = field_info_instances('node', $bundle);
   foreach ($fields as $field) {
-    if (istranslatable($field['field_id'])) {
+    if (osha_tmgmt_istranslatable($field['field_id'])) {
       $translatable_fields[] = $field;
     }
   }
@@ -466,4 +466,13 @@ function _osha_tmgmt_literal_get_translation($string) {
 function osha_tmgmt_et_taxonomy_enabled() {
   $enabled_types = array_filter(variable_get('entity_translation_entity_types', array()));
   return !empty($enabled_types['taxonomy_term']);
+}
+
+function osha_tmgmt_istranslatable($idfield) {
+  $result = db_select('field_config', 'f')
+    ->fields('f', array('translatable'))
+    ->condition('id', $idfield, '=')
+    ->execute()
+    ->fetchAssoc();
+  return $result['translatable'];
 }
